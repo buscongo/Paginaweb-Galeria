@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="titulo">Andrés Ramírez Ortíz</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Franja de pestañas: navegación por series (encima del header) -->
+  <nav class="series-tabs" id="series-tabs">
+    <button class="series-toggle" aria-label="Menú" aria-expanded="false">☰</button>
+    <a href="index.html" class="tab">Inicio</a>
+    <a href="serie.html?serie=serie_exploradores" class="tab">Exploradores</a>
+    <a href="serie.html?serie=serie_nubes" class="tab">Nubes</a>
+    <a href="serie.html?serie=serie_paisaje" class="tab">Paisaje</a>
+    <a href="serie.html?serie=serie_selfie" class="tab">Selfie</a>
+    <a href="serie.html?serie=serie_vestigio" class="tab">Vestigio</a>
+  </nav>
+
+  <!-- Hero: nombre de la obra (15% de altura, efecto frost) -->
+  <header class="hero-header">
+    <div class="hero-fondo" id="hero-fondo"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-contenido">
+      <h1 id="pintura-titulo">Obra</h1>
+    </div>
+  </header>
+
+  <!-- Detalle de la obra -->
+  <main class="pintura-detalle max-width-container">
+    <div class="pintura-imagen-grande">
+      <img id="imagen-grande" src="" alt="">
+    </div>
+
+    <div class="pintura-meta">
+      <h2 id="pintura-titulo-detalle"></h2>
+      <p id="pintura-meta-texto"></p>
+    </div>
+
+    <section class="detalles" id="seccion-detalles">
+      <h3 data-i18n="detalles">Detalles</h3>
+      <div id="detalles-carousel" class="carousel"></div>
+    </section>
+  </main>
+
+  <!-- Zoom overlay (imagen a pantalla completa) -->
+  <div id="zoom-overlay" class="zoom-overlay">
+    <button type="button" id="zoom-close" class="zoom-close" aria-label="Cerrar">×</button>
+    <img id="zoom-imagen" class="zoom-imagen" alt="">
+  </div>
+
+  <!-- Toggle hamburguesa (mobile) -->
+  <script>
+  (function () {
+    var tgl = document.querySelector('.series-toggle');
+    if (!tgl) return;
+    tgl.addEventListener('click', function () {
+      var nav = document.querySelector('.series-tabs');
+      nav.classList.toggle('open');
+      tgl.setAttribute('aria-expanded', nav.classList.contains('open'));
+    });
+  })();
+  </script>
+  <script src="../js/data.js"></script>
+  <script src="../js/pintura.js"></script>
+</body>
+</html>

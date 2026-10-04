@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="tituloAdmin">Admin — Andrés Ramírez Ortíz</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="header-content">
+      <h1 data-i18n="tituloAdmin">Admin — Andrés Ramírez Ortíz</h1>
+      <div class="header-actions">
+        <a href="index.html" class="nav-link" data-i18n="volverGaleria">← Volver a la galería</a>
+        <button type="button" id="lang-toggle" class="lang-toggle">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sección: Formulario de registro -->
+    <section class="seccion" id="seccion-formulario">
+      <div class="seccion-header">
+        <h2 data-i18n="obraNueva">Obra nueva</h2>
+        <button type="button" class="toggle-btn" aria-expanded="true">
+          <span class="toggle-icon">−</span>
+        </button>
+      </div>
+      <div class="seccion-content expandida" id="seccion-formulario-content">
+        <!-- Pestañas: Obra / Serie -->
+        <div class="tabs">
+          <button type="button" id="tab-obra" class="tab-boton tab-activo" data-i18n="tabObra">Obra</button>
+          <button type="button" id="tab-serie" class="tab-boton" data-i18n="tabSerie">Serie</button>
+        </div>
+
+        <!-- Formulario: Registrar obra -->
+        <form id="form-obra" class="tab-panel tab-activo" novalidate>
+          <div class="grid-2">
+            <div class="campo-grupo">
+              <label for="obra-titulo" data-i18n="tituloObra">Título</label>
+              <input type="text" id="obra-titulo" name="titulo" required>
+            </div>
+
+            <div class="campo-grupo">
+              <label for="obra-anio" data-i18n="anio">Año de realización</label>
+              <input type="number" id="obra-anio" name="anio" min="1900" max="2100" required>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="campo-grupo">
+              <label for="obra-ancho" data-i18n="ancho">Ancho (cm)</label>
+              <input type="number" id="obra-ancho" name="ancho" min="1" step="0.1" required>
+            </div>
+            <div class="campo-grupo">
+              <label for="obra-alto" data-i18n="alto">Alto (cm)</label>
+              <input type="number" id="obra-alto" name="alto" min="1" step="0.1" required>
+            </div>
+          </div>
+
+          <div class="campo-grupo">
+            <label for="obra-serie" data-i18n="serie">Serie</label>
+            <select id="obra-serie" name="serieId" required>
+              <option value="" data-i18n="selectorCrearSerie">Selecciona una serie</option>
+            </select>
+            <button type="button" id="btn-crear-serie-link" class="link-boton" data-i18n="crearSerieLink">¿No tienes la serie? Créala aquí</button>
+          </div>
+
+          <div class="campo-grupo">
+            <label for="obra-materiales" data-i18n="materialesTecnica">Materiales y técnica</label>
+            <textarea id="obra-materiales" name="materiales" rows="2" required></textarea>
+          </div>
+
+          <div class="campo-grupo">
+            <label class="checkbox-label">
+              <input type="checkbox" id="obra-disponible" name="disponible" checked>
+              <span class="checkmark"></span>
+              <span data-i18n="disponibleCheck">Disponible</span>
+            </label>
+          </div>
+
+          <div class="campo-grupo">
+            <label for="obra-imagen" data-i18n="imagen">Imagen</label>
+            <input type="file" id="obra-imagen" name="imagen" accept="image/*">
+          </div>
+
+          <div id="imagen-preview-container"></div>
+
+          <button type="submit" class="btn btn-primario" data-i18n="guardarObra">Guardar obra</button>
+        </form>
+
+        <!-- Formulario: Registrar serie -->
+        <form id="form-serie" class="tab-panel" novalidate>
+          <div class="campo-grupo">
+            <label for="serie-tema" data-i18n="tema">Tema</label>
+            <input type="text" id="serie-tema" name="tema" required>
+          </div>
+
+          <div class="campo-grupo">
+            <label for="serie-proceso" data-i18n="proceso">Proceso</label>
+            <textarea id="serie-proceso" name="proceso" rows="2" required></textarea>
+          </div>
+
+          <div class="campo-grupo">
+            <label for="serie-reflecciones" data-i18n="reflecciones">Reflexiones</label>
+            <textarea id="serie-reflecciones" name="reflecciones" rows="2" required></textarea>
+          </div>
+
+          <div class="campo-grupo">
+            <label for="serie-factor-precio" data-i18n="factorPrecio">Factor de precio (₡ / cm de perímetro)</label>
+            <input type="number" id="serie-factor-precio" name="factorPrecio" min="0" step="1" required>
+            <small class="ayuda" data-i18n="ayudaFactor">Se usa para calcular el precio: (ancho + alto) × factor</small>
+          </div>
+
+          <button type="submit" class="btn btn-primario" data-i18n="guardarSerie">Guardar serie</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Sección: Editar obra -->
+    <section class="seccion" id="seccion-editar">
+      <div class="seccion-header">
+        <h2 data-i18n="editarObra">Editar obra</h2>
+        <button type="button" class="toggle-btn" aria-expanded="false">
+          <span class="toggle-icon">▼</span>
+        </button>
+      </div>
+      <div class="seccion-content" id="seccion-editar-content">
+        <div class="mensaje-vacio" data-i18n="seleccionaObraEditar">Selecciona una obra para editar.</div>
+      </div>
+    </section>
+
+    <!-- Sección: Obras del año actual -->
+    <section class="seccion" id="seccion-actual">
+      <div class="seccion-header">
+        <h2 data-i18n="obrasAñoActual">Obras del año actual</h2>
+        <button type="button" class="toggle-btn" aria-expanded="false">
+          <span class="toggle-icon">▼</span>
+        </button>
+      </div>
+      <div class="seccion-content" id="seccion-actual-content">
+        <div id="obras-actual-container" class="galeria-grid vacia">
+          <p class="mensaje-vacio" data-i18n="sinObrasAño">No hay obras del año actual.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección: Galería completa -->
+    <section class="seccion" id="seccion-galeria">
+      <div class="seccion-header">
+        <h2 data-i18n="galeriaCompleta">Galería completa</h2>
+        <button type="button" class="toggle-btn" aria-expanded="false">
+          <span class="toggle-icon">▼</span>
+        </button>
+      </div>
+      <div class="seccion-content" id="seccion-galeria-content">
+        <!-- Controles de filtrado -->
+        <div class="filtros">
+          <input type="search" id="filtro-busqueda" data-i18n-placeholder="buscar" placeholder="Buscar por título...">
+
+          <select id="filtro-serie">
+            <option value="">Todas las series</option>
+          </select>
+
+          <select id="filtro-ano">
+            <option value="">Todos los años</option>
+          </select>
+
+          <select id="filtro-disponibilidad">
+            <option value="">Todos</option>
+            <option value="true">Disponible</option>
+            <option value="false">No disponible</option>
+          </select>
+
+          <button type="button" id="btn-ver-archivadas" class="btn btn-sm toggle-archivado">
+            <input type="checkbox" id="chk-ver-archivadas" style="display:none">
+            <span class="checkmark" style="margin-right:0.4rem"></span>
+            <span data-i18n="verArchivo">Ver archivadas</span>
+          </button>
+        </div>
+
+        <div id="galeria-container" class="galeria-grid vacia">
+          <p class="mensaje-vacio" data-i18n="sinObras">Aún no hay obras registradas.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: Detalles de obra -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button type="button" class="modal-cerrar" aria-label="Cerrar">&times;</button>
+      <div id="modal-content" class="modal-content"></div>
+    </div>
+  </div>
+
+
+  <!-- Modal: Consulta de precios -->
+  <div id="precio-modal-overlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button type="button" class="modal-cerrar" aria-label="Cerrar" onclick="cerrarModalPrecio()">&times;</button>
+      <div id="precio-modal-content" class="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/gallery.js"></script>
+  <script src="../js/form.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

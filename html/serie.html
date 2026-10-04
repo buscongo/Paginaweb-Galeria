@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="titulo">Andrés Ramírez Ortíz</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Franja de pestañas: navegación por series (encima del header) -->
+  <nav class="series-tabs" id="series-tabs">
+    <button class="series-toggle" aria-label="Menú" aria-expanded="false">☰</button>
+    <a href="index.html" class="tab">Inicio</a>
+    <a href="serie.html?serie=serie_exploradores" class="tab">Exploradores</a>
+    <a href="serie.html?serie=serie_nubes" class="tab">Nubes</a>
+    <a href="serie.html?serie=serie_paisaje" class="tab">Paisaje</a>
+    <a href="serie.html?serie=serie_selfie" class="tab">Selfie</a>
+    <a href="serie.html?serie=serie_vestigio" class="tab">Vestigio</a>
+  </nav>
+
+  <!-- Hero: nombre de serie (centrado, 15% de altura) -->
+  <header class="hero-header">
+    <div class="hero-fondo" id="hero-fondo"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-contenido">
+      <h1 id="serie-nombre"></h1>
+    </div>
+  </header>
+
+  <!-- Grid de obras de la serie -->
+  <main>
+    <div id="galeria-series" class="galeria-serie"></div>
+  </main>
+
+  <!-- Modal: Detalles de obra -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button type="button" class="modal-cerrar" aria-label="Cerrar">&times;</button>
+      <div id="modal-content" class="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/gallery.js"></script>
+  <script src="../js/serie.js"></script>
+  <script>
+  (function () {
+    var tgl = document.querySelector('.series-toggle');
+    if (!tgl) return;
+    tgl.addEventListener('click', function () {
+      var nav = document.querySelector('.series-tabs');
+      nav.classList.toggle('open');
+      tgl.setAttribute('aria-expanded', nav.classList.contains('open'));
+    });
+  })();
+  </script>
+</body>
+</html>

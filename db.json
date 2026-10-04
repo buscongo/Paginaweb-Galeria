@@ -1,0 +1,1201 @@
+{
+  "series": [
+    {
+      "id": "serie_exploradores",
+      "tema": "exploradores",
+      "proceso": "",
+      "reflecciones": "",
+      "factorPrecio": 10
+    },
+    {
+      "id": "serie_nubes",
+      "tema": "nubes",
+      "proceso": "",
+      "reflecciones": "",
+      "factorPrecio": 10
+    },
+    {
+      "id": "serie_paisaje",
+      "tema": "paisaje",
+      "proceso": "",
+      "reflecciones": "",
+      "factorPrecio": 10
+    },
+    {
+      "id": "serie_selfie",
+      "tema": "selfie",
+      "proceso": "",
+      "reflecciones": "",
+      "factorPrecio": 10
+    },
+    {
+      "id": "serie_vestigio",
+      "tema": "vestigio",
+      "proceso": "",
+      "reflecciones": "",
+      "factorPrecio": 10
+    }
+  ],
+  "obras": [
+    {
+      "id": "obra_exploradores_ruptura_natal",
+      "titulo": "Ruptura Natal",
+      "ancho": 100,
+      "alto": 60,
+      "precio": 1600,
+      "materiales": "Tínta y acrílico sobre tela cruda",
+      "tecnica": "Tínta y acrílico sobre tela cruda",
+      "anio": 2026,
+      "serieId": "serie_exploradores",
+      "disponible": false,
+      "imagen": "img/ruptura_natal_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/ruptura_natal_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/ruptura_natal-detalle-1_thumb.jpg",
+          "full": "img/ruptura_natal-detalle-1_2k.jpg"
+        },
+        {
+          "thumb": "img/ruptura_natal-detalle-2_thumb.jpg",
+          "full": "img/ruptura_natal-detalle-2_2k.jpg"
+        },
+        {
+          "thumb": "img/ruptura_natal-detalle-3_thumb.jpg",
+          "full": "img/ruptura_natal-detalle-3_2k.jpg"
+        },
+        {
+          "thumb": "img/ruptura_natal-detalle-4_thumb.jpg",
+          "full": "img/ruptura_natal-detalle-4_2k.jpg"
+        },
+        {
+          "thumb": "img/ruptura_natal-detalle-5_thumb.jpg",
+          "full": "img/ruptura_natal-detalle-5_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_exploradores_todo_monstruo_tiene_su_amo",
+      "titulo": "Todo monstruo tiene su amo",
+      "ancho": 120,
+      "alto": 120,
+      "precio": 2400,
+      "materiales": "Tínta y acrílico sobre tela cruda",
+      "tecnica": "Tínta y acrílico sobre tela cruda",
+      "anio": 2026,
+      "serieId": "serie_exploradores",
+      "disponible": true,
+      "imagen": "img/todo_monstruo_tiene_su_amo_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/todo_monstruo_tiene_su_amo_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/todo_monstruo_tiene_su_amo_detalle_1_thumb.jpg",
+          "full": "img/todo_monstruo_tiene_su_amo_detalle_1_2k.jpg"
+        },
+        {
+          "thumb": "img/todo_monstruo_tiene_su_amo_detalle_2_thumb.jpg",
+          "full": "img/todo_monstruo_tiene_su_amo_detalle_2_2k.jpg"
+        },
+        {
+          "thumb": "img/todo_monstruo_tiene_su_amo_detalle_3_thumb.jpg",
+          "full": "img/todo_monstruo_tiene_su_amo_detalle_3_2k.jpg"
+        },
+        {
+          "thumb": "img/todo_monstruo_tiene_su_amo_detalle_4_thumb.jpg",
+          "full": "img/todo_monstruo_tiene_su_amo_detalle_4_2k.jpg"
+        },
+        {
+          "thumb": "img/todo_monstruo_tiene_su_amo_detalle_5_thumb.jpg",
+          "full": "img/todo_monstruo_tiene_su_amo_detalle_5_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_atardecer_amarillo",
+      "titulo": "Atardecer Amarillo",
+      "ancho": 0,
+      "alto": 0,
+      "precio": 0,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/atardecer_amarillo_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/atardecer_amarillo_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_nubes_atardecer_azul",
+      "titulo": "Atardecer azul",
+      "ancho": 0,
+      "alto": 0,
+      "precio": 0,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/atardecer_azul_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/atardecer_azul_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_nubes_bk",
+      "titulo": "BK",
+      "ancho": 100,
+      "alto": 60,
+      "precio": 1600,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/bk_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/bk_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/bk_2_thumb.jpg",
+          "full": "img/bk_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_camino_a_lo_posible",
+      "titulo": "Camino a lo posible",
+      "ancho": 61,
+      "alto": 76,
+      "precio": 1370,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/camino_a_lo_posible_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/camino_a_lo_posible_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/camino_a_lo_posible_2_thumb.jpg",
+          "full": "img/camino_a_lo_posible_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_colosal",
+      "titulo": "Colosal",
+      "ancho": 61,
+      "alto": 45,
+      "precio": 1060,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/colosal_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/colosal_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_nubes_cuando_pasa_la_tormenta",
+      "titulo": "Cuando pasa la tormenta",
+      "ancho": 35,
+      "alto": 28,
+      "precio": 630,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/cuando_pasa_la_tormenta_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/cuando_pasa_la_tormenta_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_nubes_destello_nocturno",
+      "titulo": "Destello Nocturno",
+      "ancho": 30,
+      "alto": 23,
+      "precio": 530,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/destello_nocturno_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/img_2419_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/destello_nocturno_thumb.jpg",
+          "full": "img/destello_nocturno_2k.jpg"
+        },
+        {
+          "thumb": "img/img_2209_thumb.jpg",
+          "full": "img/img_2209_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_destellos_de_luz",
+      "titulo": "Destellos de luz",
+      "ancho": 25,
+      "alto": 50,
+      "precio": 750,
+      "materiales": "Acrílico/Óleo sobre canvas",
+      "tecnica": "Acrílico/Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/destellos_de_luz_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/destellos_de_luz_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/destellos_de_luz_2_thumb.jpg",
+          "full": "img/destellos_de_luz_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_divino_tormento",
+      "titulo": "Divino tormento",
+      "ancho": 35,
+      "alto": 28,
+      "precio": 630,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/divino_tormento_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/divino_tormento_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/divino_tormento_2_thumb.jpg",
+          "full": "img/divino_tormento_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_gemelas",
+      "titulo": "Gemelas",
+      "ancho": 15,
+      "alto": 15,
+      "precio": 300,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/gemelas_1_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/img_8363_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/gemelas_1_thumb.jpg",
+          "full": "img/gemelas_1_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_paradoja_temperamental",
+      "titulo": "Paradoja Temperamental",
+      "ancho": 28,
+      "alto": 35,
+      "precio": 630,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/paradoja_temperamental_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/paradoja_temperamental_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/paradoja_temperamental_2_thumb.jpg",
+          "full": "img/paradoja_temperamental_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_penumbra",
+      "titulo": "Penumbra",
+      "ancho": 0,
+      "alto": 0,
+      "precio": 0,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_49_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/artboard_1_copy_49_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_nubes_siempre_ahi",
+      "titulo": "Siempre Ahi",
+      "ancho": 120,
+      "alto": 120,
+      "precio": 2400,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_51_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/artboard_1_copy_51_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_nubes_tormenta_de_caricias",
+      "titulo": "Tormenta de Caricias",
+      "ancho": 28,
+      "alto": 35,
+      "precio": 630,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/tormenta_de_caricias_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/tormenta_de_caricias_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/tormenta_de_caricias_detalle_1_thumb.jpg",
+          "full": "img/tormenta_de_caricias_detalle_1_2k.jpg"
+        },
+        {
+          "thumb": "img/tormenta_de_caricias_detalle_2_thumb.jpg",
+          "full": "img/tormenta_de_caricias_detalle_2_2k.jpg"
+        },
+        {
+          "thumb": "img/tormenta_de_caricias_detalle_3_thumb.jpg",
+          "full": "img/tormenta_de_caricias_detalle_3_2k.jpg"
+        },
+        {
+          "thumb": "img/tormenta_de_caricias_detalle_4_thumb.jpg",
+          "full": "img/tormenta_de_caricias_detalle_4_2k.jpg"
+        },
+        {
+          "thumb": "img/tormenta_de_caricias_detalle_5_thumb.jpg",
+          "full": "img/tormenta_de_caricias_detalle_5_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_un_cielo_encendido",
+      "titulo": "Un cielo encendido",
+      "ancho": 35,
+      "alto": 35,
+      "precio": 700,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/un_cielo_encendido_1_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/un_cielo_encendido_det_5_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/un_cielo_encendido_1_thumb.jpg",
+          "full": "img/un_cielo_encendido_1_2k.jpg"
+        },
+        {
+          "thumb": "img/un_cielo_encendido_2_thumb.jpg",
+          "full": "img/un_cielo_encendido_2_2k.jpg"
+        },
+        {
+          "thumb": "img/un_cielo_encendido_det_1_thumb.jpg",
+          "full": "img/un_cielo_encendido_det_1_2k.jpg"
+        },
+        {
+          "thumb": "img/un_cielo_encendido_det_2_thumb.jpg",
+          "full": "img/un_cielo_encendido_det_2_2k.jpg"
+        },
+        {
+          "thumb": "img/un_cielo_encendido_det_3_thumb.jpg",
+          "full": "img/un_cielo_encendido_det_3_2k.jpg"
+        },
+        {
+          "thumb": "img/un_cielo_encendido_det_4_thumb.jpg",
+          "full": "img/un_cielo_encendido_det_4_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_un_momento_de_lucidez",
+      "titulo": "Un momento de lucidez",
+      "ancho": 76,
+      "alto": 25,
+      "precio": 1010,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_nubes",
+      "disponible": true,
+      "imagen": "img/img_5536_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/un_momento_de_lucidez_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/img_5536_thumb.jpg",
+          "full": "img/img_5536_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_nubes_vuelta_a_la_hoja",
+      "titulo": "Vuelta a la hoja",
+      "ancho": 100,
+      "alto": 60,
+      "precio": 1600,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_nubes",
+      "disponible": false,
+      "imagen": "img/Vuelta_a_la_hoja_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/Vuelta_a_la_hoja_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_paisaje_bocadito_de_cielo",
+      "titulo": "Bocadito de cielo",
+      "ancho": 20,
+      "alto": 20,
+      "precio": 400,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_paisaje",
+      "disponible": true,
+      "imagen": "img/bocadito_de_cielo_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/bocadito_de_cielo_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_paisaje_cambiante_sin_perderse",
+      "titulo": "Cambiante sin perderse",
+      "ancho": 25,
+      "alto": 25,
+      "precio": 500,
+      "materiales": "Óleo sobre tela",
+      "tecnica": "Óleo sobre tela",
+      "anio": 2025,
+      "serieId": "serie_paisaje",
+      "disponible": true,
+      "imagen": "img/cambiante_sin_perderse_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/cambiante_sin_perderse_2_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_paisaje_conjunto_terraba",
+      "titulo": "Conjunto Terraba",
+      "ancho": 51,
+      "alto": 40,
+      "precio": 910,
+      "materiales": "Acrílico/Óleo sobre canvas",
+      "tecnica": "Acrílico/Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_paisaje",
+      "disponible": false,
+      "imagen": "img/10_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/conjunto_terraba_principal_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/10_thumb.jpg",
+          "full": "img/10_2k.jpg"
+        },
+        {
+          "thumb": "img/7_thumb.jpg",
+          "full": "img/7_2k.jpg"
+        },
+        {
+          "thumb": "img/8_thumb.jpg",
+          "full": "img/8_2k.jpg"
+        },
+        {
+          "thumb": "img/9_thumb.jpg",
+          "full": "img/9_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_paisaje_futuras_madrugadas",
+      "titulo": "Futuras Madrugadas",
+      "ancho": 30,
+      "alto": 23,
+      "precio": 530,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_paisaje",
+      "disponible": true,
+      "imagen": "img/6_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/6_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_paisaje_la_realidad_supera_la_fantasia",
+      "titulo": "La realidad supera la fantasia",
+      "ancho": 102,
+      "alto": 76,
+      "precio": 1780,
+      "materiales": "Acrílico/Óleo sobre canvas",
+      "tecnica": "Acrílico/Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_paisaje",
+      "disponible": true,
+      "imagen": "img/13_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/13_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_paisaje_lagunas_de_luz",
+      "titulo": "Lagunas de luz",
+      "ancho": 102,
+      "alto": 91,
+      "precio": 1930,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_paisaje",
+      "disponible": true,
+      "imagen": "img/valles_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/valles_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_paisaje_mirando_de_vuelta",
+      "titulo": "Mirando de vuelta",
+      "ancho": 25,
+      "alto": 20,
+      "precio": 450,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_paisaje",
+      "disponible": false,
+      "imagen": "img/mirando_de_vuelta_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/mirando_de_vuelta_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/mirando_de_vuelta_2_thumb.jpg",
+          "full": "img/mirando_de_vuelta_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_paisaje_recuerdos_de_paso",
+      "titulo": "Recuerdos de paso",
+      "ancho": 76,
+      "alto": 25,
+      "precio": 1010,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_paisaje",
+      "disponible": true,
+      "imagen": "img/17_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/17_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_selfie_calido_encanto",
+      "titulo": "Calido encanto",
+      "ancho": 35,
+      "alto": 28,
+      "precio": 630,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_selfie",
+      "disponible": false,
+      "imagen": "img/img_8398_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/img_8407_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/img_8398_thumb.jpg",
+          "full": "img/img_8398_2k.jpg"
+        },
+        {
+          "thumb": "img/img_8404_thumb.jpg",
+          "full": "img/img_8404_2k.jpg"
+        },
+        {
+          "thumb": "img/img_8405_thumb.jpg",
+          "full": "img/img_8405_2k.jpg"
+        },
+        {
+          "thumb": "img/img_8406_thumb.jpg",
+          "full": "img/img_8406_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_selfie_la_paz_antes_de_la_tormenta",
+      "titulo": "La paz antes de la tormenta",
+      "ancho": 61,
+      "alto": 91,
+      "precio": 1520,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_selfie",
+      "disponible": true,
+      "imagen": "img/la_paz_antes_de_la_tormenta_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/la_paz_antes_de_la_tormenta_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/la_paz_antes_de_la_tormenta_detalle2_thumb.jpg",
+          "full": "img/la_paz_antes_de_la_tormenta_detalle2_2k.jpg"
+        },
+        {
+          "thumb": "img/la_paz_antes_de_la_tormenta_detalle_1_thumb.jpg",
+          "full": "img/la_paz_antes_de_la_tormenta_detalle_1_2k.jpg"
+        },
+        {
+          "thumb": "img/la_paz_antes_de_la_tormenta_detalle_3_thumb.jpg",
+          "full": "img/la_paz_antes_de_la_tormenta_detalle_3_2k.jpg"
+        },
+        {
+          "thumb": "img/la_paz_antes_de_la_tormenta_detalle_4_thumb.jpg",
+          "full": "img/la_paz_antes_de_la_tormenta_detalle_4_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_selfie_mg",
+      "titulo": "MG",
+      "ancho": 25,
+      "alto": 72,
+      "precio": 970,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2026,
+      "serieId": "serie_selfie",
+      "disponible": true,
+      "imagen": "img/mg_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/mg_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/mg_detalle_1_thumb.jpg",
+          "full": "img/mg_detalle_1_2k.jpg"
+        },
+        {
+          "thumb": "img/mg_detalle_2_thumb.jpg",
+          "full": "img/mg_detalle_2_2k.jpg"
+        },
+        {
+          "thumb": "img/mg_detalle_3_thumb.jpg",
+          "full": "img/mg_detalle_3_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_selfie_recuerdo_ajeno",
+      "titulo": "Recuerdo Ajeno",
+      "ancho": 25,
+      "alto": 72,
+      "precio": 970,
+      "materiales": "Acrílico/Óleo sobre canvas",
+      "tecnica": "Acrílico/Óleo sobre canvas",
+      "anio": 2025,
+      "serieId": "serie_selfie",
+      "disponible": true,
+      "imagen": "img/recuerdo_ajeno_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/recuerdo_ajeno_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/recuerdo_ajeno_detalle_1_thumb.jpg",
+          "full": "img/recuerdo_ajeno_detalle_1_2k.jpg"
+        },
+        {
+          "thumb": "img/recuerdo_ajeno_detalle_2_thumb.jpg",
+          "full": "img/recuerdo_ajeno_detalle_2_2k.jpg"
+        },
+        {
+          "thumb": "img/recuerdo_ajeno_detalle_3_thumb.jpg",
+          "full": "img/recuerdo_ajeno_detalle_3_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_selfie_selfie_numero_1",
+      "titulo": "Selfie numero 1",
+      "ancho": 51,
+      "alto": 61,
+      "precio": 1120,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 2024,
+      "serieId": "serie_selfie",
+      "disponible": true,
+      "imagen": "img/artboard_1_copy_95_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/img_2167_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_95_thumb.jpg",
+          "full": "img/artboard_1_copy_95_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_amanecer",
+      "titulo": "Amanecer",
+      "ancho": 175,
+      "alto": 90,
+      "precio": 2650,
+      "materiales": "Acrílico en canvas",
+      "tecnica": "Acrílico en canvas",
+      "anio": 2021,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/amanecer_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/amanecer_2_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_vestigio_azufre",
+      "titulo": "Azufre",
+      "ancho": 70,
+      "alto": 50,
+      "precio": 1200,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2022,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_64_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/azufre_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_64_thumb.jpg",
+          "full": "img/artboard_1_copy_64_2k.jpg"
+        },
+        {
+          "thumb": "img/azufre_2_thumb.jpg",
+          "full": "img/azufre_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_casi_no_lo_veo",
+      "titulo": "Casi no lo veo",
+      "ancho": 70,
+      "alto": 50,
+      "precio": 1200,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2022,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_63_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/casinoloveo_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_63_thumb.jpg",
+          "full": "img/artboard_1_copy_63_2k.jpg"
+        },
+        {
+          "thumb": "img/casinoloveo_2_thumb.jpg",
+          "full": "img/casinoloveo_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_crepusculo",
+      "titulo": "Crepusculo",
+      "ancho": 170,
+      "alto": 120,
+      "precio": 2900,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2021,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_60_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/crepusculo_2_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_60_thumb.jpg",
+          "full": "img/artboard_1_copy_60_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_cuando_lleguemos_a_tar",
+      "titulo": "Cuando lleguemos a Tar",
+      "ancho": 50,
+      "alto": 40,
+      "precio": 900,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/artboard_1_copy_68_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/cuandolleguemosatar_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_68_thumb.jpg",
+          "full": "img/artboard_1_copy_68_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_despedida",
+      "titulo": "Despedida",
+      "ancho": 190,
+      "alto": 75,
+      "precio": 2650,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2021,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/despedida_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/despedida_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_vestigio_diaspora",
+      "titulo": "Diaspora",
+      "ancho": 190,
+      "alto": 120,
+      "precio": 3100,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2020,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_58_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/diaspora_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_58_thumb.jpg",
+          "full": "img/artboard_1_copy_58_2k.jpg"
+        },
+        {
+          "thumb": "img/diaspora_2_thumb.jpg",
+          "full": "img/diaspora_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_encuentro",
+      "titulo": "Encuentro",
+      "ancho": 98,
+      "alto": 140,
+      "precio": 2380,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2020,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/encuentro_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/encuentro_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/encuentro_2_thumb.jpg",
+          "full": "img/encuentro_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_hora_dorada",
+      "titulo": "Hora Dorada",
+      "ancho": 33,
+      "alto": 24,
+      "precio": 570,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_75_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/hora_dorada_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_75_thumb.jpg",
+          "full": "img/artboard_1_copy_75_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_ni_nos_damos_cuenta",
+      "titulo": "Ni nos damos cuenta",
+      "ancho": 120,
+      "alto": 120,
+      "precio": 2400,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/img_2236_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/ninosdamoscuenta_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/img_2236_thumb.jpg",
+          "full": "img/img_2236_2k.jpg"
+        },
+        {
+          "thumb": "img/img_2319_thumb.jpg",
+          "full": "img/img_2319_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_nuestro_ultimo_dia",
+      "titulo": "NuestroUltimoDia",
+      "ancho": 100,
+      "alto": 50,
+      "precio": 1500,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/nuestroultimodia_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/nuestroultimodia_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_vestigio_perla",
+      "titulo": "perla",
+      "ancho": 120,
+      "alto": 120,
+      "precio": 2400,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2022,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/img_2289_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/perla_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/img_2289_thumb.jpg",
+          "full": "img/img_2289_2k.jpg"
+        },
+        {
+          "thumb": "img/img_2292_thumb.jpg",
+          "full": "img/img_2292_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_residuos",
+      "titulo": "Residuos",
+      "ancho": 140,
+      "alto": 70,
+      "precio": 2100,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2022,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/artboard_1_copy_70_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/residuos_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_70_thumb.jpg",
+          "full": "img/artboard_1_copy_70_2k.jpg"
+        },
+        {
+          "thumb": "img/residuos_2_thumb.jpg",
+          "full": "img/residuos_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_sacrificio",
+      "titulo": "Sacrificio",
+      "ancho": 90,
+      "alto": 150,
+      "precio": 2400,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2021,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/artboard_1_copy_79_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/sacrificio_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_79_thumb.jpg",
+          "full": "img/artboard_1_copy_79_2k.jpg"
+        },
+        {
+          "thumb": "img/sacrificio_2_thumb.jpg",
+          "full": "img/sacrificio_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_se_cae_el_cielo",
+      "titulo": "Se cae el cielo",
+      "ancho": 180,
+      "alto": 150,
+      "precio": 3300,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2020,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/artboard_1_copy_84___copy_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/se_cae_el_cielo_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_84___copy_thumb.jpg",
+          "full": "img/artboard_1_copy_84___copy_2k.jpg"
+        },
+        {
+          "thumb": "img/se_cae_el_cielo_2_thumb.jpg",
+          "full": "img/se_cae_el_cielo_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_sin_esperanza,_pero_avanzando",
+      "titulo": "Sin esperanza, pero avanzando",
+      "ancho": 0,
+      "alto": 0,
+      "precio": 0,
+      "materiales": "Óleo sobre canvas",
+      "tecnica": "Óleo sobre canvas",
+      "anio": 0,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/fondoconcursable_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/fondoconcursable_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_vestigio_tempestad",
+      "titulo": "Tempestad",
+      "ancho": 95,
+      "alto": 150,
+      "precio": 2450,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2022,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/tempestad_2_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/tempestad_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/tempestad_2_thumb.jpg",
+          "full": "img/tempestad_2_2k.jpg"
+        }
+      ]
+    },
+    {
+      "id": "obra_vestigio_todo_pasa",
+      "titulo": "TodoPasa",
+      "ancho": 20,
+      "alto": 50,
+      "precio": 700,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": false,
+      "imagen": "img/todopasa_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/todopasa_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_vestigio_un_momento_de_claridad",
+      "titulo": "Un momento de Claridad",
+      "ancho": 70,
+      "alto": 50,
+      "precio": 1200,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/unmomentodeclaridad_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/unmomentodeclaridad_2k.jpg",
+      "detalles": []
+    },
+    {
+      "id": "obra_vestigio_ya_casi_pasan",
+      "titulo": "\"Ya Casi Pasan\"",
+      "ancho": 150,
+      "alto": 190,
+      "precio": 3400,
+      "materiales": "Acrílico sobre canvas",
+      "tecnica": "Acrílico sobre canvas",
+      "anio": 2023,
+      "serieId": "serie_vestigio",
+      "disponible": true,
+      "imagen": "img/yacasipasan_thumb.jpg",
+      "fechaRegistro": "2026-09-30",
+      "imagen2k": "img/yacasipasan_2k.jpg",
+      "detalles": [
+        {
+          "thumb": "img/artboard_1_copy_62_thumb.jpg",
+          "full": "img/artboard_1_copy_62_2k.jpg"
+        },
+        {
+          "thumb": "img/yacasipasan_2_thumb.jpg",
+          "full": "img/yacasipasan_2_2k.jpg"
+        }
+      ]
+    }
+  ],
+  "config": {
+    "idioma": "es"
+  }
+}

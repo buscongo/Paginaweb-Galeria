@@ -1,0 +1,1104 @@
+/* ========================================
+   styles.css — Galería de Arte
+   Brief: gris oscuro #081c2b + teal #0eb5a0
+   Energía/vida · serif elegante · masonry grid · 3D hover
+   ======================================== */
+
+/* Reset y configuración base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-card: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #6a6a6a;
+  --accent: #0a2463;
+  --accent-orange: #8a6d47;
+  --border: rgba(0, 0, 0, 0.05);
+  --border-hover: rgba(0, 0, 0, 0.08);
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Typography: títulos modernos y bold */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 700;
+}
+
+h1 { font-size: 2.5rem; line-height: 1.1; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+/* ===== Layout general ===== */
+.max-width-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ===== Header hero — proporción 9x6, altura limitada al 15% ===== */
+.hero-header {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 6;
+  max-height: 15vh;
+  margin-top: 44px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Franja de pestañas: toggle hamburguesa (mobile) */
+.series-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 4px 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  .series-toggle { display: block; }
+  .series-tabs.collapsed .tab { display: none; }
+  .series-tabs.open .tab { display: block; }
+}
+
+/* Franja de pestañas encima del header — navegación por series */
+.series-tabs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 20px;
+  overflow-x: auto;
+  z-index: 1000;
+}
+.series-tabs .tab {
+  flex: 0 0 auto;
+  padding: 6px 16px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-primary);
+  opacity: 0.45;
+  text-transform: capitalize;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  cursor: pointer;
+  border-radius: 0;
+  transition: opacity 0.2s ease, background 0.2s ease;
+}
+.series-tabs .tab:hover { opacity: 1; }
+.series-tabs .tab.active {
+  opacity: 1;
+  color: var(--accent);
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-bottom: none;
+}
+
+.hero-fondo {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--bg-secondary);
+  filter: blur(5px);
+  transform: scale(1.08);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  /* degradé vertical: metal azul oscuro denso arriba → 10% opaco abajo */
+  background: linear-gradient(to bottom, rgba(10, 36, 99, 0.8) 0%, rgba(10, 36, 99, 0.1) 100%);
+}
+
+.hero-contenido {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.hero-contenido h1 {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+@media (max-width: 600px) {
+  .hero-contenido h1 { font-size: 1.5rem; }
+  .hero-header { max-height: 15vh; }
+}
+
+/* ===== Franja obra más reciente ===== */
+.franja-reciente-grid {
+  display: flex;
+  justify-content: center;
+}
+.franja-reciente-grid .tarjeta-obra {
+  max-width: 260px;
+}
+
+/* ===== Secciones (franjas estilo Apple) ===== */
+.franja {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.franja:last-child {
+  border-bottom: none;
+}
+
+.franja-titulo {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  padding: 0 0.25rem;
+}
+
+.franja-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.fila-carousel {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+}
+
+.fila-carousel .tarjeta-obra {
+  flex: 0 0 200px;
+  scroll-snap-align: start;
+}
+
+.fila-carousel::-webkit-scrollbar {
+  height: 8px;
+}
+
+.fila-carousel::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 0;
+}
+
+/* Galería por serie */
+.serie-fila {
+  margin-bottom: 2rem;
+}
+
+.serie-fila:last-child {
+  margin-bottom: 0;
+}
+
+.serie-titulo {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* ===== Filtro discreto ===== */
+.filtros-barra {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.3rem 1.25rem;
+  height: 40px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 1.5rem auto 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+}
+
+.filtros-barra select,
+.filtros-barra button {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.filtros-barra select:hover,
+.filtros-barra button:hover {
+  background: var(--border-hover);
+}
+
+.filtros-barra button {
+  background: transparent;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.filtros-barra button:hover {
+  color: var(--text-primary);
+}
+
+/* ===== Indicador de disponibilidad (círculo esquina inferior derecha) ===== */
+.disponibilidad-indicator {
+  position: absolute;
+  bottom: 0.6rem;
+  right: 0.6rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  z-index: 2;
+}
+
+.disponibilidad-indicator.Verde {
+  background: #27c74c;
+}
+
+.disponibilidad-indicator.Rojo {
+  background: #ff3b30;
+}
+
+/* Sello "Nuevo" */
+.sello-nuevo {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0;
+  z-index: 2;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ===== Tarjetas de obra ===== */
+.tarjeta-obra {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.tarjeta-obra:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen: oscurece al hover */
+.tarjeta-obra:hover .tarjeta-imagen {
+  filter: brightness(0.7);
+  position: relative;
+}
+
+.tarjeta-obra:hover .tarjeta-imagen::after {
+  content: 'Ver';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.tarjeta-imagen {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  margin: 4px;
+  border-radius: 0;
+  background: var(--bg-secondary);
+}
+
+.tarjeta-imagen.sin-imagen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  background: var(--bg-secondary);
+}
+
+.tarjeta-info {
+  padding: 0.8rem 1rem;
+}
+
+.tarjeta-info h3 {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tarjeta-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.tarjeta-meta .serie-nombre {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ===== Grid de obras (página serie) ===== */
+.galeria-serie {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+/* ===== Header admin ===== */
+.header-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Language toggle */
+.lang-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-toggle:hover {
+  background: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* Dark mode toggle */
+.theme-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* ===== Secciones (Admin) ===== */
+.seccion {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1.25rem 1rem;
+}
+
+.seccion + .seccion {
+  margin-top: 1.5rem;
+}
+
+.seccion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.seccion-header h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  padding: 0.25rem;
+  transition: color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: var(--text-primary);
+}
+
+.toggle-icon {
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.seccion-content {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+.seccion-content.expandida {
+  max-height: 5000px;
+  opacity: 1;
+}
+
+/* ===== Filtro discreto ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(24, 24, 28, 0.55);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  z-index: 100;
+}
+
+.modal-overlay.activo {
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: 0;
+  max-width: 700px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  margin: 0 auto;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  border: 1px solid var(--border);
+}
+
+.modal-cerrar {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.9rem;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.2rem;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.modal-cerrar:hover {
+  color: var(--text-primary);
+}
+
+.modal-content {
+  padding: 1.5rem;
+}
+
+.modal-imagen {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  border-radius: 0;
+  margin-bottom: 1rem;
+  background: var(--bg-secondary);
+}
+
+.modal-imagen.placeholder-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.modal-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.4rem 1rem;
+  font-size: 0.9rem;
+}
+
+.modal-info-grid dt {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.modal-info-grid dd {
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.modal-info-grid dd.serie-nombre {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.modal-precio {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.precio-revelado {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.8rem;
+  background: rgba(106, 106, 112, 0.08);
+  border-radius: 0;
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ===== Botones admin en modal ===== */
+.modal-botones {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.btn-editar {
+  background: var(--accent-orange);
+  color: var(--bg-primary);
+}
+
+.btn-editar:hover {
+  background: #7a7a80;
+  transform: translateY(-1px);
+}
+
+.btn-archivar {
+  background: #ff3b30;
+  color: var(--text-primary);
+}
+
+.btn-archivar:hover {
+  background: #e02b16;
+}
+
+/* ===== Consulta de precios (modal) ===== */
+.precio-consulta-header {
+  margin-bottom: 1rem;
+}
+
+.precio-consulta-header h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Playfair Display', Georgia, serif;
+  margin-bottom: 0.3rem;
+}
+
+.precio-consulta-header .serie-nombre {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.precio-obra-selector {
+  margin-bottom: 1.5rem;
+}
+
+.precio-obra-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  margin-bottom: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--bg-secondary);
+}
+
+.precio-obra-item:last-child {
+  margin-bottom: 0;
+}
+
+.precio-obra-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.precio-obra-item label {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+/* ===== Formularios ===== */
+.campo-grupo {
+  margin-bottom: 1.1rem;
+}
+
+.campo-grupo label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.campo-grupo label[for]:not(.checkbox-label)::after {
+  content: ' *';
+  color: #ff3b30;
+}
+
+.campo-grupo input[type="text"],
+.campo-grupo input[type="number"],
+.campo-grupo textarea,
+.campo-grupo select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campo-grupo input:focus,
+.campo-grupo textarea:focus,
+.campo-grupo select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(106, 106, 112, 0.15);
+}
+
+.campo-grupo textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.campo-grupo small.ayuda {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+}
+
+/* Grid interno de formulario */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Checkbox estilizado */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.checkbox-label input[type="checkbox"] {
+  display: none;
+}
+
+.checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(106, 106, 112, 0.4);
+  border-radius: 0;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.checkbox-label input:checked + .checkmark {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkmark::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid var(--bg-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+.checkbox-label input:checked + .checkmark::after {
+  opacity: 1;
+}
+
+/* Link para crear serie */
+.link-boton {
+  background: none;
+  border: none;
+  color: var(--accent);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.2rem 0;
+  text-align: left;
+}
+
+.link-boton:hover {
+  text-decoration: underline;
+}
+
+/* Vista previa de imagen */
+#imagen-preview-container {
+  margin-top: 0.7rem;
+}
+
+.imagen-preview {
+  max-width: 100%;
+  max-height: 160px;
+  border-radius: 0;
+  border: 1px solid var(--border);
+  object-fit: cover;
+  display: block;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.7rem 1.4rem;
+  transition: all 0.2s ease;
+}
+
+.btn-primario {
+  background: var(--accent);
+  color: var(--bg-primary);
+  font-weight: 600;
+}
+
+.btn-primario:hover {
+  background: #7c7c82;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(106, 106, 112, 0.3);
+}
+
+.btn-precio {
+  background: var(--bg-secondary);
+  color: var(--accent);
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+.btn-precio:hover {
+  background: var(--border-hover);
+  color: var(--text-primary);
+}
+
+.btn-cancelar {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.btn-cancelar:hover {
+  background: var(--border-hover);
+  color: var(--text-primary);
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 2rem 1.25rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+footer .precio-so-consulta {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+footer .footer-email {
+  display: inline-block;
+  margin-top: 0.4rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .hero-contenido h1 { font-size: 1.75rem; }
+}
+
+/* ===== Página de detalle de obra (pintura.html) ===== */
+.pintura-detalle {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.pintura-imagen-grande {
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+#imagen-grande {
+  display: block;
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+
+.pintura-meta {
+  margin-top: 1.25rem;
+}
+
+.pintura-meta h2 {
+  font-size: 1.4rem;
+  color: var(--text-primary);
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.pintura-meta p {
+  margin-top: 0.4rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.detalles {
+  margin-top: 2rem;
+}
+
+.detalles h3 {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.carousel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.carousel-thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 0;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  background: var(--bg-secondary);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-thumb:hover {
+  transform: scale(1.05);
+  border-color: var(--border-hover);
+}
+
+/* Imagen grande del detalle: cursor de zoom */
+#pintura-imagen-grande,
+.pintura-imagen-grande img {
+  cursor: zoom-in;
+}
+
+/* Carousel de thumbnails del detalle: esquinas poco curvas */
+.detalles .carousel-thumb {
+  border-radius: 0;
+}
+
+.carousel-thumb.activa {
+  border-color: var(--accent);
+}
+
+/* Imagen del modal clicable → página de detalle */
+.modal-imagen-click {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.modal-imagen-click:hover {
+  opacity: 0.85;
+}
+
+/* ===== Zoom overlay (imagen 2K a pantalla completa) ===== */
+.zoom-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(2px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.zoom-overlay.activo {
+  display: flex;
+}
+
+.zoom-imagen {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  transition: transform 0.2s ease-out, filter 0.2s ease;
+  cursor: grab;
+  user-select: none;
+  border-radius: 0;
+}
+
+.zoom-imagen:active {
+  cursor: grabbing;
+}
+
+.zoom-imagen.zoomed {
+  /* al hacer zoom, permite superar el viewport hasta el tamaño real nativo */
+  max-width: none;
+  max-height: none;
+}
+
+.zoom-close {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #ffffff;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem;
+  transition: color 0.2s ease;
+}
+
+.zoom-close:hover {
+  color: var(--bg-secondary);
+}
+
+/* hint de zoom con rueda */
+.zoom-hint {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  pointer-events: none;
+}

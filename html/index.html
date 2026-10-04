@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="titulo">Andrés Ramírez Ortíz</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Franja de pestañas: navegación por series (encima del header) -->
+  <nav class="series-tabs" id="series-tabs">
+    <button class="series-toggle" aria-label="Menú" aria-expanded="false">☰</button>
+    <a href="index.html" class="tab active">Inicio</a>
+    <a href="serie.html?serie=serie_exploradores" class="tab">Exploradores</a>
+    <a href="serie.html?serie=serie_nubes" class="tab">Nubes</a>
+    <a href="serie.html?serie=serie_paisaje" class="tab">Paisaje</a>
+    <a href="serie.html?serie=serie_selfie" class="tab">Selfie</a>
+    <a href="serie.html?serie=serie_vestigio" class="tab">Vestigio</a>
+  </nav>
+
+  <!-- Hero header: fondo = 2k random del año actual -->
+  <header class="hero-header">
+    <div class="hero-fondo" id="hero-fondo"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-contenido">
+      <h1>Andrés Ramírez Ortíz</h1>
+    </div>
+  </header>
+
+  <!-- Franja 1: obras nuevas (solo si hay, reemplaza al sidebar) -->
+  <div class="franja franja-nuevas" id="franja-nuevas" style="display: none;">
+    <h3 class="franja-titulo" data-i18n="nuevasObras">Nuevas obras</h3>
+    <div id="nuevas-container" class="fila-carousel"></div>
+  </div>
+
+  <!-- Franja 3: todas las obras -->
+  <div class="franja franja-todas">
+    <h3 class="franja-titulo" data-i18n="todasObras">Todas las obras</h3>
+    <div class="filtros-barra">
+      <select id="filtro-ano"></select>
+      <select id="filtro-disponibilidad"></select>
+      <button type="button" id="limpiar-filtros" class="btn btn-cancelar">Limpiar filtros</button>
+    </div>
+    <div id="galeria-series"></div>
+  </div>
+
+  <!-- Modal: Detalles de obra -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button type="button" class="modal-cerrar" aria-label="Cerrar">&times;</button>
+      <div id="modal-content" class="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Modal: Consulta de precios -->
+  <div id="precio-modal-overlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true">
+      <button type="button" class="modal-cerrar" aria-label="Cerrar" onclick="cerrarModalPrecio()">&times;</button>
+      <div id="precio-modal-content" class="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../js/data.js"></script>
+  <script src="../js/gallery.js"></script>
+  <script src="../js/home.js"></script>
+  <script>
+  (function () {
+    var tgl = document.querySelector('.series-toggle');
+    if (!tgl) return;
+    tgl.addEventListener('click', function () {
+      var nav = document.querySelector('.series-tabs');
+      nav.classList.toggle('open');
+      tgl.setAttribute('aria-expanded', nav.classList.contains('open'));
+    });
+  })();
+  </script>
+</body>
+</html>

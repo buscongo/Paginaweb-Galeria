@@ -1,0 +1,12 @@
+{
+  "name": "galeria-arte",
+  "version": "1.0.0",
+  "description": "Backend para Galería de Arte — API REST + archivo JSON",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
