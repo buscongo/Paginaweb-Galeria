@@ -73,6 +73,8 @@ async function initSerie() {
 
   var serieId = qs('serie') || '';
   renderizarTabs(serieId);
+  // init cierre modal (shared en gallery.js): X, overlay click y back/popstate
+  if (typeof inicializarModal === 'function') inicializarModal();
 
   var deSerie = obrasTodas.filter(function (x) { return x.serieId === serieId; });
   var serie = buscarSerie(serieId);

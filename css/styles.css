@@ -627,6 +627,11 @@ header h1 {
   border-top: 1px solid var(--border);
 }
 
+/* TODO: restaurar el botón cuando ZOHO esté configurado (quitar esta regla). */
+#btn-consultar-precio {
+  display: none !important;
+}
+
 .precio-revelado {
   margin-top: 0.75rem;
   padding: 0.5rem 0.8rem;

@@ -41,15 +41,8 @@ document.addEventListener('DOMContentLoaded', async function () {
   // filtros (año + disponibilidad)
   inicializarFiltrosHome();
 
-  // cerrar modal
-  var overlay = document.getElementById('modal-overlay');
-  if (overlay) {
-    overlay.addEventListener('click', function (e) {
-      if (e.target === overlay) cerrarModal();
-    });
-  }
-  var cerrar = document.querySelector('.modal-cerrar');
-  if (cerrar) cerrar.addEventListener('click', cerrarModal);
+  // cerrar modal (init unificado en gallery.js → inicializarModal: overlay click, X, popstate back)
+  if (typeof inicializarModal === 'function') inicializarModal();
 });
 
 function aplicarTextosI18n() {
