@@ -3,7 +3,7 @@
    Hero + nuevas obras + todas las obras
    ======================================== */
 
-var filtrosHome = { ano: '', disponible: '' };
+var filtrosHome = { ano: '', disponible: '', tamano: '' };
 var cacheObras = [];
 var cacheSeries = [];
 
@@ -147,6 +147,7 @@ function aplicarFiltros(obras) {
   return obras.filter(function (x) {
     if (filtrosHome.ano && x.anio !== parseInt(filtrosHome.ano)) return false;
     if (filtrosHome.disponible !== '' && x.disponible.toString() !== filtrosHome.disponible) return false;
+    if (filtrosHome.tamano && tamanoObra(x) !== filtrosHome.tamano) return false;
     return true;
   });
 }
@@ -212,11 +213,13 @@ function poblarDisponibilidad(select) {
 
 function inicializarFiltrosHome() {
   var sA = document.getElementById('filtro-ano');
-  var sD = document.getElementById('filtro-disponibilidad');
+  var sD = document.getElementById('filtro-disponible');
+  var sT = document.getElementById('filtro-tamano');
   var limpiar = document.getElementById('limpiar-filtros');
 
   poblarAnios(sA);
   poblarDisponibilidad(sD);
+  if (typeof poblarSelectTamano === 'function') poblarSelectTamano(sT);
 
   async function repintar() {
     var obras = await obtenerObras();
@@ -227,10 +230,12 @@ function inicializarFiltrosHome() {
 
   if (sA) sA.addEventListener('change', function () { filtrosHome.ano = sA.value; repintar(); });
   if (sD) sD.addEventListener('change', function () { filtrosHome.disponible = sD.value; repintar(); });
+  if (sT) sT.addEventListener('change', function () { filtrosHome.tamano = sT.value; repintar(); });
   if (limpiar) limpiar.addEventListener('click', function () {
-    filtrosHome = { ano: '', disponible: '' };
+    filtrosHome = { ano: '', disponible: '', tamano: '' };
     if (sA) sA.value = '';
     if (sD) sD.value = '';
+    if (sT) sT.value = '';
     repintar();
   });
 }
