@@ -213,7 +213,7 @@ function poblarDisponibilidad(select) {
 
 function inicializarFiltrosHome() {
   var sA = document.getElementById('filtro-ano');
-  var sD = document.getElementById('filtro-disponible');
+  var sD = document.getElementById('filtro-disponibilidad');
   var sT = document.getElementById('filtro-tamano');
   var limpiar = document.getElementById('limpiar-filtros');
 
