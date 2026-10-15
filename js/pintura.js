@@ -1,6 +1,6 @@
 /* ========================================
    pintura.js — Página de detalle de una obra
-   Cargado solo en html/pintura.html
+   Layout 3: Grid 1fr/1fr tipo catálogo editorial
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -35,9 +35,11 @@ function renderizarDetalle(o) {
   var heroFondo = document.getElementById('hero-fondo');
   if (heroFondo && o.imagen2k) heroFondo.style.backgroundImage = 'url("' + o.imagen2k + '")';
 
-  // Meta: año · tamaño · técnica · serie
+  // Serie
   var s = buscarSerie(o.serieId);
   var ns = s ? s.tema : t('sinSerie');
+
+  // Meta: año · tamaño · técnica · serie
   var partes = [];
   if (o.anio && o.anio !== 0) partes.push(String(o.anio));
   if (o.ancho && o.alto) partes.push(o.ancho + ' × ' + o.alto + ' cm');
@@ -45,6 +47,58 @@ function renderizarDetalle(o) {
   partes.push(ns);
   var meta = document.getElementById('pintura-meta-texto');
   if (meta) meta.textContent = partes.join(' · ');
+
+  // Precio (oculto por defecto, se revela vía email)
+  var precioEl = document.getElementById('pintura-precio');
+  if (precioEl && o.precio) {
+    precioEl.textContent = 'USD $' + o.precio;
+  }
+
+  // Serie (footer)
+  var serieEl = document.getElementById('pintura-serie');
+  if (serieEl) serieEl.textContent = 'Serie: ' + ns;
+
+  // Descripción (puede venir de la obra o ser generada)
+  var descEl = document.getElementById('pintura-descripcion');
+  if (descEl) {
+    if (o.descripcion) {
+      descEl.textContent = o.descripcion;
+    } else {
+      descEl.textContent = 'Obra perteneciente a la serie "' + ns + '". ' + (o.materiales || '') + ', año ' + (o.anio || 'fecha por confirmar') + '.';
+    }
+  }
+
+  // Ficha técnica
+  var fichaEl = document.getElementById('ficha-tecnica');
+  if (fichaEl) {
+    var tamano = (o.ancho && o.alto) ? (o.ancho + ' × ' + o.alto + ' cm') : 'N/A';
+    var materiales = o.materiales || 'N/A';
+    var anio = o.anio || '.fecha por confirmar';
+    var disponible = o.disponible ? t('disponible') : t('noDisponible');
+    var disponibleClass = o.disponible ? 'badge-disponible si' : 'badge-disponible no';
+
+    fichaEl.innerHTML = 
+      '<div class="ficha-item">' +
+        '<span class="ficha-label">' + t('tamaño') + '</span>' +
+        '<span class="ficha-value">' + tamano + '</span>' +
+      '</div>' +
+      '<div class="ficha-item">' +
+        '<span class="ficha-label">' + t('materialesTecnica') + '</span>' +
+        '<span class="ficha-value">' + materiales + '</span>' +
+      '</div>' +
+      '<div class="ficha-item">' +
+        '<span class="ficha-label">' + t('anio') + '</span>' +
+        '<span class="ficha-value">' + anio + '</span>' +
+      '</div>' +
+      '<div class="ficha-item">' +
+        '<span class="ficha-label">' + t('serie') + '</span>' +
+        '<span class="ficha-value serie-nombre">' + ns + '</span>' +
+      '</div>' +
+      '<div class="ficha-item">' +
+        '<span class="ficha-label">' + t('disponibilidad') + '</span>' +
+        '<span class="' + disponibleClass + '">' + disponible + '</span>' +
+      '</div>';
+  }
 
   // Fotos = [portada] + detalles (portada también entra al carousel)
   var fotos = [];

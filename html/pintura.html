@@ -10,7 +10,7 @@
   <!-- Franja de pestañas: navegación por series (encima del header) -->
   <nav class="series-tabs" id="series-tabs">
     <button class="series-toggle" aria-label="Menú" aria-expanded="false">☰</button>
-    <a href="index.html" class="tab">Inicio</a>
+    <a href="index.html" class="tab active">Inicio</a>
     <a href="serie.html?serie=serie_exploradores" class="tab">Exploradores</a>
     <a href="serie.html?serie=serie_nubes" class="tab">Nubes</a>
     <a href="serie.html?serie=serie_paisaje" class="tab">Paisaje</a>
@@ -27,17 +27,42 @@
     </div>
   </header>
 
-  <!-- Detalle de la obra -->
+  <!-- Detalle de la obra - Layout 2: Imagen arriba, info debajo -->
   <main class="pintura-detalle max-width-container">
-    <div class="pintura-imagen-grande">
-      <img id="imagen-grande" src="" alt="">
+    <!-- Imagen grande (full width) -->
+    <div class="detail-image-container layout2">
+      <img id="imagen-grande" src="" alt="" class="detail-image">
     </div>
 
-    <div class="pintura-meta">
-      <h2 id="pintura-titulo-detalle"></h2>
-      <p id="pintura-meta-texto"></p>
+    <!-- Información de la obra -->
+    <div class="detail-info">
+      <!-- Título -->
+      <h1 id="pintura-titulo-detalle" class="pintura-titulo-detalle"></h1>
+      
+      <!-- Meta información -->
+      <p id="pintura-meta-texto" class="pintura-meta-texto"></p>
+      
+      <!-- Precio (oculto por defecto, se revela vía email) -->
+      <p id="pintura-precio" class="pintura-precio"></p>
+      
+      <!-- Descripción -->
+      <p id="pintura-descripcion" class="pintura-descripcion"></p>
+      
+      <!-- Serie -->
+      <p id="pintura-serie" class="pintura-serie"></p>
+      
+      <!-- Ficha técnica -->
+      <div class="ficha-tecnica layout2" id="ficha-tecnica">
+        <!-- Se llena dinámicamente -->
+      </div>
+      
+      <!-- Botón volver -->
+      <button type="button" class="btn btn-go-back" onclick="history.back()">
+        ← Volver
+      </button>
     </div>
 
+    <!-- Detalles y carrusel -->
     <section class="detalles" id="seccion-detalles">
       <h3 data-i18n="detalles">Detalles</h3>
       <div id="detalles-carousel" class="carousel"></div>

@@ -297,10 +297,7 @@ h3 { font-size: 1.25rem; }
   z-index: 2;
 }
 
-.disponibilidad-indicator.Verde {
-  background: #27c74c;
-}
-
+/* Solo mostrar Rojo cuando NO disponible (disponible: false) */
 .disponibilidad-indicator.Rojo {
   background: #ff3b30;
 }
@@ -942,11 +939,176 @@ footer .footer-email {
   .hero-contenido h1 { font-size: 1.75rem; }
 }
 
-/* ===== Página de detalle de obra (pintura.html) ===== */
+/* ===== LAYOUT 2 - Detalle obra (imagen arriba, info debajo) ===== */
+.pintura-detalle.layout2 {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pintura-detalle.layout2 .detail-image-container {
+  width: 100%;
+  min-height: 400px;
+}
+
+.pintura-titulo-detalle.layout2 {
+  font-size: 2.2rem;
+}
+
+/* ===== NUEVO: Layout 3 - Detalle obra tipo catálogo editorial ===== */
 .pintura-detalle {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 1.5rem 1.25rem 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .pintura-detalle {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Contenedor de imagen del detalle */
+.detail-image-container {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background: var(--bg-secondary);
+  border-radius: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.detail-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: zoom-in;
+  transition: opacity 0.2s ease;
+}
+
+/* Contenedor de información del detalle */
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Título principal */
+.pintura-titulo-detalle {
+  font-size: 2rem;
+  font-weight: 400;
+  margin: 0;
+  color: var(--text-primary);
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+/* Meta información en línea */
+.pintura-meta-texto {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Precio - solo visible vía email */
+.pintura-precio {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin: 0.5rem 0;
+}
+
+/* Descripción de la obra */
+.pintura-descripcion {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* Serie */
+.pintura-serie {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Botón volver */
+.btn-go-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  background: var(--accent);
+  color: var(--bg-primary);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border-radius: 0;
+  transition: background 0.2s;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.btn-go-back:hover {
+  background: #7c7c82;
+}
+
+.btn-go-back::before {
+  content: '←';
+}
+
+/* Ficha técnica de la obra */
+.ficha-tecnica {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.ficha-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ficha-label {
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.ficha-value {
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+/* Detalles y carrusel */
+.detalles {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.detalles h3 {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.carousel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
 }
 
 .pintura-imagen-grande {
@@ -1111,4 +1273,112 @@ footer .footer-email {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.8rem;
   pointer-events: none;
+}
+
+/* ===== NUEVO: Serie secciones colapsables para Home ===== */
+.serie-section {
+  position: relative;
+  margin-bottom: 2.5rem;
+  background: var(--bg-card);
+  border-radius: 0;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.serie-section.collapsed {
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.serie-section.expanded {
+  max-height: 2000px;
+  padding: 1.5rem;
+}
+
+.serie-section-content {
+  overflow: hidden;
+}
+
+.serie-section-collapsible {
+  overflow: hidden;
+}
+
+.serie-section-content {
+  overflow: hidden;
+}
+
+.serie-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.serie-title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--accent);
+  margin: 0;
+  cursor: pointer;
+}
+
+.btn-show-more {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  transition: color 0.2s;
+}
+
+.btn-show-more::after {
+  content: '▼';
+  margin-left: 0.3rem;
+  transition: transform 0.2s;
+}
+
+.btn-show-more.expanded {
+  color: #2d3748;
+}
+
+.btn-show-more.expanded::after {
+  content: '▲';
+  transform: rotate(180deg);
+}
+
+/* ===== NUEVO: Botón VER TODO ===== */
+.btn-ver-todo {
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-ver-todo.visible {
+  opacity: 1;
+}
+
+.btn-ver-todo:hover {
+  background: #7c7c82;
+}
+
+/* Ver todo activo - expande todo */
+.ver-todo-activo .serie-section {
+  max-height: 2000px !important;
+}
+
+.ver-todo-activo .btn-show-more {
+  opacity: 0;
 }

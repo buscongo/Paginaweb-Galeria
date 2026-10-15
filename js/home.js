@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   renderizarHero(cacheObras);
   renderizarNuevas(cacheObras);
   renderizarGaleriaSeries(cacheObras);
+  renderizarSeriesColapsables(cacheObras);
 
   // filtros (año + disponibilidad)
   inicializarFiltrosHome();
@@ -152,21 +153,80 @@ function aplicarFiltros(obras) {
   });
 }
 
-function crearFilaSerie(tema, obras) {
-  var fila = document.createElement('div');
-  fila.className = 'serie-fila';
-  var h = document.createElement('h3');
-  h.className = 'serie-titulo';
-  h.textContent = t('prefijoSerie') + capitalizar(tema);
-  fila.appendChild(h);
-  var car = document.createElement('div');
-  car.className = 'fila-carousel';
-  obras.forEach(function (o) {
-    o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
-    car.appendChild(crearTarjetaObra(o, false, false));
+// ===== Render secciones colapsables por serie =====
+function renderizarSeriesColapsables(obras) {
+  var container = document.getElementById('series-container');
+  if (!container) return;
+  
+  var filtradas = aplicarFiltros(obras);
+  var series = cacheSeries.slice().sort(function (a, b) { return a.tema.localeCompare(b.tema); });
+  
+  container.innerHTML = '';
+  
+  series.forEach(function (serie) {
+    var obrasSerie = filtradas.filter(function (x) { return x.serieId === serie.id; });
+    if (obrasSerie.length === 0) return;
+    
+    // Crear sección colapsable
+    var seccion = document.createElement('section');
+    seccion.className = 'serie-section collapsible';
+    seccion.id = 'serie-' + serie.tema.toLowerCase().replace(/\s+/g, '-');
+    
+    // Header de la sección
+    var header = document.createElement('div');
+    header.className = 'series-header';
+    header.innerHTML = '<h2 class="series-title">' + capitalizar(serie.tema) + '</h2><button class="btn-show-more" onclick="toggleSerie(this)">Mostrar más</button>';
+    
+    // Grid de obras
+    var grid = document.createElement('div');
+    grid.className = 'grid';
+    grid.style.display = 'grid';
+    grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+    grid.style.gap = '1rem';
+    grid.style.marginTop = '1rem';
+    obrasSerie.forEach(function (o) {
+      o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
+      grid.appendChild(crearTarjetaObra(o, false, false));
+    });
+    
+    seccion.appendChild(header);
+    seccion.appendChild(grid);
+    container.appendChild(seccion);
   });
-  fila.appendChild(car);
-  return fila;
+  
+  // Obras sin serie
+  var sinSerie = filtradas.filter(function (x) {
+    return !cacheSeries.some(function (s) { return s.id === x.serieId; });
+  });
+  if (sinSerie.length > 0) {
+    var seccionSin = document.createElement('section');
+    seccionSin.className = 'serie-section collapsible';
+    seccionSin.id = 'serie-sin-serie';
+    
+    var headerSin = document.createElement('div');
+    headerSin.className = 'series-header';
+    headerSin.innerHTML = '<h2 class="series-title">' + t('sinSerie') + '</h2><button class="btn-show-more" onclick="toggleSerie(this)">Mostrar más</button>';
+    
+    var gridSin = document.createElement('div');
+    gridSin.className = 'grid';
+    gridSin.style.display = 'grid';
+    gridSin.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+    gridSin.style.gap = '1rem';
+    gridSin.style.marginTop = '1rem';
+    sinSerie.forEach(function (o) {
+      o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
+      gridSin.appendChild(crearTarjetaObra(o, false, false));
+    });
+    
+    seccionSin.appendChild(headerSin);
+    seccionSin.appendChild(gridSin);
+    container.appendChild(seccionSin);
+  }
+  
+  // Mensaje vacío
+  if (filtradas.length === 0) {
+    container.innerHTML = '<p class="mensaje-vacio">' + t('sinResultadosFiltro') + '</p>';
+  }
 }
 
 // Galería completa: obras agrupadas por serie, una fila carousel por serie
@@ -190,6 +250,23 @@ function renderizarGaleriaSeries(obras) {
   if (filtradas.length === 0) {
     c.innerHTML = '<p class="mensaje-vacio">' + t('sinResultadosFiltro') + '</p>';
   }
+}
+
+function crearFilaSerie(tema, obras) {
+  var fila = document.createElement('div');
+  fila.className = 'serie-fila';
+  var h = document.createElement('h3');
+  h.className = 'serie-titulo';
+  h.textContent = t('prefijoSerie') + capitalizar(tema);
+  fila.appendChild(h);
+  var car = document.createElement('div');
+  car.className = 'fila-carousel';
+  obras.forEach(function (o) {
+    o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
+    car.appendChild(crearTarjetaObra(o, false, false));
+  });
+  fila.appendChild(car);
+  return fila;
 }
 
 function poblarAnios(select) {
@@ -226,6 +303,7 @@ function inicializarFiltrosHome() {
     cacheObras = obras;
     cachearNuevas(obras);
     renderizarGaleriaSeries(obras);
+    renderizarSeriesColapsables(obras);
   }
 
   if (sA) sA.addEventListener('change', function () { filtrosHome.ano = sA.value; repintar(); });
