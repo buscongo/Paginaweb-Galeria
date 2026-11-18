@@ -61,6 +61,9 @@ No hay build, no hay linter, no hay test runner. La verificación es manual + co
 - **escaparHTML()**: en gallery.js previene XSS en contenido dinámico. Siempre usarlo para texto de usuario.
 - **Expandir/contraer**: `header.nextElementSibling` asume que el `.seccion-content` es el hermano inmediato del `.seccion-header`. No cambiar el orden de los elementos en el HTML.
 - **fetch() async**: `data.js` usa `fetch()`. Toda la cadena es async (DOMContentLoaded, render, filtros, guardado). No mezclar con flujo síncrono.
+- **Referencias tras refactor**: `node --check` no detecta funciones llamadas pero no definidas. Tras mover/borrar código, verificar que todo lo invocado exista (grep del nombre con `function`) y renderizar la página: un `ReferenceError` en `DOMContentLoaded` deja la vista completamente vacía aunque la API responda bien.
+- **Cache del navegador**: los `.js` se cachean agresivamente. Antes de diagnosticar una página vacía en producción, probar Ctrl+Shift+R o incógnito.
+- **Vista Home**: `home.js` renderiza en un único contenedor `#contenido-obras`; `body.ver-todo-activo` decide entre carruseles (`crearFilaSerie`) y secciones colapsables. Ambas rutas deben recibir las obras filtradas.
 
 ## Límites datos
 
@@ -77,6 +80,7 @@ No hay build, no hay linter, no hay test runner. La verificación es manual + co
 - ✅ Siempre: usar `alert()` para validación, nombrar en español, código legible.
 - ⚠ Preguntar antes: cambiar la estructura de archivos, añadir nuevas carpetas CSS/JS, modificar el formato de datos en `db.json` o el modelo de datos.
 - 🚫 Nunca: mostrar precios en UI, usar UTC para fechas, usar `confirm()`/`prompt()`, tocar archivos fuera del proyecto.
+- Nunca avanzar si no ha recibido un OK o una aprobacion explicita del usuario. Siempre preguntar y detenerse.
 
 ## Entrevistas al usuario (procedimientos)
 

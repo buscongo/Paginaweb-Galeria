@@ -1,48 +1,45 @@
 # MEMORY.md — Diario de Estudio
 
-## Estado actual
+## Estado actual (v2.4)
 
-- **v2.3 UI/UX actualizada**: header hero fijo al **15%** de altura (PC y móvil); franja de pestañas de series encima del header (home/serie/pintura) → hamburguesa móvil; cards sin zoom ni `border-radius` (`border-radius:0`, indicador disponible conserva `50%`/círculo); franja de filtro compacta (40px, full-width alineada al hero), font header fino/pequeño (`500`/`1.3rem`); modal centrado vertical+horizontal; página `pintura.html` reúne layout hero 15% + efecto frost; `fechaRegistro` retirado de info visible (modal); i18n key `disponibilidad` = "Disponibilidad"/"Availability"; nueva página `serie.html` + `js/serie.js`.
-- **v2.2 Home rediseñada**: hero header con fondo 2K obra más reciente + "Andrés Ramírez Ortíz", sidebar obra reciente, sección "año actual" (por serie), galería por serie con carousel horizontal, filtro años/disponibilidad, sin "Galería de Arte" ni búsqueda por título, paleta grises claros.
-- **v2.1 Backend/DB completada**: migrado de localStorage a Express + JSON (db.json). data.js usa fetch() async; server.js sirve archivos estáticos + API REST.
-- **Detalle de obra** (`html/pintura.html?id=...`): imagen principal 2k + carousel "Detalles" (portada + fotos extra; thumbnail → 2k al click).
-- **Admin** (`html/admin.html`): formulario con tabs (Obra/Serie), secciones expandibles, galería filtrable, editar y archivar obras.
-- **i18n**: toggle ES/EN persiste en backend (`/api/config/idioma`).
-- **Precio**: `(ancho+alto) × factorPrecioSerie`, entero, oculto en toda la UI (Home y Admin); se revela solo vía email de consulta (mailto).
-- **Imagen**: upload con preview (FileReader), validación MIME, base64 en JSON. Obras importadas con `imagen` (thumb), `imagen2k` (2k) y `detalles` (array `{thumb, full}`).
-- **7 JS**: `data.js` (API+i18n+utils), `gallery.js` (render/filtros/modal), `form.js` (forms), `home.js` (init Home), `admin.js` (init Admin), `pintura.js` (detalle obra), `serie.js` (página serie).
+- **v2.3 UI/UX**: header hero fijo al 15% de altura; franja de pestañas de series arriba del header; cards sin zoom ni `border-radius`; franja de filtro compacta (40px); modal centrado; `pintura.html` con layout hero 15% + frost; `serie.html` nueva; i18n toggle ES/EN.
+- **v2.4 Despliegue**: Layout 2 implementado en `pintura.html` (imagen arriba, info debajo); botón Volver `history.back()`; botón VER TODO con animación; secciones colapsables expandibles; deploy a GitHub `buscongo/Paginaweb-Galeria` completo.
+- **v2.5 Home sin duplicación** (`d46f95f`): una sola vista en `#contenido-obras` controlada por `body.ver-todo-activo` → carruseles por serie (default) o secciones colapsables (VER TODO). Eliminadas `franja-nuevas`, `galeria-series` y `series-container` duplicados. Verificado con DOM stub: 52 tarjetas / 5 series en ambos modos.
+- **7 JS**: `data.js`, `gallery.js`, `form.js`, `home.js`, `admin.js`, `pintura.js`, `serie.js`.
 
 ## Aprendizajes y errores a evitar
 
-- `path.dirname(__dirname)` en Node → usar `__dirname` directamente.
-- MSYS no traduce paths para herramientas nativas. Usar `E:/...` forward slashes o `workdir`.
-- `better-sqlite3` no compila en Windows sin VS Build Tools → Express + JSON es suficiente.
-- Orden de scripts: `data.js` → `gallery.js` → `form.js` → `admin.js` (Admin). `data.js` → `gallery.js` → `home.js` (Home). `data.js` → `gallery.js` → `serie.js` (Serie). `data.js` → `pintura.js` (Detalle).
-- fetch() en Node requiere URL absoluta; en browser, relative URL `/api` funciona via Express static.
-- db.json se borra para resetear datos; server lo recrea automáticamente.
-- Las fotos extra de cada obra viven en `CUADROS/<serie>/<obra>/processed/` (nombres `-detalle-N` o `_2`); solo se usan `_thumb` y `_2k` (sin medium).
+- `node --check` solo valida sintaxis: NO detecta funciones llamadas pero indefinidas (`ReferenceError` en runtime). Tras un refactor, verificar que toda función invocada siga definida.
+- Refactor de home.js (v2.5): se borraron `cachearNuevas()` y `crearFilaSerie()` estando aún en uso → la home quedó vacía mientras `serie.html` seguía bien.
+- Un error en `DOMContentLoaded` aborta TODO el render de la página: si una vista queda vacía y otra no, buscar primero un ReferenceError, no el CSS ni la API.
+- El navegador cachea `js/*.js` con fuerza: tras desplegar, probar con Ctrl+Shift+R o incógnito antes de diagnosticar.
+- `path.dirname(__dirname)` → usar `__dirname` directamente.
+- MSYS no traduce paths nativos → usar `E:/...` o `workdir`.
+- Orden de scripts: siempre `data.js` primero (define funciones globales).
+- `fetch()` en Node requiere URL absoluta; en browser, relative `/api` funciona via Express static.
 
-## Decisiones (y por qué)
+## Decisiones
 
-- **Backend/DB sobre IndexedDB**: usuario prefirió backend (Express + JSON) para persistencia más robusta. localStorage = fácil pero se borra; db.json = persistente.
-- **Home + Admin separadas**: visitante ve galería; admin gestiona desde Admin.
-- **Página de detalle con 2k + carousel**: click en imagen del modal → página de la obra con la 2k principal y carousel "Detalles" (portada + fotos extra). Extra = solo thumb + 2k (sin medium).
-- **Precio oculto en UI**: nunca visible sin click explícito; se revela solo vía mailto.
-- **Async/await**: localStorage era síncrono; fetch es async → toda la cadena es async (DOMContentLoaded, render, filtros, guardado).
-- **Paleta grises claros**: fondo `radial-gradient(circle at 30% 30%, #ffffff 0%, #ececee 100%)`, cards blancas, acentos grises (#6a6a70, #7c7c82, #7a7a80).
+- **Mobile-first**: Prioridad en diseño responsivo desde 0.
+- **Paleta**: variables CSS `--bg-primary`, `--text-primary`, `--accent` para tema.
+- **Precio oculto**: nunca visible en UI; revelado solo vía mailto.
 
-## RF implementadas (v2.2)
+## RF implementadas
 
-- RF-01: Serie inline vía link "Crear nueva serie" → cambia a pestaña Serie.
-- RF-04: Consulta de precios por email (mailto) con obras seleccionadas + precios.
-- RF-06: Archivar obras/series (soft delete) + toggle "Ver archivadas".
-- RF-08: Editar obra (sección expandible "Editar obra" + PUT /api/obras/:id).
-- RF-10: Página de detalle de obra (pintura.html) con imagen 2k + carousel "Detalles".
-- RF-11: Hero header con fondo 2K de obra más reciente + nombre personal.
-- RF-12: Sidebar con obra más reciente.
-- RF-13: Galería por serie con carousel horizontal (no por año).
-- RF-14: Filtro años solo muestra años con obras vivas.
+- RF-01: Serie inline vía link "Crear nueva serie".
+- RF-04: Consulta de precios por email (mailto).
+- RF-06: Archivar obras/series (soft delete).
+- RF-08: Editar obra (sección expandible).
+- RF-10: Página detalle obra (Layout 2 implementado).
+- RF-11: Hero header 2K obra más reciente + nombre personal.
 
 ## Próximos pasos
 
-- [ ] Deploy: subir server.js + html/css/js a Railway o Render.
+- [ ] **v3.0 Rediseño gráfico**: ver `specs/galeria-v3-rediseño.md`
+- [ ] Confirmar parámetros móviles/desktop con usuario
+- [ ] Implementar Fase 0: Documentación crítica
+
+## 🔗 Enlaces útiles
+
+- Spec v3: `specs/galeria-v3-rediseño.md`
+- Repo GitHub: https://github.com/buscongo/Paginaweb-Galeria
