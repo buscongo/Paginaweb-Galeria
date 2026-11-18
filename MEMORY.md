@@ -5,6 +5,7 @@
 - **v2.3 UI/UX**: header hero fijo al 15% de altura; franja de pestañas de series arriba del header; cards sin zoom ni `border-radius`; franja de filtro compacta (40px); modal centrado; `pintura.html` con layout hero 15% + frost; `serie.html` nueva; i18n toggle ES/EN.
 - **v2.4 Despliegue**: Layout 2 implementado en `pintura.html` (imagen arriba, info debajo); botón Volver `history.back()`; botón VER TODO con animación; secciones colapsables expandibles; deploy a GitHub `buscongo/Paginaweb-Galeria` completo.
 - **v2.5 Home sin duplicación** (`d46f95f`): una sola vista en `#contenido-obras` controlada por `body.ver-todo-activo` → carruseles por serie (default) o secciones colapsables (VER TODO). Eliminadas `franja-nuevas`, `galeria-series` y `series-container` duplicados. Verificado con DOM stub: 52 tarjetas / 5 series en ambos modos.
+- **v2.6 Menú mobile-first**: `.series-tabs` es hamburguesa + panel vertical hasta 700px (tabs ocultas, `display:block` al abrir); desde 700px se muestran las pestañas en fila. Lógica en `inicializarNav()` dentro de `home.js`, `serie.js` y `pintura.js` (no en `data.js`, que no toca el DOM). Cierra con ESC, click fuera y resize a desktop.
 - **7 JS**: `data.js`, `gallery.js`, `form.js`, `home.js`, `admin.js`, `pintura.js`, `serie.js`.
 
 ## Aprendizajes y errores a evitar

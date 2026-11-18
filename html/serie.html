@@ -43,16 +43,5 @@
   <script src="../js/data.js"></script>
   <script src="../js/gallery.js"></script>
   <script src="../js/serie.js"></script>
-  <script>
-  (function () {
-    var tgl = document.querySelector('.series-toggle');
-    if (!tgl) return;
-    tgl.addEventListener('click', function () {
-      var nav = document.querySelector('.series-tabs');
-      nav.classList.toggle('open');
-      tgl.setAttribute('aria-expanded', nav.classList.contains('open'));
-    });
-  })();
-  </script>
 </body>
 </html>

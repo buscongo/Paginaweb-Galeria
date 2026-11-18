@@ -4,6 +4,7 @@
    ======================================== */
 
 document.addEventListener('DOMContentLoaded', async function () {
+  inicializarNav();
   await aplicarIdioma();
   await obtenerSeries();
 
@@ -202,4 +203,38 @@ function renderizarDetalle(o) {
     });
     car.appendChild(th);
   });
+}
+
+// ===== Navegación de series: menú hamburguesa (mobile-first) =====
+// Mobile: hamburguesa + panel desplegable vertical. Desktop (>=700px): pestañas en fila.
+function inicializarNav() {
+  var nav = document.querySelector('.series-tabs');
+  var tgl = document.querySelector('.series-toggle');
+  if (!nav || !tgl) return;
+
+  function estado(abierto) {
+    nav.classList.toggle('open', abierto);
+    tgl.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+    tgl.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+    tgl.textContent = abierto ? '×' : '☰';
+  }
+
+  tgl.addEventListener('click', function (e) {
+    e.stopPropagation();
+    estado(!nav.classList.contains('open'));
+  });
+
+  document.addEventListener('click', function (e) {
+    if (nav.classList.contains('open') && !nav.contains(e.target)) estado(false);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') estado(false);
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 700) estado(false);
+  });
+
+  estado(false);
 }
