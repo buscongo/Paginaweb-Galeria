@@ -93,14 +93,54 @@ function crearFilaSerie(tema, obras) {
   h.className = 'serie-titulo';
   h.textContent = t('prefijoSerie') + capitalizar(tema);
   fila.appendChild(h);
+
+  var wrap = document.createElement('div');
+  wrap.className = 'fila-wrap';
+
   var car = document.createElement('div');
   car.className = 'fila-carousel';
   obras.forEach(function (o) {
     o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
     car.appendChild(crearTarjetaObra(o));
   });
-  fila.appendChild(car);
+  wrap.appendChild(car);
+
+  // Flechas contextuales: solo visibles en PC con hover (CSS las oculta en mobile)
+  var izq = crearFlechaFila(car, -1);
+  var der = crearFlechaFila(car, 1);
+  wrap.appendChild(izq);
+  wrap.appendChild(der);
+
+  function sincronizarFlechas() {
+    var max = car.scrollWidth - car.clientWidth;
+    izq.classList.toggle('oculta', car.scrollLeft <= 2);
+    der.classList.toggle('oculta', car.scrollLeft >= max - 2);
+  }
+  car.addEventListener('scroll', sincronizarFlechas);
+  setTimeout(sincronizarFlechas, 0);
+
+  fila.appendChild(wrap);
   return fila;
+}
+
+// Botón de desplazamiento lateral para una fila de obras
+function crearFlechaFila(car, dir) {
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'fila-nav ' + (dir < 0 ? 'fila-nav-izq' : 'fila-nav-der');
+  b.setAttribute('aria-label', dir < 0 ? 'Desplazar a la izquierda' : 'Desplazar a la derecha');
+  b.textContent = dir < 0 ? '‹' : '›';
+  b.addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    var paso = Math.max(200, car.clientWidth * 0.8);
+    if (car.scrollBy) {
+      car.scrollBy({ left: dir * paso, behavior: 'smooth' });
+    } else {
+      car.scrollLeft += dir * paso;
+    }
+  });
+  return b;
 }
 
 function obraMasReciente(obras) {
