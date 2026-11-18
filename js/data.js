@@ -18,7 +18,7 @@ async function guardarSerieAPI(s){try{await fetch(API_URL+'/series',{method:'POS
 async function archivarSerieAPI(id){try{await fetch(API_URL+'/series/'+id,{method:'DELETE'});}catch(e){console.error(e.message);return false;}return true;}
 function buscarSerie(id){return cacheSeries.find(function(s){return s.id===id;});}
 function calcularPrecio(a,b,f){return (a+b)*f;}
-function formatoMoneda(c){return '₡ '+c.toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function formatoMoneda(c){return '$'+c.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function generarId(){return 'obra_'+(Date.now().toString(36))+'_'+Math.random().toString(36).substr(2,5);}
 function añoActual(){var d=new Date();return d.getFullYear();}
 function fechaHoyStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}

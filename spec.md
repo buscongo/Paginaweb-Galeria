@@ -10,7 +10,7 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 - **Admin** (`html/admin.html`): formulario de obras y series (tabs), galería con filtros, secciones expandibles, toggle de obras archivadas, edición de obras.
 - **Detalle de obra** (`html/pintura.html?id=...`): imagen principal 2k + carousel "Detalles" (portada + fotos extra; thumbnail → 2k al click).
 - **i18n**: toggle discreto, textos estáticos vía `data-i18n`, dinámicos vía `t()`. Persistencia en backend.
-- **Precio**: `(ancho+alto) × factorPrecioSerie`. Entero. NUNCA visible en UI pública ni Admin; revelado solo via email de consulta.
+- **Precio**: `(ancho+alto) × factorPrecioSerie`. Entero. Visible SOLO en `pintura.html` y SOLO si la obra está disponible (al final de la información). NUNCA visible en Home ni Admin; ahí se revela solo via email de consulta. Moneda: USD.
 - **Persistencia**: Backend (Express + JSON). `data.js` usa `fetch()` (async) en lugar de localStorage.
 - **Imágenes**: preview con FileReader, validación de tipo MIME, almacenadas como base64 en JSON.
 - **Backend**: `server.js` (Express), `package.json`, `db.json` (auto-creado). Sirve archivos estáticos + API REST.
@@ -47,7 +47,7 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **THEN** el sistema SHALL abrir un modal de consulta con la obra clickeada pre-seleccionada  
 **AND** mostrar las otras obras de la misma serie como checkboxes  
 **AND** al enviar, abrir `mailto:` con los detalles + precios de las obras seleccionadas.  
-**WHY**: el precio NUNCA es visible en UI; se revela solo dentro del email de consulta. El visitante no navega a Admin para solicitar; el Admin gestiona y también consulta por email.
+**WHY**: el precio no se muestra en Home ni Admin; ahí se revela solo dentro del email de consulta. El visitante no navega a Admin para solicitar; el Admin gestiona y también consulta por email. (Excepción: `pintura.html` muestra el precio cuando la obra está disponible — ver RF-12.)
 
 ### RF-05: Backend/DB
 **WHEN** la aplicación carga  
@@ -88,6 +88,14 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **AND** al hacer clic en un thumbnail, cambiar la imagen grande a la versión 2k de esa foto.  
 **WHY**: apreciar la obra a máxima resolución y sus detalles sin recargar la galería.
 
+### RF-12: Precio en detalle solo si está disponible ✅
+**WHEN** el visitante abre la página de detalle `pintura.html?id=<obraId>`  
+**AND** la obra tiene `disponible: true`  
+**THEN** el sistema SHALL mostrar el precio al final de la información, después de la ficha técnica  
+**UNLESS** la obra no está disponible (`disponible: false`), **THEN** el sistema SHALL ocultar el precio por completo (sin texto ni espacio reservado).  
+**WHY**: el precio solo es relevante cuando la obra se puede adquirir; mostrarlo en obras vendidas no aporta.  
+**IMPL**: `js/pintura.js` → `renderizarDetalle()` usa `o.disponible && o.precio`; el `<p id="pintura-precio">` queda con atributo `hidden`. Formato con `formatoMoneda()` (USD).
+
 ## Cómo iniciar
 ```bash
 cd <ruta-del-proyecto>
@@ -104,3 +112,6 @@ npm start          # inicia server.js en puerto 3000
 - Serie: `curl http://localhost:3000/serie.html?serie=serie_nubes` → 200, grid de cards de la serie + hero 2K.
 - Detalle: `curl "http://localhost:3000/pintura.html?id=obra_nubes_atardecer_amarillo"` → 200, hero 15% + nombre + zoom.
 - UI: `grep -c 'max-height: 15vh' css/styles.css` ≥1; `grep -c 'scale(1.25)' css/styles.css` = 0; `grep -c 'border-radius: Npx'` = 0 (solo `50%` indicador).
+
+## 📋 Specs activos
+- `specs/galeria-v3-rediseño.md` — Rediseño gráfico completo v3 (mobile-first, parámetros configurables)

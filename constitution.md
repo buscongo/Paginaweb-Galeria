@@ -3,7 +3,7 @@
 1. **Stack**: HTML5, CSS3, JavaScript vanilla (frontend) + Node.js/Express (backend).
 2. **Estructura**: tres carpetas para el frontend web (`html/`, `css/`, `js/`) + backend en la raíz (`server.js`, `package.json`, `db.json`). Otras carpetas del proyecto (docs, herramientas) son permitidas fuera de estas, pero no pertenecen a la web.
 3. **Persistencia**: backend Express + archivo JSON (`db.json`), servido vía API REST.
-4. **Precio**: `(ancho+alto) * factorPrecioSerie`. Se guarda en `obra.precio`; NUNCA visible en la UI (ni Home ni Admin); se revela solo vía email de consulta (`mailto:`).
+4. **Precio**: `(ancho+alto) * factorPrecioSerie`. Se guarda en `obra.precio`; visible ÚNICAMENTE en la página de detalle (`pintura.html`) y SOLO cuando `obra.disponible` es `true`, al final de la información. NUNCA visible en Home ni Admin (ahí se revela solo vía email de consulta). Moneda: dólares (USD, `$`).
 5. **Texto**: interfaz en español. Toggle discreto para cambiar a inglés (persiste en backend).
 6. **Código**: legible para principiante — nombres claros, funciones cortas, comentarios explicativos.
 7. **Estilo**: claridad y composición de Apple como base (no definitivo, puede evolucionar).

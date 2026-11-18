@@ -54,7 +54,7 @@ No hay build, no hay linter, no hay test runner. La verificación es manual + co
 
 ## Reglas de dominio / trampas conocidas
 
-- **Precio**: `precio = (ancho + alto) * factorPrecioSerie`. Se calcula al crear/editar y se guarda en `obra.precio`. NUNCA se muestra en la UI (ni Home ni Admin). Se revela solo vía email de consulta (`mailto:` en gallery.js).
+- **Precio**: `precio = (ancho + alto) * factorPrecioSerie`. Se calcula al crear/editar y se guarda en `obra.precio`. Se muestra SOLO en `pintura.html` y SOLO si `obra.disponible` es `true`, después de la ficha técnica. NUNCA se muestra en Home ni Admin; ahí se revela solo vía email de consulta (`mailto:` en gallery.js). Moneda: USD (`$`, separador de miles con coma).
 - **Fechas**: usar `new Date()` directamente (zona horaria local). NUNCA `toISOString()` ni `.toUTC*` para fechas mostradas al usuario.
 - **Persistencia**: `db.json` (backend). Borrarlo resetea los datos; `server.js` lo recrea vacío.
 - **Orden de scripts**: `data.js` debe cargar primero (define funciones usadas por todos). Si se reordena, rompe todo.
