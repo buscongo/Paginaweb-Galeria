@@ -31,11 +31,15 @@
   <div class="franja franja-todas">
     <h3 class="franja-titulo" data-i18n="todasObras">Todas las obras</h3>
     <div class="filtros-barra">
-      <select id="filtro-ano"></select>
-      <select id="filtro-disponibilidad"></select>
-      <select id="filtro-tamano"></select>
-      <button type="button" id="btn-ver-todo" class="btn-ver-todo">VER TODO</button>
-      <button type="button" id="limpiar-filtros" class="btn btn-cancelar">Limpiar filtros</button>
+      <div class="filtros-selects">
+        <select id="filtro-ano"></select>
+        <select id="filtro-disponibilidad"></select>
+        <select id="filtro-tamano"></select>
+      </div>
+      <div class="filtros-acciones">
+        <button type="button" id="btn-ver-todo" class="btn-ver-todo" aria-pressed="false">VER TODO</button>
+        <button type="button" id="limpiar-filtros" class="btn btn-cancelar">Limpiar filtros</button>
+      </div>
     </div>
     <div id="contenido-obras"></div>
   </div>

@@ -339,6 +339,8 @@ if (btnVerTodo) {
     if (isActivo) {
       document.body.classList.remove('ver-todo-activo');
       this.textContent = 'VER TODO';
+      this.classList.remove('activo');
+      this.setAttribute('aria-pressed', 'false');
 
       var secciones = document.querySelectorAll('.serie-section');
       secciones.forEach(function(sec) {
@@ -350,6 +352,8 @@ if (btnVerTodo) {
     } else {
       document.body.classList.add('ver-todo-activo');
       this.textContent = 'VER menos';
+      this.classList.add('activo');
+      this.setAttribute('aria-pressed', 'true');
 
       var secciones = document.querySelectorAll('.serie-section');
       secciones.forEach(function(sec) {
@@ -363,17 +367,6 @@ if (btnVerTodo) {
     renderizarObras(cacheObras);
   });
 }
-
-// Mostrar botón VER TODO al hacer scroll
-window.addEventListener('scroll', function() {
-  if (btnVerTodo) {
-    if (window.scrollY > 300) {
-      btnVerTodo.classList.add('visible');
-    } else {
-      btnVerTodo.classList.remove('visible');
-    }
-  }
-});
 
 // ===== Filters: años, disponibilidad, tamaño ===
 

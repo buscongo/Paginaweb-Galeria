@@ -243,26 +243,25 @@ h3 { font-size: 1.25rem; }
   gap: 1.5rem;
 }
 
+/* Bandas horizontales: arrastre táctil nativo, sin barra visible */
 .fila-carousel {
   display: flex;
   gap: 0.5rem;
   overflow-x: auto;
-  padding-bottom: 0.5rem;
+  overflow-y: hidden;
+  padding-bottom: 0.25rem;
   scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* Edge/IE */
 }
+
+.fila-carousel::-webkit-scrollbar { display: none; height: 0; }
 
 .fila-carousel .tarjeta-obra {
   flex: 0 0 200px;
   scroll-snap-align: start;
-}
-
-.fila-carousel::-webkit-scrollbar {
-  height: 8px;
-}
-
-.fila-carousel::-webkit-scrollbar-thumb {
-  background: var(--border-hover);
-  border-radius: 0;
 }
 
 /* Galería por serie */
@@ -282,18 +281,53 @@ h3 { font-size: 1.25rem; }
   font-family: 'Playfair Display', Georgia, serif;
 }
 
-/* ===== Filtro discreto ===== */
+/* ===== Barra de filtros (mobile-first) =====
+   Mobile: selects en una fila desplazable + acciones (VER TODO / Limpiar) siempre visibles.
+   Desktop (>=700px): todo en una sola fila. */
 .filtros-barra {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.3rem 1.25rem;
-  height: 40px;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
   width: 100%;
   max-width: 1100px;
   margin: 1.5rem auto 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
+}
+
+/* Filtros: fila desplazable sin barra visible (mobile) */
+.filtros-selects {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 0.5rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  min-width: 0;
+}
+.filtros-selects::-webkit-scrollbar { display: none; }
+.filtros-selects select { flex: 0 0 auto; }   /* no se comprimen: la fila se desplaza */
+
+/* Acciones: VER TODO + Limpiar, siempre junto a los filtros */
+.filtros-acciones {
+  display: flex;
+  flex: 1 1 100%;
+  gap: 0.5rem;
+  align-items: center;
+}
+.filtros-acciones .btn-ver-todo { flex: 1; }
+.filtros-acciones .btn-cancelar { flex: 0 0 auto; }
+
+@media (min-width: 700px) {
+  .filtros-barra { flex-wrap: nowrap; padding: 0.4rem 1.25rem; }
+  .filtros-selects { flex: 0 1 auto; }
+  .filtros-acciones { flex: 0 0 auto; margin-left: auto; }
+  .filtros-acciones .btn-ver-todo { flex: 0 0 auto; }
 }
 
 .filtros-barra select,
@@ -1387,30 +1421,34 @@ footer .footer-email {
   transform: rotate(180deg);
 }
 
-/* ===== NUEVO: Botón VER TODO ===== */
-.btn-ver-todo {
-  position: fixed;
-  top: 120px;
-  right: 20px;
+/* ===== Botón VER TODO — dentro de la barra de filtros ===== */
+.filtros-barra .btn-ver-todo {
   background: var(--accent);
   color: #fff;
-  border: none;
-  padding: 0.6rem 1rem;
+  border: 1px solid var(--accent);
+  padding: 0.45rem 1rem;
   border-radius: 0;
   cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  z-index: 100;
-  opacity: 0;
-  transition: opacity 0.3s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-
-.btn-ver-todo.visible {
-  opacity: 1;
-}
-
-.btn-ver-todo:hover {
+.filtros-barra .btn-ver-todo:hover {
   background: #7c7c82;
+  border-color: #7c7c82;
+  color: #fff;
+}
+/* Estado activo (VER menos): contorno en lugar de relleno */
+.filtros-barra .btn-ver-todo.activo {
+  background: transparent;
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.filtros-barra .btn-ver-todo.activo:hover {
+  background: var(--bg-secondary);
+  color: var(--accent);
 }
 
 /* Ver todo activo - expande todo */
