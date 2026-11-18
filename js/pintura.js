@@ -49,10 +49,19 @@ function renderizarDetalle(o) {
   var meta = document.getElementById('pintura-meta-texto');
   if (meta) meta.textContent = partes.join(' · ');
 
-  // Precio (oculto por defecto, se revela vía email)
+  // Precio: solo se muestra si la obra está disponible.
+  // Va al final de la información, después de la ficha técnica.
   var precioEl = document.getElementById('pintura-precio');
-  if (precioEl && o.precio) {
-    precioEl.textContent = 'USD $' + o.precio;
+  if (precioEl) {
+    if (o.disponible && o.precio) {
+      precioEl.textContent = t('precio') + ': ' + formatoMoneda(o.precio);
+      precioEl.hidden = false;
+      precioEl.removeAttribute('hidden');
+    } else {
+      precioEl.textContent = '';
+      precioEl.hidden = true;
+      precioEl.setAttribute('hidden', '');
+    }
   }
 
   // Serie (footer)

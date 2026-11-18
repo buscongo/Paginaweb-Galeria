@@ -7,6 +7,7 @@
 - **v2.5 Home sin duplicación** (`d46f95f`): una sola vista en `#contenido-obras` controlada por `body.ver-todo-activo` → carruseles por serie (default) o secciones colapsables (VER TODO). Eliminadas `franja-nuevas`, `galeria-series` y `series-container` duplicados. Verificado con DOM stub: 52 tarjetas / 5 series en ambos modos.
 - **v2.6 Menú mobile-first**: `.series-tabs` es hamburguesa + panel vertical hasta 700px (tabs ocultas, `display:block` al abrir); desde 700px se muestran las pestañas en fila. Lógica en `inicializarNav()` dentro de `home.js`, `serie.js` y `pintura.js` (no en `data.js`, que no toca el DOM). Cierra con ESC, click fuera y resize a desktop.
 - **v2.7 Filtros + carruseles**: VER TODO vive dentro de `.filtros-barra` (ya no flota ni depende del scroll); en mobile los selects van en `.filtros-selects` (fila desplazable sin barra visible) y VER TODO + Limpiar en `.filtros-acciones`, siempre visibles. `.fila-carousel` usa arrastre táctil con barra de scroll oculta.
+- **v2.8 Detalle de obra**: el precio se muestra en `pintura.html` **solo si `obra.disponible`** y va al final de la información (después de la ficha técnica, antes del botón Volver). Formato con `formatoMoneda()` (₡). Nota: esto **contradice** la regla #4 de `constitution.md` y RF-04 (precio nunca visible); pendiente decidir si se actualizan esos documentos. En Home/Admin el precio sigue saliendo solo por email.
 - **7 JS**: `data.js`, `gallery.js`, `form.js`, `home.js`, `admin.js`, `pintura.js`, `serie.js`.
 
 ## Aprendizajes y errores a evitar
