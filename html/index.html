@@ -27,13 +27,7 @@
     </div>
   </header>
 
-  <!-- Franja 1: obras nuevas (solo si hay, reemplaza al sidebar) -->
-  <div class="franja franja-nuevas" id="franja-nuevas" style="display: none;">
-    <h3 class="franja-titulo" data-i18n="nuevasObras">Nuevas obras</h3>
-    <div id="nuevas-container" class="fila-carousel"></div>
-  </div>
-
-  <!-- Franja 2: filtros y galería principal -->
+  <!-- Franja: filtros y galería principal (vista única controlada por VER TODO) -->
   <div class="franja franja-todas">
     <h3 class="franja-titulo" data-i18n="todasObras">Todas las obras</h3>
     <div class="filtros-barra">
@@ -43,11 +37,8 @@
       <button type="button" id="btn-ver-todo" class="btn-ver-todo">VER TODO</button>
       <button type="button" id="limpiar-filtros" class="btn btn-cancelar">Limpiar filtros</button>
     </div>
-    <div id="galeria-series"></div>
+    <div id="contenido-obras"></div>
   </div>
-
-  <!-- NUEVO: Secciones por serie (colapsables con animación) -->
-  <div id="series-container"></div>
 
   <!-- Modal: Detalles de obra -->
   <div id="modal-overlay" class="modal-overlay">
@@ -69,90 +60,5 @@
   <script src="../js/data.js"></script>
   <script src="../js/gallery.js"></script>
   <script src="../js/home.js"></script>
-  
-  <!-- Script para secciones colapsables y botón VER TODO -->
-  <script>
-  (function () {
-    // Toggle de hamburguesa (mobile)
-    var tgl = document.querySelector('.series-toggle');
-    if (tgl) {
-      tgl.addEventListener('click', function () {
-        var nav = document.querySelector('.series-tabs');
-        nav.classList.toggle('open');
-        tgl.setAttribute('aria-expanded', nav.classList.contains('open'));
-      });
-    }
-
-    // ===== Toggle de series por serie con animación =====
-    window.toggleSerie = function(button) {
-      var serie = button.closest('.serie-section');
-      if (!serie) return;
-      
-      var isExpanded = serie.classList.contains('expanded');
-      
-      if (isExpanded) {
-        serie.classList.remove('expanded');
-        button.classList.remove('expanded');
-        button.textContent = 'Mostrar más';
-        setTimeout(function() {
-          serie.classList.add('collapsed');
-        }, 300);
-      } else {
-        serie.classList.remove('collapsed');
-        setTimeout(function() {
-          serie.classList.add('expanded');
-          button.classList.add('expanded');
-          button.textContent = 'Ver menos';
-        }, 300);
-      }
-    };
-
-    // ===== Botón VER TODO =====
-    var btnVerTodo = document.getElementById('btn-ver-todo');
-    
-    if (btnVerTodo) {
-      btnVerTodo.addEventListener('click', function() {
-        var isActivo = document.body.classList.contains('ver-todo-activo');
-        
-        if (isActivo) {
-          document.body.classList.remove('ver-todo-activo');
-          this.textContent = 'VER TODO';
-          
-          // Cerrar todas las secciones expandidas
-          var secciones = document.querySelectorAll('.serie-section');
-          secciones.forEach(function(sec) {
-            sec.classList.remove('expanded');
-            setTimeout(function() {
-              sec.classList.add('collapsed');
-            }, 300);
-          });
-        } else {
-          document.body.classList.add('ver-todo-activo');
-          this.textContent = 'VER menos';
-          
-          // Expandir todas las secciones
-          var secciones = document.querySelectorAll('.serie-section');
-          secciones.forEach(function(sec) {
-            sec.classList.remove('collapsed');
-            setTimeout(function() {
-              sec.classList.add('expanded');
-            }, 300);
-          });
-        }
-      });
-    }
-
-    // Mostrar botón VER TODO al hacer scroll
-    window.addEventListener('scroll', function() {
-      if (btnVerTodo) {
-        if (window.scrollY > 300) {
-          btnVerTodo.classList.add('visible');
-        } else {
-          btnVerTodo.classList.remove('visible');
-        }
-      }
-    });
-  })();
-  </script>
 </body>
 </html>
