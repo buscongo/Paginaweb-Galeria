@@ -326,8 +326,13 @@ h3 { font-size: 1.25rem; }
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.75rem;
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
+}
+
+/* La franja de filtros no aporta padding arriba: el espacio lo pone la barra */
+.franja-todas {
+  padding-top: 0;
 }
 
 /* ===== Barra de filtros (mobile-first) =====
@@ -341,9 +346,10 @@ h3 { font-size: 1.25rem; }
   padding: 0.5rem 1rem;
   width: 100%;
   max-width: 1100px;
-  margin: 1.5rem auto 0;
+  /* la distancia arriba y abajo es igual a la altura de la barra (la fija home.js) */
+  margin: var(--filtros-espacio, 1.5rem) auto;
   background: var(--bg-card);
-  border: 1px solid var(--border);
+  border: none;
 }
 
 /* Filtros: fila desplazable sin barra visible (mobile) */

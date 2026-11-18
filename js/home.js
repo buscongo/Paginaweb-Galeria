@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   inicializarFiltrosHome();
   inicializarNav();
+  ajustarEspaciadoFiltros();
 
   if (typeof inicializarModal === 'function') inicializarModal();
 });
@@ -456,6 +457,24 @@ function inicializarFiltrosHome() {
     if (sT) sT.value = '';
     repintar();
   });
+}
+
+// Espaciado de la barra de filtros: la separación con el header y con la
+// primera serie es igual a la altura de la propia barra.
+function ajustarEspaciadoFiltros() {
+  var barra = document.querySelector('.filtros-barra');
+  if (!barra) return;
+
+  function aplicar() {
+    var h = Math.round(barra.offsetHeight || 0);
+    if (h > 0) document.documentElement.style.setProperty('--filtros-espacio', h + 'px');
+  }
+
+  aplicar();
+  window.addEventListener('resize', aplicar);
+  if (typeof ResizeObserver === 'function') {
+    new ResizeObserver(aplicar).observe(barra);
+  }
 }
 
 // ===== Navegación de series: menú hamburguesa (mobile-first) =====
