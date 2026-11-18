@@ -11,6 +11,42 @@ var cacheNuevasIds = [];
 
 var FECHA_DESPLEGUE = '2026-10-04';
 
+// cache de obras "nuevas" — usada por las tarjetas (badge NUEVO)
+function cachearNuevas(obras) {
+  cacheObras = obras;
+  cacheNuevas = obtenerNuevas(obras);
+  cacheNuevasIds = cacheNuevas.map(function (x) { return x.id; });
+}
+
+// obra X es nueva si fechaRegistro >= referencia
+// referencia = fecha_mas_reciente - 3 meses - (n_obras_subidas_después × 1 mes)
+function calcularFechaVentana(masReciente, obrasDespues) {
+  var ref = new Date(masReciente.fechaRegistro);
+  ref.setMonth(ref.getMonth() - 3);
+  ref.setMonth(ref.getMonth() - obrasDespues);
+  return ref;
+}
+
+function esNueva(obra, masReciente, obrasOrdenadas) {
+  if (!obra.fechaRegistro || !masReciente.fechaRegistro) return false;
+  if (obra.fechaRegistro < FECHA_DESPLEGUE) return false;
+  if (obra.id === masReciente.id) return true;
+  var despues = 0;
+  for (var i = 0; i < obrasOrdenadas.length; i++) {
+    if (obrasOrdenadas[i].fechaRegistro > obra.fechaRegistro) despues++;
+  }
+  var ventana = calcularFechaVentana(masReciente, despues);
+  return new Date(obra.fechaRegistro) >= ventana;
+}
+
+function obtenerNuevas(obras) {
+  if (!obras || obras.length === 0) return [];
+  var ordenadas = obras.slice().sort(function (a, b) {
+    return b.fechaRegistro.localeCompare(a.fechaRegistro);
+  });
+  return obras.filter(function (x) { return esNueva(x, ordenadas[0], ordenadas); });
+}
+
 document.addEventListener('DOMContentLoaded', async function () {
   MODO = 'publico';
 
@@ -21,6 +57,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   cacheObras = await obtenerObras();
   cachearNuevas(cacheObras);
 
+  renderizarHero(cacheObras);
   renderizarObras(cacheObras);
 
   inicializarFiltrosHome();
@@ -45,6 +82,24 @@ function aplicarTextosI18n() {
 
 function capitalizar(txt) {
   return txt ? txt.charAt(0).toUpperCase() + txt.slice(1) : txt;
+}
+
+// Fila de carrusel horizontal de una serie (vista compacta por defecto)
+function crearFilaSerie(tema, obras) {
+  var fila = document.createElement('div');
+  fila.className = 'serie-fila';
+  var h = document.createElement('h3');
+  h.className = 'serie-titulo';
+  h.textContent = t('prefijoSerie') + capitalizar(tema);
+  fila.appendChild(h);
+  var car = document.createElement('div');
+  car.className = 'fila-carousel';
+  obras.forEach(function (o) {
+    o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
+    car.appendChild(crearTarjetaObra(o));
+  });
+  fila.appendChild(car);
+  return fila;
 }
 
 function obraMasReciente(obras) {
