@@ -3,7 +3,7 @@
    Hero + nuevas obras + todas las obras (vista única controlada por VER TODO)
    ======================================== */
 
-var filtrosHome = { ano: '', disponible: '', tamano: '' };
+var filtrosHome = { ano: '', disponible: '', tamano: '', texto: '' };
 var cacheObras = [];
 var cacheSeries = [];
 var cacheNuevas = [];
@@ -336,12 +336,19 @@ function renderizarNuevas(obras) {
   });
 }
 
-// Filtrar obras por año y disponibilidad
+// Normaliza para buscar: sin mayúsculas ni tildes
+function normalizarBusqueda(txt) {
+  return String(txt || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+}
+
+// Filtrar obras por año, disponibilidad, tamaño y nombre
 function aplicarFiltros(obras) {
+  var texto = normalizarBusqueda(filtrosHome.texto);
   return obras.filter(function (x) {
     if (filtrosHome.ano && x.anio !== parseInt(filtrosHome.ano)) return false;
     if (filtrosHome.disponible !== '' && x.disponible.toString() !== filtrosHome.disponible) return false;
     if (filtrosHome.tamano && tamanoObra(x) !== filtrosHome.tamano) return false;
+    if (texto && normalizarBusqueda(x.titulo).indexOf(texto) === -1) return false;
     return true;
   });
 }
@@ -434,6 +441,7 @@ function inicializarFiltrosHome() {
   var sA = document.getElementById('filtro-ano');
   var sD = document.getElementById('filtro-disponibilidad');
   var sT = document.getElementById('filtro-tamano');
+  var buscar = document.getElementById('filtro-buscar');
   var limpiar = document.getElementById('limpiar-filtros');
 
   poblarAnios(sA);
@@ -450,11 +458,26 @@ function inicializarFiltrosHome() {
   if (sA) sA.addEventListener('change', function () { filtrosHome.ano = sA.value; repintar(); });
   if (sD) sD.addEventListener('change', function () { filtrosHome.disponible = sD.value; repintar(); });
   if (sT) sT.addEventListener('change', function () { filtrosHome.tamano = sT.value; repintar(); });
+  if (buscar) {
+    var espera = null;
+    buscar.addEventListener('input', function () {
+      clearTimeout(espera);
+      espera = setTimeout(function () {
+        filtrosHome.texto = buscar.value;
+        repintar();
+      }, 180);
+    });
+    // Escape limpia la búsqueda
+    buscar.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { buscar.value = ''; filtrosHome.texto = ''; repintar(); }
+    });
+  }
   if (limpiar) limpiar.addEventListener('click', function () {
-    filtrosHome = { ano: '', disponible: '', tamano: '' };
+    filtrosHome = { ano: '', disponible: '', tamano: '', texto: '' };
     if (sA) sA.value = '';
     if (sD) sD.value = '';
     if (sT) sT.value = '';
+    if (buscar) buscar.value = '';
     repintar();
   });
 }

@@ -1,5 +1,10 @@
-/* admin-gate.js — Puerta de contraseña + navegación común de las páginas de admin.
-   La sesión la valida el servidor (/api/sesion) con una cookie HttpOnly. */
+/* admin-gate.js — Puerta de contraseña, navegación común y cierre por inactividad.
+   La sesión la valida el servidor (/api/sesion) con una cookie HttpOnly:
+   expira a los 5 minutos sin actividad, igual que el vigilante del navegador. */
+
+var MINUTOS_INACTIVIDAD = 5;
+var temporizadorCierre = null;
+var ultimaActividad = Date.now();
 
 function inicializarNavAdmin() {
   var nav = document.querySelector('.series-tabs');
@@ -28,13 +33,13 @@ function inicializarNavAdmin() {
   estado(false);
 }
 
-function mostrarPuerta(alEntrar) {
+function mostrarPuerta(alEntrar, mensaje) {
   var ov = document.createElement('div');
   ov.className = 'gate-overlay';
   ov.innerHTML = [
     '<form class="gate-caja" novalidate>',
     '  <h2>Admin</h2>',
-    '  <p class="gate-ayuda">Ingresá la contraseña para administrar las obras.</p>',
+    '  <p class="gate-ayuda">' + (mensaje || 'Ingresá la contraseña para administrar las obras.') + '</p>',
     '  <input type="password" name="password" autocomplete="current-password" placeholder="Contraseña" required>',
     '  <button type="submit" class="btn btn-primario">Entrar</button>',
     '  <p class="gate-error" role="alert"></p>',
@@ -51,9 +56,9 @@ function mostrarPuerta(alEntrar) {
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     error.textContent = '';
-    var ok = await loginAPI(input.value);
-    if (!ok) {
-      error.textContent = 'Contraseña incorrecta.';
+    var res = await loginAPI(input.value);
+    if (!res.ok) {
+      error.textContent = res.error || 'Contraseña incorrecta.';
       input.select();
       return;
     }
@@ -63,10 +68,49 @@ function mostrarPuerta(alEntrar) {
   });
 }
 
+/* Vigilante: cierra la sesión tras 5 minutos sin actividad del usuario.
+   Mientras haya actividad, avisa al servidor cada minuto para renovar la cookie. */
+function iniciarVigilanciaSesion(alExpirar) {
+  function tocarAlServidor() {
+    if (Date.now() - ultimaActividad > 10000) return;   // sin actividad: no renovar
+    fetch(API_URL + '/sesion').catch(function () {});
+  }
+
+  function programar() {
+    clearTimeout(temporizadorCierre);
+    temporizadorCierre = setTimeout(async function () {
+      try { await logoutAPI(); } catch (e) {}
+      alExpirar();
+    }, MINUTOS_INACTIVIDAD * 60 * 1000);
+  }
+
+  function actividad() {
+    ultimaActividad = Date.now();
+    programar();
+  }
+
+  ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart', 'input'].forEach(function (ev) {
+    document.addEventListener(ev, actividad, { passive: true });
+  });
+
+  setInterval(tocarAlServidor, 60 * 1000);
+  programar();
+}
+
 async function protegerAdmin(alEntrar) {
   inicializarNavAdmin();
-  if (await sesionAPI()) { alEntrar(); return; }
-  mostrarPuerta(alEntrar);
+
+  var iniciado = false;
+
+  function entrar() {
+    if (!iniciado) { iniciado = true; alEntrar(); }
+    iniciarVigilanciaSesion(function () {
+      mostrarPuerta(entrar, 'La sesión se cerró por inactividad. Ingresá la contraseña otra vez.');
+    });
+  }
+
+  if (await sesionAPI()) { entrar(); return; }
+  mostrarPuerta(entrar);
 }
 
 async function cerrarSesionAdmin() {

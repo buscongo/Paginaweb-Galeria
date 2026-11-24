@@ -12,7 +12,13 @@ var PORT = process.env.PORT || 3000;
 
 /* ---- Sesión de administración (cookie) ---- */
 var ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'andres2026';
-var SESIONES = new Set();
+var SESIONES = new Map();                       // token -> última actividad (ms)
+var SESION_TTL = (Number(process.env.SESION_TTL_MIN) || 5) * 60 * 1000;   // 5 min sin actividad
+
+/* Límite de intentos de contraseña: 8 fallos por IP cada 15 minutos */
+var INTENTOS = new Map();                       // ip -> { fallos, hasta }
+var MAX_INTENTOS = 8;
+var VENTANA_INTENTOS = 15 * 60 * 1000;
 
 function leerCookies(req) {
   var out = {};
@@ -25,7 +31,14 @@ function leerCookies(req) {
 
 function autenticado(req) {
   var c = leerCookies(req);
-  return !!(c.admin && SESIONES.has(c.admin));
+  var token = c.admin;
+  if (!token || !SESIONES.has(token)) return false;
+  if (Date.now() - SESIONES.get(token) > SESION_TTL) {
+    SESIONES.delete(token);
+    return false;
+  }
+  SESIONES.set(token, Date.now());   // cada petición renueva los 5 minutos
+  return true;
 }
 
 function requiereAdmin(req, res, next) {
@@ -64,12 +77,30 @@ app.use('/img', express.static('img'));
 /* ==== API: SESIÓN DE ADMIN ==== */
 
 app.post('/api/login', function (req, res) {
+  var ip = (req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+  var ahora = Date.now();
+  var reg = INTENTOS.get(ip);
+
+  if (reg && reg.hasta > ahora && reg.fallos >= MAX_INTENTOS) {
+    var faltan = Math.ceil((reg.hasta - ahora) / 60000);
+    return res.status(429).json({ error: 'Demasiados intentos. Probá en ' + faltan + ' minuto(s).' });
+  }
+  if (reg && reg.hasta <= ahora) INTENTOS.delete(ip);
+
   var pass = String((req.body && req.body.password) || '');
-  if (pass !== ADMIN_PASSWORD) return res.status(401).json({ error: 'Contraseña incorrecta' });
+  if (pass !== ADMIN_PASSWORD) {
+    var r = INTENTOS.get(ip) || { fallos: 0, hasta: ahora + VENTANA_INTENTOS };
+    r.fallos++;
+    r.hasta = ahora + VENTANA_INTENTOS;
+    INTENTOS.set(ip, r);
+    return res.status(401).json({ error: 'Contraseña incorrecta' });
+  }
+
+  INTENTOS.delete(ip);
   var token = crypto.randomBytes(24).toString('hex');
-  SESIONES.add(token);
-  res.setHeader('Set-Cookie', 'admin=' + token + '; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400');
-  res.json({ ok: true });
+  SESIONES.set(token, ahora);
+  res.setHeader('Set-Cookie', 'admin=' + token + '; Path=/; HttpOnly; SameSite=Lax');
+  res.json({ ok: true, minutos: SESION_TTL / 60000 });
 });
 
 app.post('/api/logout', function (req, res) {
@@ -80,7 +111,8 @@ app.post('/api/logout', function (req, res) {
 });
 
 app.get('/api/sesion', function (req, res) {
-  res.json({ ok: autenticado(req) });
+  var ok = autenticado(req);
+  res.json({ ok: ok, minutos: SESION_TTL / 60000 });
 });
 
 /* ==== API: IMÁGENES (el navegador manda los 3 tamaños ya redimensionados) ==== */

@@ -368,6 +368,44 @@ h3 { font-size: 1.25rem; }
 .filtros-selects::-webkit-scrollbar { display: none; }
 .filtros-selects select { flex: 0 0 auto; }   /* no se comprimen: la fila se desplaza */
 
+/* Buscador por nombre: mismo lenguaje visual que los selects */
+.filtros-barra .filtro-buscar {
+  flex: 0 0 auto;
+  width: 9.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0.28rem 0.55rem;
+  font-family: inherit;
+  font-size: 0.75rem;
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+  transition: box-shadow 0.2s ease;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.filtros-barra .filtro-buscar::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+  opacity: 1;
+}
+
+.filtros-barra .filtro-buscar:hover,
+.filtros-barra .filtro-buscar:focus {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+}
+
+.filtros-barra .filtro-buscar::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 0.8rem;
+  width: 0.8rem;
+}
+
+@media (max-width: 699px) {
+  .filtros-barra .filtro-buscar { width: 7.5rem; }
+}
+
 /* Acciones: VER TODO + Limpiar, siempre junto a los filtros */
 .filtros-acciones {
   display: flex;

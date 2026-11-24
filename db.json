@@ -161,7 +161,8 @@
       "imagen": "img/bk_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/bk_hd.jpg"
+      "imagenHD": "img/bk_hd.jpg",
+      "imagenMedium": "img/bk_medium.jpg"
     },
     {
       "id": "obra_nubes_camino_a_lo_posible",
@@ -177,7 +178,8 @@
       "imagen": "img/camino_a_lo_posible_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/camino_a_lo_posible_hd.jpg"
+      "imagenHD": "img/camino_a_lo_posible_hd.jpg",
+      "imagenMedium": "img/camino_a_lo_posible_medium.jpg"
     },
     {
       "id": "obra_nubes_colosal",
@@ -232,7 +234,8 @@
           "hd": "img/img_2209_hd.jpg"
         }
       ],
-      "imagenHD": "img/img_2419_hd.jpg"
+      "imagenHD": "img/img_2419_hd.jpg",
+      "imagenMedium": "img/img_2419_medium.jpg"
     },
     {
       "id": "obra_nubes_destellos_de_luz",
@@ -248,7 +251,8 @@
       "imagen": "img/destellos_de_luz_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/destellos_de_luz_hd.jpg"
+      "imagenHD": "img/destellos_de_luz_hd.jpg",
+      "imagenMedium": "img/destellos_de_luz_medium.jpg"
     },
     {
       "id": "obra_nubes_divino_tormento",
@@ -264,7 +268,8 @@
       "imagen": "img/divino_tormento_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/divino_tormento_hd.jpg"
+      "imagenHD": "img/divino_tormento_hd.jpg",
+      "imagenMedium": "img/divino_tormento_medium.jpg"
     },
     {
       "id": "obra_nubes_gemelas",
@@ -280,7 +285,8 @@
       "imagen": "img/gemelas_1_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/img_8363_hd.jpg"
+      "imagenHD": "img/img_8363_hd.jpg",
+      "imagenMedium": "img/img_8363_medium.jpg"
     },
     {
       "id": "obra_nubes_paradoja_temperamental",
@@ -296,7 +302,8 @@
       "imagen": "img/paradoja_temperamental_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/paradoja_temperamental_hd.jpg"
+      "imagenHD": "img/paradoja_temperamental_hd.jpg",
+      "imagenMedium": "img/paradoja_temperamental_medium.jpg"
     },
     {
       "id": "obra_nubes_penumbra",
@@ -422,7 +429,8 @@
       "imagen": "img/img_5536_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/un_momento_de_lucidez_hd.jpg"
+      "imagenHD": "img/un_momento_de_lucidez_hd.jpg",
+      "imagenMedium": "img/un_momento_de_lucidez_medium.jpg"
     },
     {
       "id": "obra_nubes_vuelta_a_la_hoja",
@@ -570,7 +578,8 @@
       "imagen": "img/mirando_de_vuelta_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/mirando_de_vuelta_hd.jpg"
+      "imagenHD": "img/mirando_de_vuelta_hd.jpg",
+      "imagenMedium": "img/mirando_de_vuelta_medium.jpg"
     },
     {
       "id": "obra_paisaje_recuerdos_de_paso",
@@ -727,7 +736,8 @@
       "imagen": "img/artboard_1_copy_95_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/img_2167_hd.jpg"
+      "imagenHD": "img/img_2167_hd.jpg",
+      "imagenMedium": "img/img_2167_medium.jpg"
     },
     {
       "id": "obra_vestigio_amanecer",
@@ -765,7 +775,8 @@
           "hd": "img/azufre_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/azufre_hd.jpg"
+      "imagenHD": "img/azufre_hd.jpg",
+      "imagenMedium": "img/azufre_medium.jpg"
     },
     {
       "id": "obra_vestigio_casi_no_lo_veo",
@@ -786,7 +797,8 @@
           "hd": "img/casinoloveo_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/casinoloveo_hd.jpg"
+      "imagenHD": "img/casinoloveo_hd.jpg",
+      "imagenMedium": "img/casinoloveo_medium.jpg"
     },
     {
       "id": "obra_vestigio_crepusculo",
@@ -802,7 +814,8 @@
       "imagen": "img/artboard_1_copy_60_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/crepusculo_2_hd.jpg"
+      "imagenHD": "img/crepusculo_2_hd.jpg",
+      "imagenMedium": "img/crepusculo_2_medium.jpg"
     },
     {
       "id": "obra_vestigio_cuando_lleguemos_a_tar",
@@ -818,7 +831,8 @@
       "imagen": "img/artboard_1_copy_68_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/cuandolleguemosatar_hd.jpg"
+      "imagenHD": "img/cuandolleguemosatar_hd.jpg",
+      "imagenMedium": "img/cuandolleguemosatar_medium.jpg"
     },
     {
       "id": "obra_vestigio_despedida",
@@ -856,7 +870,8 @@
           "hd": "img/diaspora_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/diaspora_hd.jpg"
+      "imagenHD": "img/diaspora_hd.jpg",
+      "imagenMedium": "img/diaspora_medium.jpg"
     },
     {
       "id": "obra_vestigio_encuentro",
@@ -872,7 +887,8 @@
       "imagen": "img/encuentro_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/encuentro_hd.jpg"
+      "imagenHD": "img/encuentro_hd.jpg",
+      "imagenMedium": "img/encuentro_medium.jpg"
     },
     {
       "id": "obra_vestigio_hora_dorada",
@@ -888,7 +904,8 @@
       "imagen": "img/artboard_1_copy_75_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/hora_dorada_hd.jpg"
+      "imagenHD": "img/hora_dorada_hd.jpg",
+      "imagenMedium": "img/hora_dorada_medium.jpg"
     },
     {
       "id": "obra_vestigio_ni_nos_damos_cuenta",
@@ -909,7 +926,8 @@
           "hd": "img/img_2319_hd.jpg"
         }
       ],
-      "imagenHD": "img/ninosdamoscuenta_hd.jpg"
+      "imagenHD": "img/ninosdamoscuenta_hd.jpg",
+      "imagenMedium": "img/ninosdamoscuenta_medium.jpg"
     },
     {
       "id": "obra_vestigio_nuestro_ultimo_dia",
@@ -947,7 +965,8 @@
           "hd": "img/img_2292_hd.jpg"
         }
       ],
-      "imagenHD": "img/perla_hd.jpg"
+      "imagenHD": "img/perla_hd.jpg",
+      "imagenMedium": "img/perla_medium.jpg"
     },
     {
       "id": "obra_vestigio_residuos",
@@ -968,7 +987,8 @@
           "hd": "img/residuos_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/residuos_hd.jpg"
+      "imagenHD": "img/residuos_hd.jpg",
+      "imagenMedium": "img/residuos_medium.jpg"
     },
     {
       "id": "obra_vestigio_sacrificio",
@@ -989,7 +1009,8 @@
           "hd": "img/sacrificio_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/sacrificio_hd.jpg"
+      "imagenHD": "img/sacrificio_hd.jpg",
+      "imagenMedium": "img/sacrificio_medium.jpg"
     },
     {
       "id": "obra_vestigio_se_cae_el_cielo",
@@ -1010,7 +1031,8 @@
           "hd": "img/se_cae_el_cielo_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/se_cae_el_cielo_hd.jpg"
+      "imagenHD": "img/se_cae_el_cielo_hd.jpg",
+      "imagenMedium": "img/se_cae_el_cielo_medium.jpg"
     },
     {
       "id": "obra_vestigio_sin_esperanza,_pero_avanzando",
@@ -1043,7 +1065,8 @@
       "imagen": "img/tempestad_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "detalles": [],
-      "imagenHD": "img/tempestad_hd.jpg"
+      "imagenHD": "img/tempestad_hd.jpg",
+      "imagenMedium": "img/tempestad_medium.jpg"
     },
     {
       "id": "obra_vestigio_todo_pasa",
@@ -1102,7 +1125,8 @@
           "hd": "img/yacasipasan_2_hd.jpg"
         }
       ],
-      "imagenHD": "img/yacasipasan_hd.jpg"
+      "imagenHD": "img/yacasipasan_hd.jpg",
+      "imagenMedium": "img/yacasipasan_medium.jpg"
     }
   ],
   "config": {

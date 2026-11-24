@@ -15,7 +15,7 @@ async function actualizarObraAPI(o){try{var r=await fetch(API_URL+'/obras/'+o.id
 async function archivarObraAPI(id){try{var r=await fetch(API_URL+'/obras/'+id,{method:'DELETE'});if(!r.ok){alert('No se pudo archivar (HTTP '+r.status+').');return false;}}catch(e){console.error(e.message);alert('No se pudo archivar.');return false;}return true;}
 
 /* ---- Sesión de admin ---- */
-async function loginAPI(pass){try{var r=await fetch(API_URL+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});return r.ok;}catch(e){return false;}}
+async function loginAPI(pass){try{var r=await fetch(API_URL+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});var d=await r.json().catch(function(){return{};});if(r.ok)return {ok:true};return {ok:false,error:d.error||'Contraseña incorrecta.',status:r.status};}catch(e){return {ok:false,error:'Sin conexión con el servidor.'};}}
 async function logoutAPI(){try{await fetch(API_URL+'/logout',{method:'POST'});}catch(e){}}
 async function sesionAPI(){try{var r=await fetch(API_URL+'/sesion');if(!r.ok)return false;var d=await r.json();return !!d.ok;}catch(e){return false;}}
 

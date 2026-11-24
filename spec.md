@@ -98,7 +98,7 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 
 ### RF-13: Tamaños de imagen al subir ✅
 **WHEN** el admin sube la **foto principal** de una obra  
-**THEN** el navegador SHALL generar tres versiones: **thumb 200 px** (lado mayor, tarjetas), **medium 1200 px** (lado mayor, ficha y modal) y **HD**  
+**THEN** el navegador SHALL generar tres versiones: **thumb 400 px** (lado mayor, tarjetas), **medium 1200 px** (lado mayor, modal y ficha) y **HD**  
 **AND** el HD SHALL ser de **1920 px de ancho** si la imagen es horizontal y de **1080 px de ancho** si es vertical  
 **WHEN** el admin sube una **foto de detalle**  
 **THEN** el navegador SHALL generar solo dos versiones: **thumb 400 px** (tira de miniaturas de la ficha) y **HD** (misma regla) para verla ampliada.  
@@ -115,6 +115,22 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **AND** *Subir obra* abre `subir.html` con el formulario de alta (datos + portada + detalles).  
 **WHY**: separar la entrada en dos acciones evita el formulario largo con todas las secciones apiladas.  
 **IMPL**: `admin.html` + `js/admin.js`; formulario compartido en `js/obra-form.js`; sesión con cookie HttpOnly (`POST /api/login`).
+
+### RF-15: Buscar obras por nombre ✅
+**WHEN** el visitante escribe en el campo de búsqueda de la barra de filtros (a la derecha de «Todos los tamaños»)  
+**THEN** el listado SHALL mostrar solo las obras cuyo título contenga ese texto  
+**AND** la comparación SHALL ignorar mayúsculas y tildes («atardecer» encuentra «Atardecer Amarillo»)  
+**AND** la búsqueda SHALL combinarse con los demás filtros y con la vista VER TODO.  
+**WHY**: con 50+ obras, encontrar una por nombre a mano es lento.  
+**IMPL**: `js/home.js` → `filtrosHome.texto`, `normalizarBusqueda()` y `aplicarFiltros()`; entrada con retardo de 180 ms y Escape para limpiar.
+
+### RF-16: Seguridad del admin ✅
+**WHEN** el administrador entra con la contraseña correcta  
+**THEN** el servidor SHALL emitir una cookie `HttpOnly`, `SameSite=Lax`, sin fecha de expiración propia  
+**AND** la sesión SHALL cerrarse tras **5 minutos sin actividad**, tanto en el servidor (`SESION_TTL`) como en el navegador (vigilante de `admin-gate.js`)  
+**AND** tras **8 intentos fallidos** desde una misma IP, el acceso SHALL bloquearse 15 minutos (HTTP 429).  
+**WHY**: el admin permite modificar y borrar obras; una sesión eterna en un equipo ajeno es un riesgo.  
+**IMPL**: `server.js` (`SESIONES` Map con última actividad, `INTENTOS` Map por IP) + `js/admin-gate.js`. Ajustable con `SESION_TTL_MIN`.
 
 ## Cómo iniciar
 ```bash

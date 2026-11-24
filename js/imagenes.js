@@ -1,7 +1,7 @@
 /* imagenes.js — Redimensiona en el navegador (canvas) las versiones que se guardan.
 
    IMAGEN PRINCIPAL → 3 tamaños
-     thumb   200 px de lado mayor  → tarjetas
+     thumb   400 px de lado mayor  → tarjetas
      medium 1200 px de lado mayor  → modal y página de detalle
      hd        horizontal: 1920 px de ancho
                vertical:   1080 px de ancho  → al hacer zoom
@@ -12,7 +12,7 @@
 
    Nunca se amplía una imagen: si el original es menor, se guarda tal cual. */
 
-var TAMANOS_IMAGEN = { thumb: 200, medium: 1200, detalleThumb: 400 };
+var TAMANOS_IMAGEN = { thumb: 400, medium: 1200, detalleThumb: 400 };
 var ANCHO_HD_HORIZONTAL = 1920;
 var ANCHO_HD_VERTICAL = 1080;
 

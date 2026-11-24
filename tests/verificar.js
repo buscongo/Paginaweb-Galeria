@@ -78,8 +78,8 @@ check('precio == (ancho + alto) * factorPrecio en todas las obras', preciosMalos
 var portadas = Object.keys(obras.reduce(function (m, o) { if (o.imagen) m[o.imagen] = 1; return m; }, {}));
 var thumbsDetalle = Object.keys(detalles.reduce(function (m, d) { if (d.thumb) m[d.thumb] = 1; return m; }, {}));
 function ladoMayor(rel) { var d = medidasJpeg(rel); return d ? Math.max(d.w, d.h) : 0; }
-var portadasGrandes = portadas.filter(function (f) { return ladoMayor(f) > 200; });
-check('los ' + portadas.length + ' thumbs de portada miden 200 px como máximo', portadasGrandes.length === 0);
+var portadasGrandes = portadas.filter(function (f) { return ladoMayor(f) > 400; });
+check('los ' + portadas.length + ' thumbs de portada miden 400 px como máximo', portadasGrandes.length === 0);
 var detallesGrandes = thumbsDetalle.filter(function (f) { return ladoMayor(f) > 400; });
 check('los ' + thumbsDetalle.length + ' thumbs de detalle miden 400 px como máximo', detallesGrandes.length === 0);
 
@@ -97,9 +97,17 @@ var hdFuera = hd.filter(function (f) {
 });
 check('los ' + hd.length + ' archivos HD respetan 1920 horizontal / 1080 vertical', hdFuera.length === 0);
 
+/* Todas las obras deben tener medium (el modal lo usa siempre) */
+var sinMedium = obras.filter(function (o) { return !o.imagenMedium; });
+check('todas las obras tienen imagenMedium (modal)', sinMedium.length === 0);
+var mediumDef = Object.keys(obras.reduce(function (m, o) { if (o.imagenMedium) m[o.imagenMedium] = 1; return m; }, {}));
+var mediumGrandes = mediumDef.filter(function (f) { return ladoMayor(f) > 1200; });
+check('los ' + mediumDef.length + ' medium miden 1200 px como máximo', mediumGrandes.length === 0);
+check('el modal usa imagenMedium', /o\.imagenMedium\|\|o\.imagenHD/.test(leer('js/gallery.js')));
+
 /* ---------- Código ---------- */
 var imagenes = leer('js/imagenes.js');
-check('thumb de portada = 200 px', /thumb:\s*200/.test(imagenes));
+check('thumb de portada = 400 px', /thumb:\s*400/.test(imagenes));
 check('medium = 1200 px', /medium:\s*1200/.test(imagenes));
 check('HD horizontal = 1920 px', /ANCHO_HD_HORIZONTAL\s*=\s*1920/.test(imagenes));
 check('HD vertical = 1080 px', /ANCHO_HD_VERTICAL\s*=\s*1080/.test(imagenes));
