@@ -406,6 +406,23 @@ h3 { font-size: 1.25rem; }
   color: var(--text-primary);
 }
 
+/* Lista desplegable de los filtros: las opciones van en gris 80%;
+   el valor seleccionado (lo que se ve en el control) se queda en blanco */
+.filtros-barra select {
+  color: #ffffff;
+}
+
+.filtros-barra select option {
+  color: #cccccc;
+  background-color: var(--bg-card-art);
+}
+
+.filtros-barra select option:checked,
+.filtros-barra select option:checked:hover {
+  color: #ffffff;
+  background-color: var(--bg-secondary);
+}
+
 .filtros-barra button {
   font-size: 0.72rem;
   letter-spacing: 0.02em;
