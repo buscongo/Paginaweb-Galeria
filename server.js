@@ -103,9 +103,10 @@ app.post('/api/imagenes', requiereAdmin, function (req, res) {
   if (body.archivo) {
     var rel = String(body.archivo).replace(/\\/g, '/').replace(/^\/+/, '');
     if (/^img\/[A-Za-z0-9._\- ]+_thumb\.jpg$/.test(rel)) claveExacta = 'thumb';
+    else if (/^img\/[A-Za-z0-9._\- ]+_medium\.jpg$/.test(rel)) claveExacta = 'medium';
     else if (/^img\/[A-Za-z0-9._\- ]+_hd\.jpg$/.test(rel)) claveExacta = 'hd';
     else return res.status(400).json({ error: 'Ruta no permitida: ' + rel });
-    if (!fs.existsSync(path.join(__dirname, rel))) {
+    if (!fs.existsSync(path.join(__dirname, rel)) && claveExacta !== 'medium') {
       return res.status(400).json({ error: 'El archivo no existe: ' + rel });
     }
     archivoExacto = path.basename(rel);
