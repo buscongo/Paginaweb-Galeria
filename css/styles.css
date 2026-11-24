@@ -144,6 +144,17 @@ h3 { font-size: 1.25rem; }
   line-height: 1.4;
 }
 
+/* En pantallas anchas el curriculum va en dos columnas: con tantos puntos
+   en una sola columna la lista ya no cabe en el alto de la pantalla. */
+@media (min-width: 1000px) {
+  .perfil-lista {
+    columns: 2;
+    column-gap: 2.25rem;
+    max-width: none;
+  }
+  .perfil-lista li { break-inside: avoid; }
+}
+
 .perfil-lista li:first-child {
   border-top: none;
   padding-top: 0;
