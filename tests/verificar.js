@@ -83,6 +83,20 @@ check('los ' + portadas.length + ' thumbs de portada miden 200 px como máximo',
 var detallesGrandes = thumbsDetalle.filter(function (f) { return ladoMayor(f) > 400; });
 check('los ' + thumbsDetalle.length + ' thumbs de detalle miden 400 px como máximo', detallesGrandes.length === 0);
 
+/* HD: 1920 de lado mayor y, si es vertical, 1080 de ancho */
+var hd = Object.keys(obras.reduce(function (m, o) {
+  if (o.imagenHD) m[o.imagenHD] = 1;
+  (o.detalles || []).forEach(function (d) { if (d.hd) m[d.hd] = 1; });
+  return m;
+}, {}));
+var hdFuera = hd.filter(function (f) {
+  var d = medidasJpeg(f);
+  if (!d) return true;
+  if (Math.max(d.w, d.h) > 1920) return true;
+  return d.h > d.w && d.w > 1080;
+});
+check('los ' + hd.length + ' archivos HD respetan 1920 horizontal / 1080 vertical', hdFuera.length === 0);
+
 /* ---------- Código ---------- */
 var imagenes = leer('js/imagenes.js');
 check('thumb de portada = 200 px', /thumb:\s*200/.test(imagenes));
