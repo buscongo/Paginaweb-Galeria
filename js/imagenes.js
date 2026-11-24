@@ -1,9 +1,20 @@
-/* imagenes.js — Redimensiona en el navegador y genera los 3 tamaños de cada foto.
-   thumb  400 px  → tarjetas
-   medium 1200 px → modal y página de detalle
-   2k     2048 px → imagen ampliada (zoom)                                     */
+/* imagenes.js — Redimensiona en el navegador (canvas) las versiones que se guardan.
 
-var TAMANOS_IMAGEN = { thumb: 400, medium: 1200, '2k': 2048 };
+   IMAGEN PRINCIPAL → 3 tamaños
+     thumb   200 px de lado mayor  → tarjetas
+     medium 1200 px de lado mayor  → modal y página de detalle
+     hd        horizontal: 1920 px de ancho
+               vertical:   1080 px de ancho  → al hacer zoom
+
+   FOTOS DE DETALLE → 2 tamaños
+     thumb  400 px de lado mayor → tira de miniaturas en la ficha
+     hd     misma regla que la principal → al elegirla para ver
+
+   Nunca se amplía una imagen: si el original es menor, se guarda tal cual. */
+
+var TAMANOS_IMAGEN = { thumb: 200, medium: 1200, detalleThumb: 400 };
+var ANCHO_HD_HORIZONTAL = 1920;
+var ANCHO_HD_VERTICAL = 1080;
 
 function cargarImagenArchivo(file) {
   return new Promise(function (resolver, rechazar) {
@@ -15,12 +26,8 @@ function cargarImagenArchivo(file) {
   });
 }
 
-function redimensionarImagen(img, maxLado, calidad) {
-  var w = img.naturalWidth;
-  var h = img.naturalHeight;
-  var escala = Math.min(1, maxLado / Math.max(w, h));
-  var cw = Math.max(1, Math.round(w * escala));
-  var ch = Math.max(1, Math.round(h * escala));
+/* Dibuja la imagen con un ancho/alto dados y devuelve un data URL JPEG */
+function dibujarRedimensionada(img, cw, ch, calidad) {
   var canvas = document.createElement('canvas');
   canvas.width = cw;
   canvas.height = ch;
@@ -31,13 +38,38 @@ function redimensionarImagen(img, maxLado, calidad) {
   return canvas.toDataURL('image/jpeg', calidad);
 }
 
-/* Devuelve { thumb, medium, '2k' } en data URLs JPEG */
+/* Escala por lado mayor (sin ampliar) */
+function redimensionarLado(img, maxLado, calidad) {
+  var w = img.naturalWidth, h = img.naturalHeight;
+  var escala = Math.min(1, maxLado / Math.max(w, h));
+  return dibujarRedimensionada(img, Math.max(1, Math.round(w * escala)), Math.max(1, Math.round(h * escala)), calidad);
+}
+
+/* HD: horizontal conserva 1920 de ancho; vertical se limita a 1080 de ancho.
+   En ambos casos se respeta la orientación y nunca se amplía. */
+function redimensionarHD(img, calidad) {
+  var w = img.naturalWidth, h = img.naturalHeight;
+  var objetivo = (w >= h) ? ANCHO_HD_HORIZONTAL : ANCHO_HD_VERTICAL;
+  var escala = Math.min(1, objetivo / w, 1920 / h);
+  return dibujarRedimensionada(img, Math.max(1, Math.round(w * escala)), Math.max(1, Math.round(h * escala)), calidad);
+}
+
+/* Imagen principal: { thumb, medium, hd } */
 async function generarTresTamanos(file) {
   var img = await cargarImagenArchivo(file);
   return {
-    thumb: redimensionarImagen(img, TAMANOS_IMAGEN.thumb, 0.80),
-    medium: redimensionarImagen(img, TAMANOS_IMAGEN.medium, 0.85),
-    '2k': redimensionarImagen(img, TAMANOS_IMAGEN['2k'], 0.88)
+    thumb: redimensionarLado(img, TAMANOS_IMAGEN.thumb, 0.80),
+    medium: redimensionarLado(img, TAMANOS_IMAGEN.medium, 0.85),
+    hd: redimensionarHD(img, 0.88)
+  };
+}
+
+/* Foto de detalle: { thumb, hd } */
+async function generarDosTamanos(file) {
+  var img = await cargarImagenArchivo(file);
+  return {
+    thumb: redimensionarLado(img, TAMANOS_IMAGEN.detalleThumb, 0.80),
+    hd: redimensionarHD(img, 0.88)
   };
 }
 

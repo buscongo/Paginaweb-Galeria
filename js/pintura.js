@@ -34,7 +34,7 @@ function renderizarDetalle(o) {
 
   // Hero detalle: fondo 2k de la obra (efecto frost vía .hero-overlay)
   var heroFondo = document.getElementById('hero-fondo');
-  if (heroFondo && o.imagen2k) heroFondo.style.backgroundImage = 'url("' + o.imagen2k + '")';
+  if (heroFondo && o.imagenHD) heroFondo.style.backgroundImage = 'url("' + (o.imagenMedium || o.imagenHD) + '")';
 
   // Serie
   var s = buscarSerie(o.serieId);
@@ -112,9 +112,9 @@ function renderizarDetalle(o) {
 
   // Fotos = [portada] + detalles (portada también entra al carousel)
   var fotos = [];
-  if (o.imagen2k) fotos.push({ thumb: o.imagen, medium: o.imagenMedium || o.imagen2k, full: o.imagen2k });
+  if (o.imagenHD) fotos.push({ thumb: o.imagen, view: o.imagenMedium || o.imagenHD, hd: o.imagenHD });
   (o.detalles || []).forEach(function (d) {
-    if (d && d.thumb && d.full) fotos.push({ thumb: d.thumb, medium: d.medium || d.full, full: d.full });
+    if (d && d.thumb && (d.hd || d.full)) fotos.push({ thumb: d.thumb, view: d.hd || d.full, hd: d.hd || d.full });
   });
 
   var imgGrande = document.getElementById('imagen-grande');
@@ -129,9 +129,9 @@ function renderizarDetalle(o) {
     return;
   }
 
-  // Imagen grande = tamaño mediano (1200 px); el 2k se usa al hacer zoom
+  // Imagen grande = tamaño mediano (1200 px); el HD se usa al hacer zoom
   var indiceActual = 0;
-  imgGrande.src = fotos[0].medium || fotos[0].full || fotos[0].thumb;
+  imgGrande.src = fotos[0].view || fotos[0].hd || fotos[0].thumb;
   imgGrande.alt = o.titulo;
   imgGrande.style.cursor = 'zoom-in';
 
@@ -142,10 +142,10 @@ function renderizarDetalle(o) {
     var zoomScale = 1;
     var maxZoom = 1;
 
-    // abrir zoom: usar el 2k de la foto que se está viendo
+    // abrir zoom: el HD de la foto que se está viendo
     imgGrande.addEventListener('click', function () {
       var actual = fotos[indiceActual] || fotos[0];
-      zoomImg.src = (actual && actual.full) || imgGrande.src;
+      zoomImg.src = (actual && actual.hd) || imgGrande.src;
       zoomImg.alt = o.titulo;
       zoomOverlay.classList.add('activo');
       zoomScale = 1;
@@ -207,7 +207,7 @@ function renderizarDetalle(o) {
     th.alt = o.titulo + ' — ' + (i + 1);
     th.className = 'carousel-thumb' + (i === 0 ? ' activa' : '');
     th.addEventListener('click', function () {
-      imgGrande.src = f.medium || f.full || f.thumb;
+      imgGrande.src = f.view || f.hd || f.thumb;
       indiceActual = i;
       var all = car.querySelectorAll('.carousel-thumb');
       for (var k = 0; k < all.length; k++) all[k].classList.remove('activa');

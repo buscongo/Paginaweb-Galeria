@@ -55,8 +55,9 @@ No hay build, no hay linter, no hay test runner. La verificación es manual + co
 ## Reglas de dominio / trampas conocidas
 
 - **Precio**: `precio = (ancho + alto) * factorPrecioSerie`. Se calcula al crear/editar y se guarda en `obra.precio`. Se muestra SOLO en `pintura.html` y SOLO si `obra.disponible` es `true`, después de la ficha técnica. NUNCA se muestra en Home ni Admin; ahí se revela solo vía email de consulta (`mailto:` en gallery.js). Moneda: USD (`$`, separador de miles con coma).
-- **Imágenes**: `obra.imagen` = thumb y `obra.imagen2k` = **foto completa de la obra**; ambos deben ser la misma foto (mismo nombre base). Los recortes/macros van SOLO en `obra.detalles[]` (`{thumb, medium, full}`). Si `imagen2k` apunta a un `_det_` o a otra foto, la ficha y el hero muestran la obra cortada.
-- **Subida de imágenes**: las 3 versiones (`_thumb` 400 px, `_medium` 1200 px, `_2k` 2048 px) las genera el **navegador** con canvas (`js/imagenes.js`) y las escribe `POST /api/imagenes`. No hay `sharp` ni `multer`: si se agrega procesamiento en servidor, actualizar esta nota y `package.json`.
+- **Imágenes**: `obra.imagen` = thumb 200, `obra.imagenMedium` = 1200 y `obra.imagenHD` = HD (1920 de ancho si es horizontal, 1080 si es vertical); las tres deben ser la misma foto (mismo nombre base). Los recortes/macros van SOLO en `obra.detalles[]` (`{thumb, hd}`). Si `imagenHD` apunta a un `_det_` o a otra foto, la ficha y el hero muestran la obra cortada.
+- **Subida de imágenes**: la generación ocurre en el **navegador** con canvas (`js/imagenes.js`): portada en 3 tamaños (`_thumb` 200, `_medium` 1200, `_hd`) y cada detalle en 2 (`_thumb` 400, `_hd`). `POST /api/imagenes` solo escribe los data URLs que recibe. No hay `sharp` ni `multer`: si se agrega procesamiento en servidor, actualizar esta nota y `package.json`.
+- **Sufijos de archivo**: `_thumb`, `_medium`, `_hd`. El antiguo `_2k` quedó renombrado a `_hd` (`scripts/migrar-hd.js`); no reintroducirlo.
 - **Admin**: protegido por contraseña. `POST /api/login` valida contra `process.env.ADMIN_PASSWORD` (por defecto `andres2026`) y setea una cookie HttpOnly; las escrituras (`POST/PUT/DELETE` de obras, series e imágenes) exigen sesión. Si se cambia la contraseña, reiniciar el servidor con la variable de entorno.
 - **Fechas**: usar `new Date()` directamente (zona horaria local). NUNCA `toISOString()` ni `.toUTC*` para fechas mostradas al usuario.
 - **Persistencia**: `db.json` (backend). Borrarlo resetea los datos; `server.js` lo recrea vacío.
@@ -93,13 +94,14 @@ No hay build, no hay linter, no hay test runner. La verificación es manual + co
 
 ## Verificación
 
-1. `node --check js/*.js` — sin errores de sintaxis.
-2. `npm start` → abrir `http://localhost:3000/` y `http://localhost:3000/admin.html` en navegador.
-3. `curl http://localhost:3000/api/obras` → devuelve JSON.
-4. Registrar una serie → registrar una obra → verificar en galería.
-5. Filtrar obras → verificar resultados.
-6. Consultar precio en Home → verificar que abre `mailto:` (el precio no está visible por defecto).
-7. Reiniciar el servidor → verificar que los datos persisten en `db.json`.
+1. `npm test` (`tests/verificar.js`) — datos, imágenes en disco, precios, tamaños y coherencia del código. Debe dar todo ✅.
+2. `node --check js/*.js` — sin errores de sintaxis.
+3. `npm start` → abrir `http://localhost:3000/` y `http://localhost:3000/admin.html` en navegador.
+4. `curl http://localhost:3000/api/obras` → devuelve JSON.
+5. Registrar una serie → registrar una obra → verificar en galería.
+6. Filtrar obras → verificar resultados.
+7. Consultar precio en Home → verificar que abre `mailto:` (el precio no está visible por defecto).
+8. Reiniciar el servidor → verificar que los datos persisten en `db.json`.
 
 ## Memoria
 

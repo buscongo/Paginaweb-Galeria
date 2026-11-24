@@ -95,7 +95,7 @@ app.post('/api/imagenes', requiereAdmin, function (req, res) {
   var escritos = {};
   var error = null;
 
-  ['thumb', 'medium', '2k'].forEach(function (k) {
+  ['thumb', 'medium', 'hd'].forEach(function (k) {
     if (error || !urls[k]) return;
     var m = /^data:image\/(jpeg|jpg|png|webp);base64,([A-Za-z0-9+/=\s]+)$/.exec(String(urls[k]));
     if (!m) { error = 'Formato de imagen inválido en ' + k; return; }

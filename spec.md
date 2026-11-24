@@ -96,13 +96,17 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **WHY**: el precio solo es relevante cuando la obra se puede adquirir; mostrarlo en obras vendidas no aporta.  
 **IMPL**: `js/pintura.js` → `renderizarDetalle()` usa `o.disponible && o.precio`; el `<p id="pintura-precio">` queda con atributo `hidden`. Formato con `formatoMoneda()` (USD).
 
-### RF-13: Tres tamaños por cada foto subida ✅
-**WHEN** el admin sube una foto (portada o detalle) desde `subir.html` / `editar.html`  
-**THEN** el navegador SHALL generar tres versiones redimensionadas (lado mayor): **thumb 400 px**, **medium 1200 px**, **2k 2048 px**  
-**AND** el servidor SHALL guardarlas en `img/` como `<base>_thumb.jpg`, `<base>_medium.jpg`, `<base>_2k.jpg`  
-**AND** la obra SHALL guardar `imagen`, `imagenMedium`, `imagen2k` y, por cada detalle, `{thumb, medium, full}`.  
-**WHY**: la tarjeta usa thumb, la ficha y el modal usan medium, y el zoom usa el 2k — sin cargar archivos enormes en cada vista.  
-**IMPL**: `js/imagenes.js` (`generarTresTamanos` con canvas) + `POST /api/imagenes` (`server.js`). No requiere dependencias nuevas.
+### RF-13: Tamaños de imagen al subir ✅
+**WHEN** el admin sube la **foto principal** de una obra  
+**THEN** el navegador SHALL generar tres versiones: **thumb 200 px** (lado mayor, tarjetas), **medium 1200 px** (lado mayor, ficha y modal) y **HD**  
+**AND** el HD SHALL ser de **1920 px de ancho** si la imagen es horizontal y de **1080 px de ancho** si es vertical  
+**WHEN** el admin sube una **foto de detalle**  
+**THEN** el navegador SHALL generar solo dos versiones: **thumb 400 px** (tira de miniaturas de la ficha) y **HD** (misma regla) para verla ampliada.  
+**AND** el servidor SHALL guardarlas en `img/` como `<base>_thumb.jpg`, `<base>_medium.jpg`, `<base>_hd.jpg`  
+**AND** la obra SHALL guardar `imagen`, `imagenMedium`, `imagenHD` y, por cada detalle, `{thumb, hd}`.  
+**UNLESS** la foto original sea menor que el tamaño objetivo, **THEN** SHALL guardarse sin ampliar.  
+**WHY**: la tarjeta necesita poco peso, la ficha una imagen nítida y el zoom la máxima calidad útil — y las miniaturas de detalle no necesitan versión intermedia.  
+**IMPL**: `js/imagenes.js` (`generarTresTamanos` / `generarDosTamanos` con canvas) + `POST /api/imagenes` (`server.js`). Sin dependencias nuevas.
 
 ### RF-14: Admin con dos acciones ✅
 **WHEN** el usuario entra a `admin.html` (con la contraseña correcta)  

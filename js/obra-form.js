@@ -1,12 +1,13 @@
 /* obra-form.js — Formulario compartido por subir.html (nueva obra) y editar.html.
    Genera el markup, gestiona la portada y las fotos de detalle, y guarda la obra.
-   Cada foto se sube en 3 tamaños (thumb 400 / medium 1200 / 2k 2048). */
+   La portada se guarda en 3 tamaños (thumb 200 / medium 1200 / HD).
+   Cada foto de detalle en 2 (miniatura 400 / HD). */
 
 var FormObra = (function () {
   var estado = {
     modo: 'nuevo',
     obra: null,
-    portada: null,     // {tipo:'existente', thumb, medium, dosK} | {tipo:'archivo', file}
+    portada: null,     // {tipo:'existente', thumb, medium, hd} | {tipo:'archivo', file}
     detalles: [],      // [{tipo:'existente', thumb, medium, full} | {tipo:'archivo', file}]
     guardando: false
   };
@@ -44,7 +45,7 @@ var FormObra = (function () {
     '  </div>',
     '  <div class="form-col">',
     '    <h3 class="form-subtitulo">Foto principal</h3>',
-    '    <p class="form-ayuda">Se guarda en 3 tamaños: 400 px (tarjeta), 1200 px (ficha y modal) y 2048 px (zoom).</p>',
+    '    <p class="form-ayuda">Foto principal: 3 tamaños (200 px para la tarjeta, 1200 px para la ficha y HD para el zoom).</p>',
     '    <input type="file" accept="image/*" id="input-portada">',
     '    <div id="preview-portada" class="preview"></div>',
     '    <h3 class="form-subtitulo">Fotos de detalle</h3>',
@@ -92,10 +93,15 @@ var FormObra = (function () {
       select.value = o.serieId;
 
       if (o.imagen) {
-        estado.portada = { tipo: 'existente', thumb: o.imagen, medium: o.imagenMedium || o.imagen2k || o.imagen, dosK: o.imagen2k || o.imagen };
+        estado.portada = {
+          tipo: 'existente',
+          thumb: o.imagen,
+          medium: o.imagenMedium || o.imagenHD || o.imagen,
+          hd: o.imagenHD || o.imagenMedium || o.imagen
+        };
       }
       estado.detalles = (o.detalles || []).map(function (d) {
-        return { tipo: 'existente', thumb: d.thumb, medium: d.medium || d.full || d.thumb, full: d.full || d.thumb };
+        return { tipo: 'existente', thumb: d.thumb, hd: d.hd || d.full || d.thumb };
       });
     } else {
       campo('anio').value = añoActual();
@@ -168,7 +174,7 @@ var FormObra = (function () {
       return;
     }
     var p = estado.portada;
-    var src = p.tipo === 'existente' ? p.medium : '';
+    var src = p.tipo === 'existente' ? (p.medium || p.hd) : '';
     var nodo = '<div class="preview-item">';
     nodo += '<img id="preview-portada-img" alt="Portada" src="' + escaparHTML(src) + '">';
     nodo += '<button type="button" class="btn-mini" data-quitar-portada>Quitar</button>';
@@ -258,34 +264,35 @@ var FormObra = (function () {
         disponible: datos.disponible
       };
 
-      // --- Portada ---
+      // --- Portada: 3 tamaños (thumb 200 / medium 1200 / HD) ---
       if (estado.portada.tipo === 'archivo') {
         setEstado('Subiendo foto principal (3 tamaños)…');
         var subida = await subirFotoAPI(base, '', await generarTresTamanos(estado.portada.file));
         if (subida.error) throw new Error('Foto principal: ' + subida.error);
         obra.imagen = subida.thumb;
         obra.imagenMedium = subida.medium;
-        obra.imagen2k = subida['2k'];
+        obra.imagenHD = subida.hd;
       } else {
         obra.imagen = estado.portada.thumb;
         obra.imagenMedium = estado.portada.medium;
-        obra.imagen2k = estado.portada.dosK;
+        obra.imagenHD = estado.portada.hd;
       }
 
-      // --- Detalles ---
+      // --- Detalles: 2 tamaños (thumb 400 / HD) ---
       var detalles = [];
       var nuevas = 0;
       for (var i = 0; i < estado.detalles.length; i++) {
         var d = estado.detalles[i];
         if (d.tipo === 'existente') {
-          detalles.push({ thumb: d.thumb, medium: d.medium, full: d.full });
+          detalles.push({ thumb: d.thumb, hd: d.hd });
           continue;
         }
         nuevas++;
-        setEstado('Subiendo detalle ' + nuevas + ' de 3 tamaños…');
-        var r = await subirFotoAPI(base, 'det' + (i + 1), await generarTresTamanos(d.file));
+        setEstado('Subiendo detalle ' + nuevas + ' (miniatura y HD)…');
+        var marca = 'det' + (i + 1) + '-' + Math.random().toString(36).slice(2, 5);
+        var r = await subirFotoAPI(base, marca, await generarDosTamanos(d.file));
         if (r.error) throw new Error('Detalle ' + (i + 1) + ': ' + r.error);
-        detalles.push({ thumb: r.thumb, medium: r.medium, full: r['2k'] });
+        detalles.push({ thumb: r.thumb, hd: r.hd });
       }
       obra.detalles = detalles;
 

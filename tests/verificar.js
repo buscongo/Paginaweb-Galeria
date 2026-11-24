@@ -1,0 +1,100 @@
+/* tests/verificar.js — Verificación sin navegador de los invariantes del sitio.
+   Uso: node tests/verificar.js   (o npm test)
+
+   Comprueba datos, archivos de imagen y coherencia del código estático.
+   Las pruebas visuales/interactivas se hacen aparte en el navegador. */
+
+var fs = require('fs');
+var path = require('path');
+
+var RAIZ = path.join(__dirname, '..');
+var ok = [];
+function check(nombre, condicion) { ok.push([nombre, !!condicion]); }
+
+function leer(rel) { return fs.readFileSync(path.join(RAIZ, rel), 'utf8'); }
+function existe(rel) { return rel && fs.existsSync(path.join(RAIZ, rel)); }
+
+var db = JSON.parse(leer('db.json'));
+var obras = db.obras;
+var activas = obras.filter(function (o) { return !o.archivada; });
+
+/* ---------- Datos ---------- */
+check('db.json tiene obras y series', obras.length > 0 && Array.isArray(db.series) && db.series.length > 0);
+
+var sinPortada = obras.filter(function (o) { return !o.imagen; });
+check('todas las obras tienen thumb de portada', sinPortada.length === 0);
+
+var sinHD = obras.filter(function (o) { return !o.imagenHD; });
+check('todas las obras tienen imagenHD', sinHD.length === 0);
+
+var portadasRotas = obras.filter(function (o) { return o.imagen && !existe(o.imagen); });
+check('todos los thumbs de portada existen en disco', portadasRotas.length === 0);
+
+var hdRotas = obras.filter(function (o) { return o.imagenHD && !existe(o.imagenHD); });
+check('todas las imagenHD existen en disco', hdRotas.length === 0);
+
+var mediumRotas = obras.filter(function (o) { return o.imagenMedium && !existe(o.imagenMedium); });
+check('todos los imagenMedium declarados existen en disco', mediumRotas.length === 0);
+
+var recortes = obras.filter(function (o) { return o.imagenHD && /_det[_-]/.test(o.imagenHD); });
+check('ningún imagenHD apunta a un recorte de detalle', recortes.length === 0);
+
+var detalles = obras.reduce(function (a, o) { return a.concat(o.detalles || []); }, []);
+check('todos los detalles tienen thumb y hd', detalles.every(function (d) { return d.thumb && d.hd; }));
+check('ningún detalle conserva "full" ni "medium"', detalles.every(function (d) { return !d.full && !d.medium; }));
+check('los thumbs y hd de los detalles existen en disco', detalles.every(function (d) { return existe(d.thumb) && existe(d.hd); }));
+
+var duplicados = obras.filter(function (o) {
+  return (o.detalles || []).some(function (d) { return d.thumb === o.imagen; });
+});
+check('ningún detalle duplica la portada', duplicados.length === 0);
+
+var preciosMalos = obras.filter(function (o) {
+  var s = db.series.filter(function (x) { return x.id === o.serieId; })[0];
+  if (!s || typeof o.precio !== 'number') return false;
+  return o.precio !== (o.ancho + o.alto) * s.factorPrecio;
+});
+check('precio == (ancho + alto) * factorPrecio en todas las obras', preciosMalos.length === 0);
+
+/* ---------- Código ---------- */
+var imagenes = leer('js/imagenes.js');
+check('thumb de portada = 200 px', /thumb:\s*200/.test(imagenes));
+check('medium = 1200 px', /medium:\s*1200/.test(imagenes));
+check('HD horizontal = 1920 px', /ANCHO_HD_HORIZONTAL\s*=\s*1920/.test(imagenes));
+check('HD vertical = 1080 px', /ANCHO_HD_VERTICAL\s*=\s*1080/.test(imagenes));
+check('existe generarDosTamanos para los detalles', /function generarDosTamanos/.test(imagenes));
+
+var pintura = leer('js/pintura.js');
+check('la ficha usa fotos[0].view (medium)', /imgGrande\.src = fotos\[0\]\.view/.test(pintura));
+check('el zoom usa el HD', /zoomImg\.src = \(actual && actual\.hd\)/.test(pintura));
+check('los detalles entran al carrusel con hd', /view: d\.hd \|\| d\.full/.test(pintura));
+
+var galeria = leer('js/gallery.js');
+check('el modal usa imagenMedium con respaldo', /o\.imagenMedium\|\|o\.imagen/.test(galeria));
+
+var servidor = leer('server.js');
+check('la subida acepta thumb, medium y hd', /\['thumb', 'medium', 'hd'\]/.test(servidor));
+check('las escrituras exigen sesión de admin', /app\.post\('\/api\/obras', requiereAdmin/.test(servidor));
+check('las escrituras de series exigen sesión', /app\.post\('\/api\/series', requiereAdmin/.test(servidor));
+
+check('admin.html tiene los dos botones', /id="btn-editar"/.test(leer('html/admin.html')) && /href="subir.html"/.test(leer('html/admin.html')));
+check('subir.html carga el formulario', /js\/obra-form\.js/.test(leer('html/subir.html')));
+check('editar.html carga el formulario', /js\/obra-form\.js/.test(leer('html/editar.html')));
+
+var css = leer('css/styles.css');
+check('CSS balanceado', (css.match(/{/g) || []).length === (css.match(/}/g) || []).length);
+
+['data.js', 'gallery.js', 'home.js', 'pintura.js', 'serie.js', 'admin.js', 'admin-gate.js',
+ 'obra-form.js', 'imagenes.js', 'subir.js', 'editar.js'].forEach(function (f) {
+  check('existe js/' + f, existe('js/' + f));
+});
+
+/* ---------- Salida ---------- */
+var fallos = 0;
+ok.forEach(function (par) {
+  console.log((par[1] ? '✅ ' : '❌ ') + par[0]);
+  if (!par[1]) fallos++;
+});
+console.log('\n' + (ok.length - fallos) + '/' + ok.length + ' comprobaciones OK — ' +
+  activas.length + ' obras activas de ' + obras.length + ', ' + detalles.length + ' detalles.');
+process.exit(fallos ? 1 : 0);
