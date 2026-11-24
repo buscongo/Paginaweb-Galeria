@@ -95,6 +95,20 @@ app.post('/api/imagenes', requiereAdmin, function (req, res) {
   var escritos = {};
   var error = null;
 
+  /* Reescritura de un thumb ya existente (para regenerar tamaños antiguos).
+     Solo permite sobreescribir archivos img/*_thumb.jpg que ya existan. */
+  var thumbExacto = null;
+  if (body.archivo) {
+    var rel = String(body.archivo).replace(/\\/g, '/').replace(/^\/+/, '');
+    if (!/^img\/[A-Za-z0-9._\- ]+_thumb\.jpg$/.test(rel)) {
+      return res.status(400).json({ error: 'Ruta no permitida: ' + rel });
+    }
+    if (!fs.existsSync(path.join(__dirname, rel))) {
+      return res.status(400).json({ error: 'El archivo no existe: ' + rel });
+    }
+    thumbExacto = path.basename(rel);
+  }
+
   ['thumb', 'medium', 'hd'].forEach(function (k) {
     if (error || !urls[k]) return;
     var m = /^data:image\/(jpeg|jpg|png|webp);base64,([A-Za-z0-9+/=\s]+)$/.exec(String(urls[k]));
@@ -103,7 +117,8 @@ app.post('/api/imagenes', requiereAdmin, function (req, res) {
     var ext = tipo === 'png' ? '.png' : (tipo === 'webp' ? '.webp' : '.jpg');
     var buf = Buffer.from(m[2], 'base64');
     if (buf.length > 12 * 1024 * 1024) { error = 'La imagen ' + k + ' supera 12 MB'; return; }
-    var nombre = base + (variante ? '_' + variante : '') + '_' + k + ext;
+    var nombre = (thumbExacto && k === 'thumb') ? thumbExacto
+      : base + (variante ? '_' + variante : '') + '_' + k + ext;
     try {
       fs.writeFileSync(path.join(__dirname, 'img', nombre), buf);
     } catch (e) {

@@ -14,6 +14,24 @@ function check(nombre, condicion) { ok.push([nombre, !!condicion]); }
 function leer(rel) { return fs.readFileSync(path.join(RAIZ, rel), 'utf8'); }
 function existe(rel) { return rel && fs.existsSync(path.join(RAIZ, rel)); }
 
+/* Lee ancho/alto de un JPEG sin dependencias */
+function medidasJpeg(rel) {
+  var b = fs.readFileSync(path.join(RAIZ, rel));
+  var i = 2;
+  while (i < b.length - 9) {
+    if (b[i] !== 0xFF) { i++; continue; }
+    var m = b[i + 1];
+    if (m === 0xD8 || m === 0x01 || (m >= 0xD0 && m <= 0xD7)) { i += 2; continue; }
+    if (m === 0xFF) { i++; continue; }
+    var len = b.readUInt16BE(i + 2);
+    if (m >= 0xC0 && m <= 0xCF && m !== 0xC4 && m !== 0xC8 && m !== 0xCC) {
+      return { w: b.readUInt16BE(i + 7), h: b.readUInt16BE(i + 5) };
+    }
+    i += 2 + len;
+  }
+  return null;
+}
+
 var db = JSON.parse(leer('db.json'));
 var obras = db.obras;
 var activas = obras.filter(function (o) { return !o.archivada; });
@@ -55,6 +73,15 @@ var preciosMalos = obras.filter(function (o) {
   return o.precio !== (o.ancho + o.alto) * s.factorPrecio;
 });
 check('precio == (ancho + alto) * factorPrecio en todas las obras', preciosMalos.length === 0);
+
+/* Tamaños reales de los thumbs en disco */
+var portadas = Object.keys(obras.reduce(function (m, o) { if (o.imagen) m[o.imagen] = 1; return m; }, {}));
+var thumbsDetalle = Object.keys(detalles.reduce(function (m, d) { if (d.thumb) m[d.thumb] = 1; return m; }, {}));
+function ladoMayor(rel) { var d = medidasJpeg(rel); return d ? Math.max(d.w, d.h) : 0; }
+var portadasGrandes = portadas.filter(function (f) { return ladoMayor(f) > 200; });
+check('los ' + portadas.length + ' thumbs de portada miden 200 px como máximo', portadasGrandes.length === 0);
+var detallesGrandes = thumbsDetalle.filter(function (f) { return ladoMayor(f) > 400; });
+check('los ' + thumbsDetalle.length + ' thumbs de detalle miden 400 px como máximo', detallesGrandes.length === 0);
 
 /* ---------- Código ---------- */
 var imagenes = leer('js/imagenes.js');
