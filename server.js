@@ -235,6 +235,14 @@ app.post('/api/config/:clave', function (req, res) {
   res.json({ clave: req.params.clave, valor: req.body.valor });
 });
 
+/* ==== Alias sin extensión (/admin → /admin.html) ==== */
+var ALIAS = { '/admin': '/admin.html', '/subir': '/subir.html', '/editar': '/editar.html' };
+app.get(['/admin', '/subir', '/editar'], function (req, res) {
+  var destino = ALIAS[req.path] || '/';
+  var qs = req.originalUrl.split('?')[1];
+  res.redirect(301, destino + (qs ? '?' + qs : ''));
+});
+
 /* ==== Servir SPA en rutas desconocidas ==== */
 app.use(function (req, res) {
   res.sendFile(path.join(__dirname, 'html', 'index.html'));
