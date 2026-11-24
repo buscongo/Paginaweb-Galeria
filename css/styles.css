@@ -100,13 +100,9 @@ h3 { font-size: 1.25rem; }
 .perfil-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(0.9rem, 2vh, 1.6rem);
+  justify-content: safe center;   /* si no cabe, alinea arriba en vez de recortar */
+  gap: clamp(0.7rem, 1.8vh, 1.4rem);
   padding: clamp(1.5rem, 3.2vh, 2.5rem) clamp(1.25rem, 3vw, 3.5rem);
-  max-height: calc(100vh - 44px);
-  overflow-y: auto;              /* si la pantalla es muy baja, se desplaza sin cortar nada */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.35) transparent;
 }
 
 .perfil-nombre {
@@ -142,10 +138,10 @@ h3 { font-size: 1.25rem; }
 }
 
 .perfil-lista li {
-  padding: 0.42rem 0;
+  padding: 0.32rem 0;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: 0.84rem;
-  line-height: 1.45;
+  font-size: 0.83rem;
+  line-height: 1.4;
 }
 
 .perfil-lista li:first-child {
