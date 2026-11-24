@@ -73,8 +73,8 @@ h3 { font-size: 1.25rem; }
 
 .home-perfil {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: calc(100vh - 44px);
+  grid-template-columns: 46% 54%;
+  min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
   margin-top: 44px;
   background: #4a4a4a;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
@@ -101,8 +101,8 @@ h3 { font-size: 1.25rem; }
   display: flex;
   flex-direction: column;
   justify-content: safe center;   /* si no cabe, alinea arriba en vez de recortar */
-  gap: clamp(0.7rem, 1.8vh, 1.4rem);
-  padding: clamp(1.5rem, 3.2vh, 2.5rem) clamp(1.25rem, 3vw, 3.5rem);
+  gap: clamp(0.6rem, 1.5vh, 1.2rem);
+  padding: clamp(1rem, 2.6vh, 2.2rem) clamp(1.1rem, 2.8vw, 3rem);
 }
 
 .perfil-nombre {
@@ -115,7 +115,7 @@ h3 { font-size: 1.25rem; }
 }
 
 .perfil-bloque h2 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 0.35rem;
   font-size: 0.74rem;
   font-weight: 400;
   letter-spacing: 0.18em;
@@ -125,9 +125,9 @@ h3 { font-size: 1.25rem; }
 
 .perfil-bloque p {
   margin: 0;
-  max-width: 48ch;
-  font-size: 0.9rem;
-  line-height: 1.62;
+  max-width: 66ch;
+  font-size: clamp(0.72rem, 1.95vh, 0.88rem);
+  line-height: 1.45;
 }
 
 .perfil-lista {
@@ -138,21 +138,25 @@ h3 { font-size: 1.25rem; }
 }
 
 .perfil-lista li {
-  padding: 0.32rem 0;
+  padding: clamp(0.1rem, 0.3vh, 0.26rem) 0;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
-  font-size: 0.83rem;
-  line-height: 1.4;
+  font-size: clamp(0.7rem, 1.8vh, 0.82rem);
+  line-height: 1.35;
 }
 
-/* En pantallas anchas el curriculum va en dos columnas: con tantos puntos
+/* En pantallas anchas el curriculum va en varias columnas: con tantos puntos
    en una sola columna la lista ya no cabe en el alto de la pantalla. */
-@media (min-width: 1000px) {
+@media (min-width: 900px) {
   .perfil-lista {
     columns: 2;
-    column-gap: 2.25rem;
+    column-gap: 2rem;
     max-width: none;
   }
   .perfil-lista li { break-inside: avoid; }
+}
+
+@media (min-width: 1200px) {
+  .perfil-lista { columns: 3; column-gap: 1.75rem; }
 }
 
 .perfil-lista li:first-child {
