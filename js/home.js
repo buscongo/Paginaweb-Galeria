@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', async function () {
   cacheObras = await obtenerObras();
   cachearNuevas(cacheObras);
 
-  renderizarHero(cacheObras);
   renderizarObras(cacheObras);
 
   inicializarFiltrosHome();
@@ -151,25 +150,6 @@ function obraMasReciente(obras) {
     if (obras[i].fechaRegistro > r.fechaRegistro) r = obras[i];
   }
   return r;
-}
-
-function obtenerHeroRandom(obras) {
-  var a = añoActual();
-  var delAnio = obras.filter(function (x) { return x.anio === a && (x.imagenHD || x.imagen2k); });
-  if (delAnio.length === 0) {
-    delAnio = obras.filter(function (x) { return x.imagenHD || x.imagen2k; });
-  }
-  if (delAnio.length === 0) return null;
-  var idx = Math.floor(Math.random() * delAnio.length);
-  return delAnio[idx].imagenHD || delAnio[idx].imagen2k;
-}
-
-function renderizarHero(obras) {
-  var img = obtenerHeroRandom(obras);
-  var fondo = document.getElementById('hero-fondo');
-  if (fondo && img) {
-    fondo.style.backgroundImage = 'url(\"' + img + '\")';
-  }
 }
 
 // --- Render: vista única (carousels O secciones) ---

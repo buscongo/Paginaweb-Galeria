@@ -127,6 +127,10 @@ check('las escrituras exigen sesión de admin', /app\.post\('\/api\/obras', requ
 check('las escrituras de series exigen sesión', /app\.post\('\/api\/series', requiereAdmin/.test(servidor));
 
 check('admin.html tiene los dos botones', /id="btn-editar"/.test(leer('html/admin.html')) && /href="subir.html"/.test(leer('html/admin.html')));
+check('existe el retrato de la home (3 tamaños)',
+  existe('img/retrato_andres_thumb.jpg') && existe('img/retrato_andres_medium.jpg') && existe('img/retrato_andres_hd.jpg'));
+check('la home abre con statement y curriculum',
+  /class="home-perfil"/.test(leer('html/index.html')) && /Statement/.test(leer('html/index.html')) && /Curriculum/.test(leer('html/index.html')));
 check('subir.html carga el formulario', /js\/obra-form\.js/.test(leer('html/subir.html')));
 check('editar.html carga el formulario', /js\/obra-form\.js/.test(leer('html/editar.html')));
 

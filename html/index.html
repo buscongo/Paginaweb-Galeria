@@ -21,14 +21,42 @@
     <a href="serie.html?serie=serie_vestigio" class="tab">Vestigio</a>
   </nav>
 
-  <!-- Hero header: fondo = 2k random del año actual -->
-  <header class="hero-header home-hero">
-    <div class="hero-fondo" id="hero-fondo"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-contenido">
-      <h1>Andrés Ramírez Ortíz</h1>
+  <!-- Retrato + statement / trayectoria (reemplaza el antiguo header) -->
+  <section class="home-perfil">
+    <div class="perfil-foto">
+      <img src="img/retrato_andres_medium.jpg"
+           srcset="img/retrato_andres_thumb.jpg 261w, img/retrato_andres_medium.jpg 784w, img/retrato_andres_hd.jpg 1080w"
+           sizes="(max-width: 699px) 100vw, 50vw"
+           alt="Andrés Ramírez Ortíz" fetchpriority="high" decoding="async">
     </div>
-  </header>
+    <div class="perfil-info">
+      <h1 class="perfil-nombre">Andrés Ramírez Ortíz</h1>
+
+      <div class="perfil-bloque">
+        <h2>Statement</h2>
+        <p>
+          Mi interés por la pintura surge de una búsqueda interior dicotómica. Por un lado busco mostrar
+          y expresar por medio de la ficción lo que percibo del mundo que me rodea. Por el otro lado, busco
+          compartir mi devoción por la belleza del mundo natural, desde los paisajes nubosos hasta la figura
+          humana. En ambos casos, la práctica misma y la dedicación al proceso me sirven como fuentes de
+          salud, meditación y esperanza.
+        </p>
+      </div>
+
+      <div class="perfil-bloque">
+        <h2>Curriculum</h2>
+        <ul class="perfil-lista">
+          <li>Exposición colectiva en Casa Temporal. Espacio de investigación y producción artística.</li>
+          <li>Exposición individual en Galería Nacional. Serie: Vestigio.</li>
+          <li>Exposición individual en Edificio Steinvorth, San José.</li>
+          <li>Beneficiario de 4 fondos anuales del Ministerio de Cultura por medio del Museo de Costa Rica.
+              Fondos Concursables para apoyo por la pandemia.</li>
+          <li>Exposición colectiva en Galería Rambar en San José.</li>
+          <li>Exposición colectiva en Galería Rambar en las Islas Catalinas.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
   <!-- Franja: filtros y galería principal (vista única controlada por VER TODO) -->
   <div class="franja franja-todas">
