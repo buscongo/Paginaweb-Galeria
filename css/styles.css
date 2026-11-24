@@ -1845,7 +1845,7 @@ footer .footer-email {
 /* ===== Barra lateral fija: obra nueva / actualizada ===== */
 .obra-lateral {
   position: fixed;
-  top: 44px;
+  top: var(--lateral-top, 44px);
   left: 0;
   bottom: 0;
   width: var(--lateral-ancho, 250px);
@@ -1896,6 +1896,8 @@ footer .footer-email {
   display: block;
   width: 100%;
   height: auto;
+  max-height: 52vh;
+  object-fit: contain;
   background: #2f2f2f;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -1935,8 +1937,7 @@ footer .footer-email {
 .series-tabs { transition: transform 0.28s ease; }
 body.nav-oculta .series-tabs { transform: translateY(-100%); }
 
-.obra-lateral { transition: top 0.28s ease; }
-body.nav-oculta .obra-lateral { top: 0; }
+.obra-lateral { will-change: top; }
 
 /* ===== Página de exportación: selección de obras ===== */
 .exportar-ayuda {
@@ -2067,4 +2068,21 @@ body.con-barra-exportar { padding-bottom: 84px; }
   margin: 0.9rem 0 0;
   font-size: 0.8rem;
   opacity: 0.85;
+}
+
+/* Casilla del modal de exportación */
+.campo-check-export {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.campo-check-export input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #ffffff;
+  cursor: pointer;
 }

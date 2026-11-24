@@ -135,6 +135,13 @@ check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
 check('la barra lateral usa medium y las dos etiquetas',
   /imagenMedium/.test(leer('js/obra-lateral.js')) && /Nueva Obra/.test(leer('js/obra-lateral.js')) && /Obra actualizada/.test(leer('js/obra-lateral.js')));
+check('la página de exportación tiene la casilla de precios',
+  /id="chk-precios"/.test(leer('html/exportar.html')));
+check('el documento genera hojas de serie e índice',
+  /function hojaSerie/.test(leer('js/exportar.js')) && /function hojaIndice/.test(leer('js/exportar.js')) &&
+  /OBRAS_POR_INDICE = 8/.test(leer('js/exportar.js')));
+check('la barra lateral arranca debajo del menú de filtros',
+  /--lateral-top/.test(leer('css/styles.css')) && /filtros-barra/.test(leer('js/obra-lateral.js')));
 check('el servidor sella fechaModificacion al guardar',
   /obra\.fechaModificacion = ahora\.toISOString\(\)/.test(servidor) && /fechaModificacion: new Date\(\)\.toISOString\(\)/.test(servidor));
 check('el admin tiene el tercer botón de exportar',

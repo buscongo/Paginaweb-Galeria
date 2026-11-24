@@ -252,13 +252,15 @@ async function generarDocumento() {
     return obrasExp.find(function (o) { return o.id === id; });
   }).filter(Boolean);
 
+  var mostrarPrecios = !!document.getElementById('chk-precios').checked;
+
   boton.disabled = true;
   estado.hidden = false;
   estado.textContent = 'Preparando imágenes…';
 
   try {
     var imagenes = await prepararImagenes(obras);
-    var html = construirDocumento(nombre, obras, imagenes);
+    var html = construirDocumento(nombre, obras, imagenes, { precios: mostrarPrecios });
     abrirDocumento(html);
     cerrarModalNombre();
   } catch (e) {
@@ -268,23 +270,28 @@ async function generarDocumento() {
   }
 }
 
-/* Convierte cada imagen en data URL para que el archivo generado funcione solo */
+/* Convierte cada imagen en data URL para que el archivo generado funcione solo.
+   Se guardan dos versiones por obra: la grande (hoja) y el thumb (índice). */
 async function prepararImagenes(obras) {
-  var salida = {};
+  var salida = { grande: {}, chico: {} };
   for (var i = 0; i < obras.length; i++) {
     var o = obras[i];
-    var src = o.imagenHD || o.imagenMedium || o.imagen || '';
-    if (!src) { salida[o.id] = ''; continue; }
-    try {
-      var r = await fetch(src);
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      var blob = await r.blob();
-      salida[o.id] = await blobADataURL(blob);
-    } catch (e) {
-      salida[o.id] = src;     /* si falla, se usa la ruta relativa */
-    }
+    salida.grande[o.id] = await embeber(o.imagenHD || o.imagenMedium || o.imagen);
+    salida.chico[o.id] = await embeber(o.imagen || o.imagenMedium || o.imagenHD);
   }
   return salida;
+}
+
+async function embeber(src) {
+  if (!src) return '';
+  try {
+    var r = await fetch(src);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    var blob = await r.blob();
+    return await blobADataURL(blob);
+  } catch (e) {
+    return src;     /* si falla, se usa la ruta relativa */
+  }
 }
 
 function blobADataURL(blob) {
@@ -298,12 +305,78 @@ function blobADataURL(blob) {
 
 /* ---------- Documento ---------- */
 
-function construirDocumento(nombre, obras, imagenes) {
+/* Agrupa las obras por serie respetando el orden de las series del sitio */
+function agruparPorSerie(obras) {
+  var orden = [];
+  var mapa = {};
+  obras.forEach(function (o) {
+    var id = o.serieId || 'sin-serie';
+    if (!mapa[id]) { mapa[id] = { id: id, obras: [] }; orden.push(id); }
+    mapa[id].obras.push(o);
+  });
+  return orden.map(function (id) { return mapa[id]; });
+}
+
+/* Arma el orden de hojas y numera cada obra como página del PDF */
+function planificarSecciones(obras) {
+  var grupos = agruparPorSerie(obras);
+  var secciones = [{ tipo: 'portada' }];
+
+  var paginasIndice = Math.max(1, Math.ceil(obras.length / OBRAS_POR_INDICE));
+  for (var i = 0; i < paginasIndice; i++) {
+    secciones.push({ tipo: 'indice', desde: i * OBRAS_POR_INDICE });
+  }
+
+  grupos.forEach(function (g) {
+    secciones.push({ tipo: 'serie', grupo: g });
+    g.obras.forEach(function (o) { secciones.push({ tipo: 'obra', obra: o }); });
+  });
+
+  secciones.forEach(function (s, i) { s.numero = i + 1; });
+
+  var paginaDeObra = {};
+  secciones.forEach(function (s) { if (s.tipo === 'obra') paginaDeObra[s.obra.id] = s.numero; });
+
+  /* Orden de aparición de las obras (para el índice) */
+  var ordenObras = [];
+  grupos.forEach(function (g) { g.obras.forEach(function (o) { ordenObras.push(o); }); });
+
+  return { secciones: secciones, paginaDeObra: paginaDeObra, ordenObras: ordenObras, grupos: grupos };
+}
+
+var OBRAS_POR_INDICE = 8;
+
+/* Ordena por serie (según el orden del sitio) y dentro de cada serie por fecha */
+function ordenarObras(obras) {
+  var posicion = {};
+  cacheSeries.forEach(function (s, i) { posicion[s.id] = i; });
+  return obras.slice().sort(function (a, b) {
+    var pa = posicion[a.serieId];
+    var pb = posicion[b.serieId];
+    pa = pa === undefined ? 999 : pa;
+    pb = pb === undefined ? 999 : pb;
+    if (pa !== pb) return pa - pb;
+    return String(b.fechaRegistro).localeCompare(String(a.fechaRegistro));
+  });
+}
+
+function construirDocumento(nombre, obras, imagenes, opciones) {
+  var precios = !!(opciones && opciones.precios);
   var hoy = new Date();
   var fecha = hoy.getDate() + '/' + (hoy.getMonth() + 1) + '/' + hoy.getFullYear();
+  obras = ordenarObras(obras);
   var total = obras.length;
-  var hojas = obras.map(function (o, i) {
-    return hojaObra(o, imagenes[o.id], i + 1, total);
+  var plan = planificarSecciones(obras);
+  var totalPaginas = plan.secciones.length;
+
+  var hojas = plan.secciones.map(function (s) {
+    if (s.tipo === 'portada') return portada(nombre, total, fecha);
+    if (s.tipo === 'indice') {
+      return hojaIndice(plan.ordenObras.slice(s.desde, s.desde + OBRAS_POR_INDICE),
+        imagenes.chico, plan.paginaDeObra, s.numero, totalPaginas);
+    }
+    if (s.tipo === 'serie') return hojaSerie(s.grupo);
+    return hojaObra(s.obra, imagenes.grande[s.obra.id], s.numero, totalPaginas, precios);
   }).join('\n');
 
   return '<!DOCTYPE html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n' +
@@ -311,11 +384,12 @@ function construirDocumento(nombre, obras, imagenes) {
     '<link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">\n' +
     '<style>' + estilosDocumento() + '</style>\n</head>\n<body>\n' +
     '<div class="barra">' +
-      '<span class="barra-titulo">' + escaparHTML(nombre) + ' · ' + total + (total === 1 ? ' obra' : ' obras') + '</span>' +
-      '<span class="barra-nota">Tamaño de página: 1920 × 1080 px · ' + fecha + '</span>' +
+      '<span class="barra-titulo">' + escaparHTML(nombre) + ' · ' + total + (total === 1 ? ' obra' : ' obras') +
+        ' · ' + totalPaginas + ' páginas</span>' +
+      '<span class="barra-nota">Página 1920 × 1080 px · ' + fecha + (precios ? ' · con precios' : '') + '</span>' +
       '<button type="button" class="barra-boton" onclick="window.print()">Exportar a PDF</button>' +
     '</div>\n' +
-    portada(nombre, total, fecha) + '\n' + hojas + '\n</body>\n</html>';
+    hojas + '\n</body>\n</html>';
 }
 
 function portada(nombre, total, fecha) {
@@ -326,7 +400,40 @@ function portada(nombre, total, fecha) {
     '</section>';
 }
 
-function hojaObra(o, imagen, numero, total) {
+/* Hoja de índice: 8 obras por página en dos columnas, con la página de cada una */
+function hojaIndice(obras, chico, paginaDeObra, numero, totalPaginas) {
+  var filas = obras.map(function (o) {
+    var img = chico[o.id]
+      ? '<img src="' + chico[o.id] + '" alt="' + escaparHTML(o.titulo) + '">'
+      : '<span class="indice-sin">—</span>';
+    return '<li class="indice-item">' +
+      '<span class="indice-mini">' + img + '</span>' +
+      '<span class="indice-texto"><span class="indice-nombre">' + escaparHTML(o.titulo) + '</span>' +
+      '<span class="indice-puntos"></span>' +
+      '<span class="indice-pagina">' + (paginaDeObra[o.id] || '') + '</span></span>' +
+      '</li>';
+  }).join('');
+
+  return '<section class="hoja indice">' +
+    '<div class="indice-cabecera"><h2>Índice</h2>' +
+      '<span class="indice-numero">' + numero + ' / ' + totalPaginas + '</span></div>' +
+    '<ul class="indice-lista">' + filas + '</ul>' +
+    '</section>';
+}
+
+/* Hoja que separa las obras de cada serie */
+function hojaSerie(grupo) {
+  var serie = buscarSerie(grupo.id);
+  var tema = serie ? capitalizar(serie.tema) : 'Sin serie';
+  var n = grupo.obras.length;
+  return '<section class="hoja serie-hoja">' +
+    '<p class="serie-etiqueta">Serie</p>' +
+    '<h2 class="serie-nombre-grande">' + escaparHTML(tema) + '</h2>' +
+    '<p class="serie-cuenta-grande">' + n + (n === 1 ? ' obra seleccionada' : ' obras seleccionadas') + '</p>' +
+    '</section>';
+}
+
+function hojaObra(o, imagen, numero, totalPaginas, mostrarPrecios) {
   var serie = buscarSerie(o.serieId);
   var filas = [];
   if (o.anio) filas.push(['Año', String(o.anio)]);
@@ -335,7 +442,9 @@ function hojaObra(o, imagen, numero, total) {
   var tam = textoTamanoObra(o);
   if (tam) filas.push(['Medidas', tam]);
   filas.push(['Disponibilidad', o.disponible ? 'Disponible' : 'No disponible']);
-  if (o.disponible && o.precio) filas.push(['Precio', formatoMoneda(o.precio)]);
+  if (mostrarPrecios) {
+    filas.push(['Precio', o.disponible && o.precio ? formatoMoneda(o.precio) : 'Consultar']);
+  }
 
   var ficha = filas.map(function (f) {
     return '<div class="fila"><dt>' + escaparHTML(f[0]) + '</dt><dd>' + escaparHTML(f[1]) + '</dd></div>';
@@ -351,7 +460,7 @@ function hojaObra(o, imagen, numero, total) {
       (serie ? '<p class="serie">Serie: ' + escaparHTML(capitalizar(serie.tema)) + '</p>' : '') +
       '<h1 class="titulo">' + escaparHTML(o.titulo) + '</h1>' +
       '<dl class="ficha">' + ficha + '</dl>' +
-      '<p class="numero">' + numero + ' / ' + total + '</p>' +
+      '<p class="numero">' + numero + ' / ' + totalPaginas + '</p>' +
     '</div>' +
     '</section>';
 }
@@ -390,6 +499,28 @@ function estilosDocumento() {
     '.fila dt { margin: 0; opacity: .6; letter-spacing: .1em; text-transform: uppercase; font-size: 17px; padding-top: 6px; }',
     '.fila dd { margin: 0; text-align: right; max-width: 62%; }',
     '.numero { margin: 18px 0 0; font-size: 18px; opacity: .45; letter-spacing: .14em; }',
+    '.serie-hoja { background: #4a4a4a; color: #fff; flex-direction: column; justify-content: center;',
+    '  padding: 0 160px; gap: 16px; }',
+    '.serie-etiqueta { margin: 0; font-size: 22px; letter-spacing: .22em; text-transform: uppercase; opacity: .6; }',
+    '.serie-nombre-grande { margin: 0; font-size: 96px; font-weight: 400; line-height: 1.05; }',
+    '.serie-cuenta-grande { margin: 12px 0 0; font-size: 30px; opacity: .75; }',
+    '.indice { flex-direction: column; padding: 84px 140px 70px; }',
+    '.indice-cabecera { display: flex; align-items: baseline; justify-content: space-between;',
+    '  border-bottom: 2px solid #111; padding-bottom: 16px; }',
+    '.indice-cabecera h2 { margin: 0; font-size: 46px; font-weight: 400; letter-spacing: .04em; }',
+    '.indice-numero { font-size: 20px; opacity: .5; letter-spacing: .1em; }',
+    '.indice-lista { list-style: none; margin: 22px 0 0; padding: 0; display: grid;',
+    '  grid-template-columns: 1fr 1fr; column-gap: 64px; align-content: start; }',
+    '.indice-item { display: flex; align-items: center; gap: 20px; padding: 12px 0;',
+    '  border-bottom: 1px solid #e2e2e2; height: 132px; }',
+    '.indice-mini { flex: 0 0 100px; width: 100px; height: 100px; background: #eee; overflow: hidden;',
+    '  display: flex; align-items: center; justify-content: center; font-size: 20px; color: #999; }',
+    '.indice-mini img { width: 100px; height: 100px; object-fit: cover; display: block; }',
+    '.indice-texto { display: flex; align-items: baseline; gap: 8px; flex: 1; min-width: 0; }',
+    '.indice-nombre { font-size: 26px; max-width: 72%; white-space: nowrap; overflow: hidden;',
+    '  text-overflow: ellipsis; }',
+    '.indice-puntos { flex: 1; border-bottom: 1px dotted #c4c4c4; transform: translateY(-5px); }',
+    '.indice-pagina { font-size: 24px; min-width: 42px; text-align: right; }',
     '.hoja + .hoja { margin-top: 24px; }',
     '@media print {',
     '  body { padding-top: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }',

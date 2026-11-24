@@ -102,10 +102,20 @@ function cerrarObraLateral() {
   try { sessionStorage.setItem(CLAVE_CERRADA, '1'); } catch (e) { /* modo privado */ }
 }
 
-/* La barra de navegación se oculta al bajar y reaparece al subir; la lateral
-   queda fija y se estira hasta el borde superior mientras la otra no se ve. */
+/* La barra de navegación se oculta al bajar; la lateral arranca debajo del
+   menú de filtros y se queda pegada arriba cuando el scroll la alcanza. */
 function vigilarScrollNav() {
   var ultimo = window.scrollY || window.pageYOffset;
+
+  function ajustarLateral() {
+    var filtros = document.querySelector('.filtros-barra');
+    var top = 44;
+    if (filtros) {
+      var r = filtros.getBoundingClientRect();
+      top = Math.max(0, Math.round(r.bottom));
+    }
+    document.documentElement.style.setProperty('--lateral-top', top + 'px');
+  }
 
   function revisar() {
     var y = window.scrollY || window.pageYOffset;
@@ -118,11 +128,15 @@ function vigilarScrollNav() {
       document.body.classList.remove('nav-oculta');
     }
     ultimo = y;
+    ajustarLateral();
   }
 
   window.addEventListener('scroll', revisar, { passive: true });
+  window.addEventListener('resize', ajustarLateral);
   window.addEventListener('wheel', function () { setTimeout(revisar, 0); }, { passive: true });
   window.addEventListener('touchmove', function () { setTimeout(revisar, 0); }, { passive: true });
+  ajustarLateral();
+  setTimeout(ajustarLateral, 600);      /* por si las tarjetas cambian el alto al llegar */
 }
 
 async function iniciarObraLateral() {

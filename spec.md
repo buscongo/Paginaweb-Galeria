@@ -145,10 +145,11 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 ### RF-18: Exportar la galería a PDF ✅
 **WHEN** el administrador entra a `admin.html` y pulsa **Exportar PDF**  \
 **THEN** SHALL ver la galería agrupada por serie (como en Editar) con una casilla por obra y por serie, los mismos filtros de la galería (serie, año, disponibilidad, tamaño, nombre) y un botón **Seleccionar todo** que abarca solo las obras filtradas  \
-**AND** al pulsar **Exportar** SHALL pedir un nombre (modal) y abrir un HTML nuevo con una portada 1920 × 1080 («Andrés Ramírez Ortiz» / «Obra \<nombre\>») y **una hoja de 1920 × 1080 por obra**: la imagen ocupando los dos tercios izquierdos y la ficha completa en el tercio derecho  \
+**AND** al pulsar **Exportar** SHALL pedir un nombre (modal, con la casilla «Mostrar precios») y abrir un HTML nuevo con una portada 1920 × 1080 («Andrés Ramírez Ortiz» / «Obra \<nombre\>»), seguida de las **hojas de índice** (8 obras por hoja en dos columnas, miniatura de 100 × 100 px, nombre y número de página), una **hoja de serie** («Serie: \<nombre\>» y cuántas obras de esa serie se seleccionaron) antes de las obras de cada serie distinta, y **una hoja de 1920 × 1080 por obra**: la imagen ocupando los dos tercios izquierdos y la ficha completa en el tercio derecho  \
+**AND** la fila de precio SHALL aparecer solo si se marcó «Mostrar precios» (valor `$1,600` si está disponible, «Consultar» si no)  \
 **AND** ese documento SHALL tener un botón fijo «Exportar a PDF» que abre el diálogo de impresión con páginas de 1920 × 1080 px (1440 × 810 pt), una hoja por página.  \
 **WHY**: el artista necesita llevar selecciones de obra a PDF sin depender de herramientas externas.  \
-**IMPL**: `html/exportar.html` + `js/exportar.js` (`construirDocumento()`, `prepararImagenes()` con las imágenes embebidas en base64), estilos de impresión con `@page { size: 1920px 1080px }`; alias `/exportar` en `server.js`.
+**IMPL**: `html/exportar.html` + `js/exportar.js` (`planificarSecciones()` numera las hojas, `construirDocumento()`, `hojaSerie()`, `hojaIndice()`, `prepararImagenes()` con las imágenes embebidas en base64 —grande para la hoja, thumb para el índice—), estilos de impresión con `@page { size: 1920px 1080px }`; alias `/exportar` en `server.js`.
 
 ## Cómo iniciar
 ```bash
