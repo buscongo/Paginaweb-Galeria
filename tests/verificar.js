@@ -137,6 +137,13 @@ check('la barra lateral usa medium y las dos etiquetas',
   /imagenMedium/.test(leer('js/obra-lateral.js')) && /Nueva Obra/.test(leer('js/obra-lateral.js')) && /Obra actualizada/.test(leer('js/obra-lateral.js')));
 check('el servidor sella fechaModificacion al guardar',
   /obra\.fechaModificacion = ahora\.toISOString\(\)/.test(servidor) && /fechaModificacion: new Date\(\)\.toISOString\(\)/.test(servidor));
+check('el admin tiene el tercer botón de exportar',
+  /href="exportar\.html"/.test(leer('html/admin.html')) && /Exportar PDF/.test(leer('html/admin.html')));
+check('la página de exportación existe y carga sus scripts',
+  /id="obras-por-serie"/.test(leer('html/exportar.html')) && /js\/exportar\.js/.test(leer('html/exportar.html')));
+check('exportar genera hojas de 1920×1080 con botón de PDF',
+  /size: 1920px 1080px/.test(leer('js/exportar.js')) && /window\.print\(\)/.test(leer('js/exportar.js')));
+check('/exportar tiene alias propio', /'\/exportar': '\/exportar\.html'/.test(servidor));
 check('subir.html carga el formulario', /js\/obra-form\.js/.test(leer('html/subir.html')));
 check('editar.html carga el formulario', /js\/obra-form\.js/.test(leer('html/editar.html')));
 
@@ -144,7 +151,8 @@ var css = leer('css/styles.css');
 check('CSS balanceado', (css.match(/{/g) || []).length === (css.match(/}/g) || []).length);
 
 ['data.js', 'gallery.js', 'home.js', 'pintura.js', 'serie.js', 'admin.js', 'admin-gate.js',
- 'obra-form.js', 'imagenes.js', 'subir.js', 'editar.js'].forEach(function (f) {
+ 'obra-form.js', 'imagenes.js', 'subir.js', 'editar.js', 'obra-lateral.js', 'exportar.js',
+ 'galeria-util.js'].forEach(function (f) {
   check('existe js/' + f, existe('js/' + f));
 });
 

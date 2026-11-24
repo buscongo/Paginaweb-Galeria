@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exportar PDF — Andrés Ramírez Ortíz</title>
+  <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <!-- Navegación por series (igual que la home) -->
+  <nav class="series-tabs" id="series-tabs">
+    <button class="series-toggle" aria-label="Menú" aria-expanded="false">☰</button>
+    <a href="index.html" class="tab">Inicio</a>
+    <a href="admin.html" class="tab">Admin</a>
+    <a href="exportar.html" class="tab active">Exportar</a>
+  </nav>
+
+  <header class="admin-header">
+    <h1>Exportar PDF</h1>
+    <div class="admin-header-acciones">
+      <button type="button" id="btn-salir" class="btn btn-cancelar">Salir</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <p class="exportar-ayuda">
+      Marcá las obras con la casilla (o la serie entera con la casilla del título). Los filtros de abajo
+      acotan lo que se ve y lo que abarca <strong>Seleccionar todo</strong>.
+    </p>
+
+    <div class="filtros-barra filtros-exportar">
+      <div class="filtros-selects">
+        <select id="filtro-serie" aria-label="Filtrar por serie"></select>
+        <select id="filtro-ano" aria-label="Filtrar por año"></select>
+        <select id="filtro-disponibilidad" aria-label="Filtrar por disponibilidad"></select>
+        <select id="filtro-tamano" aria-label="Filtrar por tamaño"></select>
+        <input type="search" id="filtro-buscar" class="filtro-buscar" placeholder="Buscar por nombre…"
+               aria-label="Buscar obras por nombre" autocomplete="off">
+      </div>
+      <div class="filtros-acciones">
+        <button type="button" id="btn-todo" class="btn-ver-todo">SELECCIONAR TODO</button>
+        <button type="button" id="btn-limpiar" class="btn btn-cancelar">Limpiar selección</button>
+      </div>
+    </div>
+
+    <div id="obras-por-serie"></div>
+  </main>
+
+  <!-- Barra inferior con el contador y el botón de exportar -->
+  <div class="exportar-barra" id="exportar-barra" hidden>
+    <span id="exportar-cuenta">0 obras seleccionadas</span>
+    <button type="button" id="btn-exportar" class="btn-admin-mini">Exportar</button>
+  </div>
+
+  <!-- Modal: nombre de la portada -->
+  <div id="modal-nombre" class="modal-overlay">
+    <div class="modal modal-nombre" role="dialog" aria-modal="true" aria-labelledby="modal-nombre-titulo">
+      <button type="button" class="modal-cerrar" id="modal-nombre-cerrar" aria-label="Cerrar">&times;</button>
+      <h3 id="modal-nombre-titulo">Nombre de la portada</h3>
+      <p class="modal-nombre-ayuda">Aparecerá como <em>Obra &lt;nombre&gt;</em> en la portada del documento.</p>
+      <input type="text" id="campo-nombre" class="campo-nombre" placeholder="Ej.: Vestigio, Serie Nubes, 2026…" autocomplete="off">
+      <div class="modal-nombre-botones">
+        <button type="button" class="btn btn-cancelar" id="modal-nombre-cancelar">Cancelar</button>
+        <button type="button" class="btn btn-primario" id="modal-nombre-generar">Generar documento</button>
+      </div>
+      <p class="modal-nombre-estado" id="modal-nombre-estado" hidden></p>
+    </div>
+  </div>
+
+  <script src="../js/data.js"></script>
+  <script src="../js/galeria-util.js"></script>
+  <script src="../js/admin-gate.js"></script>
+  <script src="../js/exportar.js"></script>
+</body>
+</html>

@@ -1846,7 +1846,7 @@ footer .footer-email {
 .obra-lateral {
   position: fixed;
   top: 44px;
-  right: 0;
+  left: 0;
   bottom: 0;
   width: var(--lateral-ancho, 250px);
   padding: 0.9rem 0.9rem 1.4rem;
@@ -1854,7 +1854,7 @@ footer .footer-email {
   flex-direction: column;
   gap: 0.55rem;
   background: #3f3f3f;
-  border-left: 1px solid rgba(255, 255, 255, 0.16);
+  border-right: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
   overflow-y: auto;
   z-index: 900;
@@ -1923,10 +1923,148 @@ footer .footer-email {
 
 /* El contenido se corre para no quedar debajo de la barra */
 @media (min-width: 900px) {
-  body.con-obra-lateral { padding-right: var(--lateral-ancho, 250px); }
+  body.con-obra-lateral { padding-left: var(--lateral-ancho, 250px); }
 }
 
 /* En móvil no hay sitio para una barra lateral */
 @media (max-width: 899px) {
   .obra-lateral { display: none !important; }
+}
+
+/* La barra superior se esconde al bajar y la lateral sube hasta el borde */
+.series-tabs { transition: transform 0.28s ease; }
+body.nav-oculta .series-tabs { transform: translateY(-100%); }
+
+.obra-lateral { transition: top 0.28s ease; }
+body.nav-oculta .obra-lateral { top: 0; }
+
+/* ===== Página de exportación: selección de obras ===== */
+.exportar-ayuda {
+  margin: 0 auto 1.2rem;
+  max-width: 70ch;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.serie-sel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.serie-sel input,
+.chk-serie {
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: #ffffff;
+  cursor: pointer;
+}
+
+.tarjeta-sel { position: relative; cursor: pointer; }
+
+.tarjeta-sel .sel-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  background: rgba(0, 0, 0, 0.35);
+  color: #ffffff;
+  font-size: 15px;
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+}
+
+.tarjeta-sel:hover .sel-check,
+.tarjeta-sel:focus-visible .sel-check { opacity: 0.85; }
+
+.tarjeta-sel.marcada .sel-check {
+  opacity: 1;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #1a1a1a;
+}
+
+.tarjeta-sel.marcada { outline: 3px solid #ffffff; outline-offset: -3px; }
+
+/* Barra inferior con el contador y el botón Exportar */
+.exportar-barra {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 950;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 64px;
+  padding: 0 1.2rem;
+  background: #3a3a3a;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  font-size: 0.9rem;
+}
+
+body.con-barra-exportar { padding-bottom: 84px; }
+
+.btn-admin-mini {
+  padding: 0.7rem 1.7rem;
+  border: 0;
+  background: #ffffff;
+  color: #111111;
+  font-family: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* Modal del nombre de la portada */
+.modal-nombre { max-width: 460px; }
+
+.modal-nombre h3 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 400;
+}
+
+.modal-nombre-ayuda {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  opacity: 0.8;
+  line-height: 1.45;
+}
+
+.campo-nombre {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: #4a4a4a;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.modal-nombre-botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.1rem;
+}
+
+.modal-nombre-estado {
+  margin: 0.9rem 0 0;
+  font-size: 0.8rem;
+  opacity: 0.85;
 }

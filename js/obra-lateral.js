@@ -102,6 +102,29 @@ function cerrarObraLateral() {
   try { sessionStorage.setItem(CLAVE_CERRADA, '1'); } catch (e) { /* modo privado */ }
 }
 
+/* La barra de navegación se oculta al bajar y reaparece al subir; la lateral
+   queda fija y se estira hasta el borde superior mientras la otra no se ve. */
+function vigilarScrollNav() {
+  var ultimo = window.scrollY || window.pageYOffset;
+
+  function revisar() {
+    var y = window.scrollY || window.pageYOffset;
+    var delta = y - ultimo;
+    if (y < 60) {
+      document.body.classList.remove('nav-oculta');
+    } else if (delta > 4) {
+      document.body.classList.add('nav-oculta');
+    } else if (delta < -4) {
+      document.body.classList.remove('nav-oculta');
+    }
+    ultimo = y;
+  }
+
+  window.addEventListener('scroll', revisar, { passive: true });
+  window.addEventListener('wheel', function () { setTimeout(revisar, 0); }, { passive: true });
+  window.addEventListener('touchmove', function () { setTimeout(revisar, 0); }, { passive: true });
+}
+
 async function iniciarObraLateral() {
   try {
     if (sessionStorage.getItem(CLAVE_CERRADA) === '1') return;
@@ -112,6 +135,7 @@ async function iniciarObraLateral() {
 
   var obras = await obtenerObras();
   pintarObraLateral(elegirObraLateral(obras));
+  vigilarScrollNav();
 }
 
 document.addEventListener('DOMContentLoaded', iniciarObraLateral);

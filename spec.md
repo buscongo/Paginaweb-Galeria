@@ -134,13 +134,21 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 
 ### RF-17: Barra lateral con la obra reciente ✅
 **WHEN** el visitante abre la home en una pantalla de 900 px o más de ancho  \
-**THEN** SHALL verse una barra fija a la derecha (250 px, `#3f3f3f`) con la obra más reciente  \
+**THEN** SHALL verse una barra fija a la **izquierda** (250 px, `#3f3f3f`), pegada al borde superior, con la obra más reciente  \
 **AND** si alguna obra tiene `fechaRegistro` en los últimos 30 días, SHALL mostrar la más nueva con el título **«Nueva Obra»**  \
 **AND** si no, SHALL mostrar la obra con `fechaModificacion` más reciente con el título **«Obra actualizada»** (si no hay `fechaModificacion`, se usa `fechaRegistro`)  \
 **AND** debajo de la imagen SHALL mostrar nombre, tamaño (`ancho × alto cm`, se omite si es 0) y disponibilidad  \
 **AND** la imagen SHALL ser la versión `imagenMedium` y enlazar a la ficha de la obra.  \
 **WHY**: destacar lo último sin que el visitante tenga que buscarlo.  \
-**IMPL**: `js/obra-lateral.js` (`elegirObraLateral()`), markup `#obra-lateral` en `html/index.html`, estilos `.obra-lateral`; el servidor sella `fechaModificacion` en cada `POST`/`PUT` de obras. Se oculta en móvil (<900 px) y el botón × la cierra durante la sesión.
+**IMPL**: `js/obra-lateral.js` (`elegirObraLateral()`), markup `#obra-lateral` en `html/index.html`, estilos `.obra-lateral`; el servidor sella `fechaModificacion` en cada `POST`/`PUT` de obras. La barra superior se esconde al bajar (clase `nav-oculta` en el `body`) y la lateral se estira hasta el borde. Se oculta en móvil (<900 px) y el botón × la cierra durante la sesión.
+
+### RF-18: Exportar la galería a PDF ✅
+**WHEN** el administrador entra a `admin.html` y pulsa **Exportar PDF**  \
+**THEN** SHALL ver la galería agrupada por serie (como en Editar) con una casilla por obra y por serie, los mismos filtros de la galería (serie, año, disponibilidad, tamaño, nombre) y un botón **Seleccionar todo** que abarca solo las obras filtradas  \
+**AND** al pulsar **Exportar** SHALL pedir un nombre (modal) y abrir un HTML nuevo con una portada 1920 × 1080 («Andrés Ramírez Ortiz» / «Obra \<nombre\>») y **una hoja de 1920 × 1080 por obra**: la imagen ocupando los dos tercios izquierdos y la ficha completa en el tercio derecho  \
+**AND** ese documento SHALL tener un botón fijo «Exportar a PDF» que abre el diálogo de impresión con páginas de 1920 × 1080 px (1440 × 810 pt), una hoja por página.  \
+**WHY**: el artista necesita llevar selecciones de obra a PDF sin depender de herramientas externas.  \
+**IMPL**: `html/exportar.html` + `js/exportar.js` (`construirDocumento()`, `prepararImagenes()` con las imágenes embebidas en base64), estilos de impresión con `@page { size: 1920px 1080px }`; alias `/exportar` en `server.js`.
 
 ## Cómo iniciar
 ```bash
