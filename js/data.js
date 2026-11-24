@@ -10,9 +10,17 @@ async function guardarIdiomaAPI(i){try{await fetch(API_URL+'/config/idioma',{met
 function invalidarCache(){cacheObras=[];cacheSeries=[];}function setMostrarArchivadas(v){MOSTRAR_ARCHIVADAS=v;}
 async function obtenerObras(f){if(cacheObras.length&&!f)return cacheObras;try{var u=API_URL+'/obras';if(MOSTRAR_ARCHIVADAS)u+='?archivadas=true';var r=await fetch(u);if(!r.ok)throw new Error('HTTP '+r.status);cacheObras=await r.json();return cacheObras;}catch(e){console.warn('API obras:',e.message);return cacheObras;}}
 async function obtenerObra(id){try{var r=await fetch(API_URL+'/obras/'+id);if(!r.ok)throw new Error('HTTP '+r.status);return await r.json();}catch(e){console.warn('API obra:',e.message);return null;}}
-async function guardarObraAPI(o){try{await fetch(API_URL+'/obras',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});}catch(e){console.error(e.message);alert('No se pudo guardar. ¿Servidor activo?');return false;}return true;}
-async function actualizarObraAPI(o){try{await fetch(API_URL+'/obras/'+o.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});}catch(e){console.error(e.message);alert('No se pudo actualizar.');return false;}return true;}
-async function archivarObraAPI(id){try{await fetch(API_URL+'/obras/'+id,{method:'DELETE'});}catch(e){console.error(e.message);alert('No se pudo archivar.');return false;}return true;}
+async function guardarObraAPI(o){try{var r=await fetch(API_URL+'/obras',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});if(r.status===401){alert('Sesión expirada: volvé a entrar al admin.');return false;}if(!r.ok){alert('No se pudo guardar (HTTP '+r.status+').');return false;}}catch(e){console.error(e.message);alert('No se pudo guardar. ¿Servidor activo?');return false;}return true;}
+async function actualizarObraAPI(o){try{var r=await fetch(API_URL+'/obras/'+o.id,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});if(r.status===401){alert('Sesión expirada: volvé a entrar al admin.');return false;}if(!r.ok){alert('No se pudo actualizar (HTTP '+r.status+').');return false;}}catch(e){console.error(e.message);alert('No se pudo actualizar.');return false;}return true;}
+async function archivarObraAPI(id){try{var r=await fetch(API_URL+'/obras/'+id,{method:'DELETE'});if(!r.ok){alert('No se pudo archivar (HTTP '+r.status+').');return false;}}catch(e){console.error(e.message);alert('No se pudo archivar.');return false;}return true;}
+
+/* ---- Sesión de admin ---- */
+async function loginAPI(pass){try{var r=await fetch(API_URL+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});return r.ok;}catch(e){return false;}}
+async function logoutAPI(){try{await fetch(API_URL+'/logout',{method:'POST'});}catch(e){}}
+async function sesionAPI(){try{var r=await fetch(API_URL+'/sesion');if(!r.ok)return false;var d=await r.json();return !!d.ok;}catch(e){return false;}}
+
+/* ---- Subida de una foto en sus 3 tamaños ---- */
+async function subirFotoAPI(base,variante,urls){try{var r=await fetch(API_URL+'/imagenes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({base:base,variante:variante,urls:urls})});var d=await r.json().catch(function(){return{};});if(!r.ok)return {error:d.error||('HTTP '+r.status)};return d;}catch(e){return {error:e.message};}}
 async function obtenerSeries(f){if(cacheSeries.length&&!f)return cacheSeries;try{var r=await fetch(API_URL+'/series');if(!r.ok)throw new Error('HTTP '+r.status);cacheSeries=await r.json();return cacheSeries;}catch(e){console.warn('API series:',e.message);return cacheSeries;}}
 async function guardarSerieAPI(s){try{await fetch(API_URL+'/series',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(s)});}catch(e){console.error(e.message);alert('No se pudo guardar.');return false;}return true;}
 async function archivarSerieAPI(id){try{await fetch(API_URL+'/series/'+id,{method:'DELETE'});}catch(e){console.error(e.message);return false;}return true;}
@@ -20,6 +28,7 @@ function buscarSerie(id){return cacheSeries.find(function(s){return s.id===id;})
 function calcularPrecio(a,b,f){return (a+b)*f;}
 function formatoMoneda(c){return '$'+c.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function generarId(){return 'obra_'+(Date.now().toString(36))+'_'+Math.random().toString(36).substr(2,5);}
+function generarIdSerie(){return 'serie_'+(Date.now().toString(36))+'_'+Math.random().toString(36).substr(2,4);}
 function añoActual(){var d=new Date();return d.getFullYear();}
 function fechaHoyStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function formatearFecha(f){var p=f.split('-');return p[2]+'/'+p[1]+'/'+p[0];}

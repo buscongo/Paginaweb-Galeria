@@ -112,9 +112,9 @@ function renderizarDetalle(o) {
 
   // Fotos = [portada] + detalles (portada también entra al carousel)
   var fotos = [];
-  if (o.imagen2k) fotos.push({ thumb: o.imagen, full: o.imagen2k });
+  if (o.imagen2k) fotos.push({ thumb: o.imagen, medium: o.imagenMedium || o.imagen2k, full: o.imagen2k });
   (o.detalles || []).forEach(function (d) {
-    if (d && d.thumb && d.full) fotos.push(d);
+    if (d && d.thumb && d.full) fotos.push({ thumb: d.thumb, medium: d.medium || d.full, full: d.full });
   });
 
   var imgGrande = document.getElementById('imagen-grande');
@@ -129,8 +129,9 @@ function renderizarDetalle(o) {
     return;
   }
 
-  // Imagen grande = 2k de la portada (primera foto)
-  imgGrande.src = fotos[0].full || fotos[0].thumb;
+  // Imagen grande = tamaño mediano (1200 px); el 2k se usa al hacer zoom
+  var indiceActual = 0;
+  imgGrande.src = fotos[0].medium || fotos[0].full || fotos[0].thumb;
   imgGrande.alt = o.titulo;
   imgGrande.style.cursor = 'zoom-in';
 
@@ -141,9 +142,10 @@ function renderizarDetalle(o) {
     var zoomScale = 1;
     var maxZoom = 1;
 
-    // abrir zoom: usar la imagen 2k actual
+    // abrir zoom: usar el 2k de la foto que se está viendo
     imgGrande.addEventListener('click', function () {
-      zoomImg.src = imgGrande.src;
+      var actual = fotos[indiceActual] || fotos[0];
+      zoomImg.src = (actual && actual.full) || imgGrande.src;
       zoomImg.alt = o.titulo;
       zoomOverlay.classList.add('activo');
       zoomScale = 1;
@@ -205,7 +207,8 @@ function renderizarDetalle(o) {
     th.alt = o.titulo + ' — ' + (i + 1);
     th.className = 'carousel-thumb' + (i === 0 ? ' activa' : '');
     th.addEventListener('click', function () {
-      imgGrande.src = f.full || f.thumb;
+      imgGrande.src = f.medium || f.full || f.thumb;
+      indiceActual = i;
       var all = car.querySelectorAll('.carousel-thumb');
       for (var k = 0; k < all.length; k++) all[k].classList.remove('activa');
       th.classList.add('activa');

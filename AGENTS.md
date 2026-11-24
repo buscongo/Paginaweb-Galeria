@@ -55,7 +55,9 @@ No hay build, no hay linter, no hay test runner. La verificación es manual + co
 ## Reglas de dominio / trampas conocidas
 
 - **Precio**: `precio = (ancho + alto) * factorPrecioSerie`. Se calcula al crear/editar y se guarda en `obra.precio`. Se muestra SOLO en `pintura.html` y SOLO si `obra.disponible` es `true`, después de la ficha técnica. NUNCA se muestra en Home ni Admin; ahí se revela solo vía email de consulta (`mailto:` en gallery.js). Moneda: USD (`$`, separador de miles con coma).
-- **Imágenes**: `obra.imagen` = thumb y `obra.imagen2k` = **foto completa de la obra**; ambos deben ser la misma foto (mismo nombre base). Los recortes/macros van SOLO en `obra.detalles[]` (`{thumb, full}`). Si `imagen2k` apunta a un `_det_` o a otra foto, la ficha y el hero muestran la obra cortada.
+- **Imágenes**: `obra.imagen` = thumb y `obra.imagen2k` = **foto completa de la obra**; ambos deben ser la misma foto (mismo nombre base). Los recortes/macros van SOLO en `obra.detalles[]` (`{thumb, medium, full}`). Si `imagen2k` apunta a un `_det_` o a otra foto, la ficha y el hero muestran la obra cortada.
+- **Subida de imágenes**: las 3 versiones (`_thumb` 400 px, `_medium` 1200 px, `_2k` 2048 px) las genera el **navegador** con canvas (`js/imagenes.js`) y las escribe `POST /api/imagenes`. No hay `sharp` ni `multer`: si se agrega procesamiento en servidor, actualizar esta nota y `package.json`.
+- **Admin**: protegido por contraseña. `POST /api/login` valida contra `process.env.ADMIN_PASSWORD` (por defecto `andres2026`) y setea una cookie HttpOnly; las escrituras (`POST/PUT/DELETE` de obras, series e imágenes) exigen sesión. Si se cambia la contraseña, reiniciar el servidor con la variable de entorno.
 - **Fechas**: usar `new Date()` directamente (zona horaria local). NUNCA `toISOString()` ni `.toUTC*` para fechas mostradas al usuario.
 - **Persistencia**: `db.json` (backend). Borrarlo resetea los datos; `server.js` lo recrea vacío.
 - **Orden de scripts**: `data.js` debe cargar primero (define funciones usadas por todos). Si se reordena, rompe todo.

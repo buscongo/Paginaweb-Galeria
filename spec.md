@@ -96,6 +96,22 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **WHY**: el precio solo es relevante cuando la obra se puede adquirir; mostrarlo en obras vendidas no aporta.  
 **IMPL**: `js/pintura.js` → `renderizarDetalle()` usa `o.disponible && o.precio`; el `<p id="pintura-precio">` queda con atributo `hidden`. Formato con `formatoMoneda()` (USD).
 
+### RF-13: Tres tamaños por cada foto subida ✅
+**WHEN** el admin sube una foto (portada o detalle) desde `subir.html` / `editar.html`  
+**THEN** el navegador SHALL generar tres versiones redimensionadas (lado mayor): **thumb 400 px**, **medium 1200 px**, **2k 2048 px**  
+**AND** el servidor SHALL guardarlas en `img/` como `<base>_thumb.jpg`, `<base>_medium.jpg`, `<base>_2k.jpg`  
+**AND** la obra SHALL guardar `imagen`, `imagenMedium`, `imagen2k` y, por cada detalle, `{thumb, medium, full}`.  
+**WHY**: la tarjeta usa thumb, la ficha y el modal usan medium, y el zoom usa el 2k — sin cargar archivos enormes en cada vista.  
+**IMPL**: `js/imagenes.js` (`generarTresTamanos` con canvas) + `POST /api/imagenes` (`server.js`). No requiere dependencias nuevas.
+
+### RF-14: Admin con dos acciones ✅
+**WHEN** el usuario entra a `admin.html` (con la contraseña correcta)  
+**THEN** ve dos botones: **Editar** y **Subir obra**  
+**AND** *Editar* despliega las obras agrupadas por serie, con el mismo carrusel de la Home; al pulsar una obra abre `editar.html?id=<obraId>`  
+**AND** *Subir obra* abre `subir.html` con el formulario de alta (datos + portada + detalles).  
+**WHY**: separar la entrada en dos acciones evita el formulario largo con todas las secciones apiladas.  
+**IMPL**: `admin.html` + `js/admin.js`; formulario compartido en `js/obra-form.js`; sesión con cookie HttpOnly (`POST /api/login`).
+
 ## Cómo iniciar
 ```bash
 cd <ruta-del-proyecto>

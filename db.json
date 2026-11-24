@@ -72,7 +72,8 @@
           "thumb": "img/ruptura_natal-detalle-5_thumb.jpg",
           "full": "img/ruptura_natal-detalle-5_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/ruptura_natal_medium.jpg"
     },
     {
       "id": "obra_exploradores_todo_monstruo_tiene_su_amo",
@@ -109,7 +110,8 @@
           "thumb": "img/todo_monstruo_tiene_su_amo_detalle_5_thumb.jpg",
           "full": "img/todo_monstruo_tiene_su_amo_detalle_5_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/todo_monstruo_tiene_su_amo_medium.jpg"
     },
     {
       "id": "obra_nubes_atardecer_amarillo",
@@ -125,7 +127,8 @@
       "imagen": "img/atardecer_amarillo_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/atardecer_amarillo_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/atardecer_amarillo_medium.jpg"
     },
     {
       "id": "obra_nubes_atardecer_azul",
@@ -141,7 +144,8 @@
       "imagen": "img/atardecer_azul_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/atardecer_azul_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/atardecer_azul_medium.jpg"
     },
     {
       "id": "obra_nubes_bk",
@@ -160,7 +164,8 @@
       "detalles": [
         {
           "thumb": "img/bk_2_thumb.jpg",
-          "full": "img/bk_2_2k.jpg"
+          "full": "img/bk_2_2k.jpg",
+          "medium": "img/bk_2_medium.jpg"
         }
       ]
     },
@@ -181,7 +186,8 @@
       "detalles": [
         {
           "thumb": "img/camino_a_lo_posible_2_thumb.jpg",
-          "full": "img/camino_a_lo_posible_2_2k.jpg"
+          "full": "img/camino_a_lo_posible_2_2k.jpg",
+          "medium": "img/camino_a_lo_posible_2_medium.jpg"
         }
       ]
     },
@@ -199,7 +205,8 @@
       "imagen": "img/colosal_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/colosal_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/colosal_medium.jpg"
     },
     {
       "id": "obra_nubes_cuando_pasa_la_tormenta",
@@ -215,7 +222,8 @@
       "imagen": "img/cuando_pasa_la_tormenta_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/cuando_pasa_la_tormenta_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/cuando_pasa_la_tormenta_medium.jpg"
     },
     {
       "id": "obra_nubes_destello_nocturno",
@@ -234,7 +242,8 @@
       "detalles": [
         {
           "thumb": "img/destello_nocturno_thumb.jpg",
-          "full": "img/destello_nocturno_2k.jpg"
+          "full": "img/destello_nocturno_2k.jpg",
+          "medium": "img/destello_nocturno_medium.jpg"
         },
         {
           "thumb": "img/img_2209_thumb.jpg",
@@ -259,7 +268,8 @@
       "detalles": [
         {
           "thumb": "img/destellos_de_luz_2_thumb.jpg",
-          "full": "img/destellos_de_luz_2_2k.jpg"
+          "full": "img/destellos_de_luz_2_2k.jpg",
+          "medium": "img/destellos_de_luz_2_medium.jpg"
         }
       ]
     },
@@ -280,7 +290,8 @@
       "detalles": [
         {
           "thumb": "img/divino_tormento_2_thumb.jpg",
-          "full": "img/divino_tormento_2_2k.jpg"
+          "full": "img/divino_tormento_2_2k.jpg",
+          "medium": "img/divino_tormento_2_medium.jpg"
         }
       ]
     },
@@ -301,7 +312,8 @@
       "detalles": [
         {
           "thumb": "img/gemelas_1_thumb.jpg",
-          "full": "img/gemelas_1_2k.jpg"
+          "full": "img/gemelas_1_2k.jpg",
+          "medium": "img/gemelas_1_medium.jpg"
         }
       ]
     },
@@ -322,7 +334,8 @@
       "detalles": [
         {
           "thumb": "img/paradoja_temperamental_2_thumb.jpg",
-          "full": "img/paradoja_temperamental_2_2k.jpg"
+          "full": "img/paradoja_temperamental_2_2k.jpg",
+          "medium": "img/paradoja_temperamental_2_medium.jpg"
         }
       ]
     },
@@ -340,7 +353,8 @@
       "imagen": "img/artboard_1_copy_49_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/artboard_1_copy_49_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/artboard_1_copy_49_medium.jpg"
     },
     {
       "id": "obra_nubes_siempre_ahi",
@@ -356,7 +370,8 @@
       "imagen": "img/artboard_1_copy_51_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/artboard_1_copy_51_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/artboard_1_copy_51_medium.jpg"
     },
     {
       "id": "obra_nubes_tormenta_de_caricias",
@@ -393,7 +408,8 @@
           "thumb": "img/tormenta_de_caricias_detalle_5_thumb.jpg",
           "full": "img/tormenta_de_caricias_detalle_5_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/tormenta_de_caricias_medium.jpg"
     },
     {
       "id": "obra_nubes_un_cielo_encendido",
@@ -412,7 +428,8 @@
       "detalles": [
         {
           "thumb": "img/un_cielo_encendido_1_thumb.jpg",
-          "full": "img/un_cielo_encendido_1_2k.jpg"
+          "full": "img/un_cielo_encendido_1_2k.jpg",
+          "medium": "img/un_cielo_encendido_1_medium.jpg"
         },
         {
           "thumb": "img/un_cielo_encendido_2_thumb.jpg",
@@ -434,7 +451,8 @@
           "thumb": "img/un_cielo_encendido_det_4_thumb.jpg",
           "full": "img/un_cielo_encendido_det_4_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/un_cielo_encendido_1_medium.jpg"
     },
     {
       "id": "obra_nubes_un_momento_de_lucidez",
@@ -453,7 +471,8 @@
       "detalles": [
         {
           "thumb": "img/img_5536_thumb.jpg",
-          "full": "img/img_5536_2k.jpg"
+          "full": "img/img_5536_2k.jpg",
+          "medium": "img/img_5536_medium.jpg"
         }
       ]
     },
@@ -471,7 +490,8 @@
       "imagen": "img/Vuelta_a_la_hoja_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/Vuelta_a_la_hoja_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/Vuelta_a_la_hoja_medium.jpg"
     },
     {
       "id": "obra_paisaje_bocadito_de_cielo",
@@ -487,7 +507,8 @@
       "imagen": "img/bocadito_de_cielo_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/bocadito_de_cielo_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/bocadito_de_cielo_medium.jpg"
     },
     {
       "id": "obra_paisaje_cambiante_sin_perderse",
@@ -503,7 +524,8 @@
       "imagen": "img/cambiante_sin_perderse_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/cambiante_sin_perderse_2_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/cambiante_sin_perderse_2_medium.jpg"
     },
     {
       "id": "obra_paisaje_conjunto_terraba",
@@ -522,7 +544,8 @@
       "detalles": [
         {
           "thumb": "img/10_thumb.jpg",
-          "full": "img/10_2k.jpg"
+          "full": "img/10_2k.jpg",
+          "medium": "img/10_medium.jpg"
         },
         {
           "thumb": "img/7_thumb.jpg",
@@ -536,7 +559,8 @@
           "thumb": "img/9_thumb.jpg",
           "full": "img/9_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/conjunto_terraba_principal_medium.jpg"
     },
     {
       "id": "obra_paisaje_futuras_madrugadas",
@@ -552,7 +576,8 @@
       "imagen": "img/6_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/6_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/6_medium.jpg"
     },
     {
       "id": "obra_paisaje_la_realidad_supera_la_fantasia",
@@ -568,7 +593,8 @@
       "imagen": "img/13_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/13_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/13_medium.jpg"
     },
     {
       "id": "obra_paisaje_lagunas_de_luz",
@@ -584,7 +610,8 @@
       "imagen": "img/valles_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/valles_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/valles_medium.jpg"
     },
     {
       "id": "obra_paisaje_mirando_de_vuelta",
@@ -603,7 +630,8 @@
       "detalles": [
         {
           "thumb": "img/mirando_de_vuelta_2_thumb.jpg",
-          "full": "img/mirando_de_vuelta_2_2k.jpg"
+          "full": "img/mirando_de_vuelta_2_2k.jpg",
+          "medium": "img/mirando_de_vuelta_2_medium.jpg"
         }
       ]
     },
@@ -621,7 +649,8 @@
       "imagen": "img/17_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/17_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/17_medium.jpg"
     },
     {
       "id": "obra_selfie_calido_encanto",
@@ -640,7 +669,8 @@
       "detalles": [
         {
           "thumb": "img/img_8398_thumb.jpg",
-          "full": "img/img_8398_2k.jpg"
+          "full": "img/img_8398_2k.jpg",
+          "medium": "img/img_8398_medium.jpg"
         },
         {
           "thumb": "img/img_8404_thumb.jpg",
@@ -654,7 +684,8 @@
           "thumb": "img/img_8406_thumb.jpg",
           "full": "img/img_8406_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/img_8398_medium.jpg"
     },
     {
       "id": "obra_selfie_la_paz_antes_de_la_tormenta",
@@ -687,7 +718,8 @@
           "thumb": "img/la_paz_antes_de_la_tormenta_detalle_4_thumb.jpg",
           "full": "img/la_paz_antes_de_la_tormenta_detalle_4_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/la_paz_antes_de_la_tormenta_medium.jpg"
     },
     {
       "id": "obra_selfie_mg",
@@ -716,7 +748,8 @@
           "thumb": "img/mg_detalle_3_thumb.jpg",
           "full": "img/mg_detalle_3_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/mg_medium.jpg"
     },
     {
       "id": "obra_selfie_recuerdo_ajeno",
@@ -745,7 +778,8 @@
           "thumb": "img/recuerdo_ajeno_detalle_3_thumb.jpg",
           "full": "img/recuerdo_ajeno_detalle_3_2k.jpg"
         }
-      ]
+      ],
+      "imagenMedium": "img/recuerdo_ajeno_medium.jpg"
     },
     {
       "id": "obra_selfie_selfie_numero_1",
@@ -764,7 +798,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_95_thumb.jpg",
-          "full": "img/artboard_1_copy_95_2k.jpg"
+          "full": "img/artboard_1_copy_95_2k.jpg",
+          "medium": "img/artboard_1_copy_95_medium.jpg"
         }
       ]
     },
@@ -782,7 +817,8 @@
       "imagen": "img/amanecer_2_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/amanecer_2_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/amanecer_2_medium.jpg"
     },
     {
       "id": "obra_vestigio_azufre",
@@ -801,7 +837,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_64_thumb.jpg",
-          "full": "img/artboard_1_copy_64_2k.jpg"
+          "full": "img/artboard_1_copy_64_2k.jpg",
+          "medium": "img/artboard_1_copy_64_medium.jpg"
         },
         {
           "thumb": "img/azufre_2_thumb.jpg",
@@ -826,7 +863,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_63_thumb.jpg",
-          "full": "img/artboard_1_copy_63_2k.jpg"
+          "full": "img/artboard_1_copy_63_2k.jpg",
+          "medium": "img/artboard_1_copy_63_medium.jpg"
         },
         {
           "thumb": "img/casinoloveo_2_thumb.jpg",
@@ -851,7 +889,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_60_thumb.jpg",
-          "full": "img/artboard_1_copy_60_2k.jpg"
+          "full": "img/artboard_1_copy_60_2k.jpg",
+          "medium": "img/artboard_1_copy_60_medium.jpg"
         }
       ]
     },
@@ -872,7 +911,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_68_thumb.jpg",
-          "full": "img/artboard_1_copy_68_2k.jpg"
+          "full": "img/artboard_1_copy_68_2k.jpg",
+          "medium": "img/artboard_1_copy_68_medium.jpg"
         }
       ]
     },
@@ -890,7 +930,8 @@
       "imagen": "img/despedida_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/despedida_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/despedida_medium.jpg"
     },
     {
       "id": "obra_vestigio_diaspora",
@@ -909,7 +950,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_58_thumb.jpg",
-          "full": "img/artboard_1_copy_58_2k.jpg"
+          "full": "img/artboard_1_copy_58_2k.jpg",
+          "medium": "img/artboard_1_copy_58_medium.jpg"
         },
         {
           "thumb": "img/diaspora_2_thumb.jpg",
@@ -934,7 +976,8 @@
       "detalles": [
         {
           "thumb": "img/encuentro_2_thumb.jpg",
-          "full": "img/encuentro_2_2k.jpg"
+          "full": "img/encuentro_2_2k.jpg",
+          "medium": "img/encuentro_2_medium.jpg"
         }
       ]
     },
@@ -955,7 +998,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_75_thumb.jpg",
-          "full": "img/artboard_1_copy_75_2k.jpg"
+          "full": "img/artboard_1_copy_75_2k.jpg",
+          "medium": "img/artboard_1_copy_75_medium.jpg"
         }
       ]
     },
@@ -976,7 +1020,8 @@
       "detalles": [
         {
           "thumb": "img/img_2236_thumb.jpg",
-          "full": "img/img_2236_2k.jpg"
+          "full": "img/img_2236_2k.jpg",
+          "medium": "img/img_2236_medium.jpg"
         },
         {
           "thumb": "img/img_2319_thumb.jpg",
@@ -998,7 +1043,8 @@
       "imagen": "img/nuestroultimodia_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/nuestroultimodia_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/nuestroultimodia_medium.jpg"
     },
     {
       "id": "obra_vestigio_perla",
@@ -1017,7 +1063,8 @@
       "detalles": [
         {
           "thumb": "img/img_2289_thumb.jpg",
-          "full": "img/img_2289_2k.jpg"
+          "full": "img/img_2289_2k.jpg",
+          "medium": "img/img_2289_medium.jpg"
         },
         {
           "thumb": "img/img_2292_thumb.jpg",
@@ -1042,7 +1089,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_70_thumb.jpg",
-          "full": "img/artboard_1_copy_70_2k.jpg"
+          "full": "img/artboard_1_copy_70_2k.jpg",
+          "medium": "img/artboard_1_copy_70_medium.jpg"
         },
         {
           "thumb": "img/residuos_2_thumb.jpg",
@@ -1067,7 +1115,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_79_thumb.jpg",
-          "full": "img/artboard_1_copy_79_2k.jpg"
+          "full": "img/artboard_1_copy_79_2k.jpg",
+          "medium": "img/artboard_1_copy_79_medium.jpg"
         },
         {
           "thumb": "img/sacrificio_2_thumb.jpg",
@@ -1092,7 +1141,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_84___copy_thumb.jpg",
-          "full": "img/artboard_1_copy_84___copy_2k.jpg"
+          "full": "img/artboard_1_copy_84___copy_2k.jpg",
+          "medium": "img/artboard_1_copy_84___copy_medium.jpg"
         },
         {
           "thumb": "img/se_cae_el_cielo_2_thumb.jpg",
@@ -1114,7 +1164,8 @@
       "imagen": "img/fondoconcursable_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/fondoconcursable_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/fondoconcursable_medium.jpg"
     },
     {
       "id": "obra_vestigio_tempestad",
@@ -1133,7 +1184,8 @@
       "detalles": [
         {
           "thumb": "img/tempestad_2_thumb.jpg",
-          "full": "img/tempestad_2_2k.jpg"
+          "full": "img/tempestad_2_2k.jpg",
+          "medium": "img/tempestad_2_medium.jpg"
         }
       ]
     },
@@ -1151,7 +1203,8 @@
       "imagen": "img/todopasa_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/todopasa_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/todopasa_medium.jpg"
     },
     {
       "id": "obra_vestigio_un_momento_de_claridad",
@@ -1167,7 +1220,8 @@
       "imagen": "img/unmomentodeclaridad_thumb.jpg",
       "fechaRegistro": "2026-09-30",
       "imagen2k": "img/unmomentodeclaridad_2k.jpg",
-      "detalles": []
+      "detalles": [],
+      "imagenMedium": "img/unmomentodeclaridad_medium.jpg"
     },
     {
       "id": "obra_vestigio_ya_casi_pasan",
@@ -1186,7 +1240,8 @@
       "detalles": [
         {
           "thumb": "img/artboard_1_copy_62_thumb.jpg",
-          "full": "img/artboard_1_copy_62_2k.jpg"
+          "full": "img/artboard_1_copy_62_2k.jpg",
+          "medium": "img/artboard_1_copy_62_medium.jpg"
         },
         {
           "thumb": "img/yacasipasan_2_thumb.jpg",
