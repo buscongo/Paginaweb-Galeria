@@ -188,6 +188,9 @@ app.get('/api/obras/:id', function (req, res) {
 app.post('/api/obras', requiereAdmin, function (req, res) {
   var db = cargarDB();
   var obra = req.body;
+  var ahora = new Date();
+  if (!obra.fechaRegistro) obra.fechaRegistro = ahora.toISOString().slice(0, 10);
+  obra.fechaModificacion = ahora.toISOString();   /* la barra lateral se apoya en esto */
   db.obras.push(obra);
   guardarDB(db);
   res.json({ id: obra.id });
@@ -197,7 +200,10 @@ app.put('/api/obras/:id', requiereAdmin, function (req, res) {
   var db = cargarDB();
   var idx = db.obras.findIndex(function (o) { return o.id === req.params.id; });
   if (idx === -1) return res.status(404).json({ error: 'Obra no encontrada' });
-  db.obras[idx] = Object.assign({}, db.obras[idx], req.body, { id: req.params.id });
+  db.obras[idx] = Object.assign({}, db.obras[idx], req.body, {
+    id: req.params.id,
+    fechaModificacion: new Date().toISOString()
+  });
   guardarDB(db);
   res.json({ id: req.params.id });
 });

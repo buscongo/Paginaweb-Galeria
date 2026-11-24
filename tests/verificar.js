@@ -131,6 +131,12 @@ check('existe el retrato de la home (3 tamaños)',
   existe('img/retrato_andres_thumb.jpg') && existe('img/retrato_andres_medium.jpg') && existe('img/retrato_andres_hd.jpg'));
 check('la home abre con statement y curriculum',
   /class="home-perfil"/.test(leer('html/index.html')) && /Statement/.test(leer('html/index.html')) && /Curriculum/.test(leer('html/index.html')));
+check('la home incluye la barra lateral de obra',
+  /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
+check('la barra lateral usa medium y las dos etiquetas',
+  /imagenMedium/.test(leer('js/obra-lateral.js')) && /Nueva Obra/.test(leer('js/obra-lateral.js')) && /Obra actualizada/.test(leer('js/obra-lateral.js')));
+check('el servidor sella fechaModificacion al guardar',
+  /obra\.fechaModificacion = ahora\.toISOString\(\)/.test(servidor) && /fechaModificacion: new Date\(\)\.toISOString\(\)/.test(servidor));
 check('subir.html carga el formulario', /js\/obra-form\.js/.test(leer('html/subir.html')));
 check('editar.html carga el formulario', /js\/obra-form\.js/.test(leer('html/editar.html')));
 

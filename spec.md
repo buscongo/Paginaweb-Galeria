@@ -132,6 +132,16 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **WHY**: el admin permite modificar y borrar obras; una sesión eterna en un equipo ajeno es un riesgo.  
 **IMPL**: `server.js` (`SESIONES` Map con última actividad, `INTENTOS` Map por IP) + `js/admin-gate.js`. Ajustable con `SESION_TTL_MIN`.
 
+### RF-17: Barra lateral con la obra reciente ✅
+**WHEN** el visitante abre la home en una pantalla de 900 px o más de ancho  \
+**THEN** SHALL verse una barra fija a la derecha (250 px, `#3f3f3f`) con la obra más reciente  \
+**AND** si alguna obra tiene `fechaRegistro` en los últimos 30 días, SHALL mostrar la más nueva con el título **«Nueva Obra»**  \
+**AND** si no, SHALL mostrar la obra con `fechaModificacion` más reciente con el título **«Obra actualizada»** (si no hay `fechaModificacion`, se usa `fechaRegistro`)  \
+**AND** debajo de la imagen SHALL mostrar nombre, tamaño (`ancho × alto cm`, se omite si es 0) y disponibilidad  \
+**AND** la imagen SHALL ser la versión `imagenMedium` y enlazar a la ficha de la obra.  \
+**WHY**: destacar lo último sin que el visitante tenga que buscarlo.  \
+**IMPL**: `js/obra-lateral.js` (`elegirObraLateral()`), markup `#obra-lateral` en `html/index.html`, estilos `.obra-lateral`; el servidor sella `fechaModificacion` en cada `POST`/`PUT` de obras. Se oculta en móvil (<900 px) y el botón × la cierra durante la sesión.
+
 ## Cómo iniciar
 ```bash
 cd <ruta-del-proyecto>
