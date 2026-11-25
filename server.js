@@ -98,7 +98,26 @@ function cargarDB() {
   }
 }
 
+/* Copia de seguridad de la base antes de cada cambio (se guardan las 20 últimas) */
+var BACKUP_DIR = path.join(DATA_DIR, 'backups');
+
+function respaldarDB() {
+  try {
+    if (!fs.existsSync(DB_PATH)) return;
+    if (!fs.existsSync(BACKUP_DIR)) fs.mkdirSync(BACKUP_DIR, { recursive: true });
+    var sello = new Date().toISOString().replace(/[:.]/g, '-');
+    fs.copyFileSync(DB_PATH, path.join(BACKUP_DIR, 'db-' + sello + '.json'));
+    var archivos = fs.readdirSync(BACKUP_DIR).filter(function (f) {
+      return f.indexOf('db-') === 0;
+    }).sort();
+    while (archivos.length > 20) fs.unlinkSync(path.join(BACKUP_DIR, archivos.shift()));
+  } catch (e) {
+    console.error('No se pudo respaldar la base:', e.message);
+  }
+}
+
 function guardarDB(db) {
+  respaldarDB();
   fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf8');
 }
 
@@ -334,6 +353,9 @@ app.listen(PORT, function () {
   sembrarDatos();
   console.log('Servidor corriendo en http://localhost:' + PORT);
   console.log('Datos en: ' + DATA_DIR);
+  if (process.env.RENDER && !process.env.DATA_DIR) {
+    console.warn('AVISO: sin DATA_DIR los cambios se pierden en cada despliegue.');
+  }
   console.log('API: http://localhost:' + PORT + '/api/obras');
   if (!fs.existsSync(DB_PATH)) {
     guardarDB({ series: [], obras: [], config: {} });
