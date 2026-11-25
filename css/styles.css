@@ -1,6 +1,6 @@
 /* ========================================
    styles.css — Galería de Arte
-   Brief: fondo ciruela #240822 · tarjetas #2d0a2b · secciones oscuras en gris neutro
+   Brief: fondo ciruela #161616 · tarjetas #1c1c1c · secciones oscuras en gris neutro
    Energía/vida · serif elegante · masonry grid · 3D hover
    ======================================== */
 
@@ -12,10 +12,10 @@
 }
 
 :root {
-  --bg-primary: #240822;        /* fondo de página: ciruela, 20 % bajo las tarjetas */
-  --bg-secondary: #1b0619;      /* superficies hundidas: inputs, placeholders */
-  --bg-card: #2d0a2b;           /* paneles, modales, barra de filtros */
-  --bg-card-art: #2d0a2b;       /* tarjetas de obra */
+  --bg-primary: #161616;        /* fondo de página: gris, 20 % bajo las tarjetas */
+  --bg-secondary: #101010;      /* superficies hundidas: inputs, placeholders */
+  --bg-card: #1c1c1c;           /* paneles, modales, barra de filtros */
+  --bg-card-art: #1c1c1c;       /* tarjetas de obra */
   --text-primary: #ffffff;
   --text-secondary: #f5f5f5;
   --accent: #1d1d1d;            /* secciones oscuras: gris neutro */
@@ -618,14 +618,14 @@ h3 { font-size: 1.25rem; }
 
 /* Solo mostrar Rojo cuando NO disponible (disponible: false) */
 .disponibilidad-indicator.Rojo {
-  background: #6e3630;   /* rojo oscuro: obra no disponible */
+  background: #4f4f4f;   /* gris oscuro: obra no disponible */
 }
 
 /* ===== Tarjetas de obra ===== */
 /* Tarjeta plana: sin degradado, sin sombra y sin efectos al pasar el mouse */
 .tarjeta-obra {
   position: relative;
-  background: #2d0a2b;          /* color plano, sin degradado ni efectos */
+  background: #1c1c1c;          /* color plano, sin degradado ni efectos */
   border-radius: 0;
   overflow: visible;
   cursor: pointer;
@@ -956,12 +956,12 @@ header h1 {
 }
 
 .btn-archivar {
-  background: #cb6964;
+  background: #989898;
   color: var(--text-primary);
 }
 
 .btn-archivar:hover {
-  background: #ae5348;
+  background: #7b7b7b;
 }
 
 /* ===== Consulta de precios (modal) ===== */
@@ -1031,7 +1031,7 @@ header h1 {
 
 .campo-grupo label[for]:not(.checkbox-label)::after {
   content: ' *';
-  color: #cb6964;
+  color: #989898;
 }
 
 .campo-grupo input[type="text"],
@@ -1738,7 +1738,7 @@ footer .footer-email {
   font-family: inherit;
   font-size: 0.95rem;
 }
-.gate-error { margin: 0; min-height: 1.1rem; font-size: 0.8rem; color: #f4dddd; }
+.gate-error { margin: 0; min-height: 1.1rem; font-size: 0.8rem; color: #e9e9e9; }
 
 /* Formulario de obra (subir / editar) */
 .form-obra {
