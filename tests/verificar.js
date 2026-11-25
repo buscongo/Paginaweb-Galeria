@@ -146,7 +146,7 @@ check('la barra lateral va dentro de la columna central, bajo los filtros',
   /position: sticky/.test(leer('css/styles.css')) &&
   /home-cuerpo[\s\S]{0,200}obra-lateral/.test(leer('html/index.html').replace(/\r/g, '')));
 check('la columna central incluye el bloque de perfil',
-  /\.home-perfil \{[\s\S]{0,400}max-width: 72rem/.test(leer('css/styles.css').replace(/\r/g, '')));
+  /\.home-perfil \{[\s\S]{0,400}max-width: calc\(72rem/.test(leer('css/styles.css').replace(/\r/g, '')));
 check('el servidor sella fechaModificacion al guardar',
   /obra\.fechaModificacion = ahora\.toISOString\(\)/.test(servidor) && /fechaModificacion: new Date\(\)\.toISOString\(\)/.test(servidor));
 check('el admin tiene el tercer botón de exportar',
