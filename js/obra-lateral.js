@@ -1,10 +1,11 @@
-/* obra-lateral.js — barra lateral fija con la obra más reciente de la home.
+/* obra-lateral.js — barra lateral de la home con las obras nuevas.
 
    Regla:
-     · Si hay alguna obra registrada en los últimos 30 días → la más nueva, con el
-       título "Nueva Obra".
-     · Si no, la obra editada más recientemente (fechaModificacion, o fechaRegistro
-       en las obras viejas que aún no la tienen) → "Obra actualizada".
+     · Solo entran las obras SUBIDAS en los últimos 30 días (fechaRegistro),
+       de la más nueva a la más vieja.
+     · Las obras editadas NO aparecen acá: se marcan con la esquina
+       «Actualizado» en su tarjeta (ver `esObraActualizada()` en data.js).
+     · Al cumplirse el mes, la obra sale sola de la barra.
 
    Debajo de la imagen: nombre, tamaño y disponibilidad. */
 
@@ -17,8 +18,9 @@ function fechaMilisegundos(valor) {
   return NaN;
 }
 
-/* Devuelve [{ obra, tipo, fecha }] con las obras subidas o actualizadas en el
-   último mes, la más reciente primero. Al cumplir el mes salen de la barra. */
+/* Devuelve [{ obra, fecha }] con las obras SUBIDAS en el último mes, la más
+   reciente primero. Las obras actualizadas no entran en la barra: se marcan
+   con la esquina «Actualizado» en su tarjeta. Al cumplir el mes salen solas. */
 function obrasRecientes(obras, ahora) {
   var hoy = ahora ? new Date(ahora) : new Date();
   var limite = hoy.getTime() - DIAS_MES * 24 * 60 * 60 * 1000;
@@ -27,14 +29,8 @@ function obrasRecientes(obras, ahora) {
   (obras || []).forEach(function (o) {
     if (!o || o.archivado) return;
     var subida = fechaMilisegundos(o.fechaRegistro);
-    var editada = fechaMilisegundos(o.fechaModificacion);
-    var ultima = Math.max(isNaN(subida) ? -Infinity : subida, isNaN(editada) ? -Infinity : editada);
-    if (!isFinite(ultima) || ultima < limite) return;
-    lista.push({
-      obra: o,
-      tipo: (!isNaN(subida) && subida >= limite) ? 'nueva' : 'actualizada',
-      fecha: ultima
-    });
+    if (isNaN(subida) || subida < limite) return;
+    lista.push({ obra: o, fecha: subida });
   });
 
   lista.sort(function (a, b) { return b.fecha - a.fecha; });
@@ -58,12 +54,6 @@ function textoTamano(obra) {
   return ancho + ' × ' + alto + ' cm';
 }
 
-/* Etiqueta «Nueva Obra» retirada: estar en la barra ya significa que es reciente.
-   Solo se distingue la obra editada. */
-function etiquetaLateral(tipo) {
-  return tipo === 'actualizada' ? 'Obra actualizada' : '';
-}
-
 function pintarLateral(lista) {
   var caja = document.getElementById('obra-lateral');
   var cont = document.getElementById('obra-lateral-lista');
@@ -80,10 +70,8 @@ function pintarLateral(lista) {
     var enlace = 'pintura.html?id=' + encodeURIComponent(o.id);
     var img = o.imagenMedium || o.imagen || '';
     var partes = [textoTamano(o), textoDisponibilidad(o)].filter(Boolean).join(' · ');
-    var etiqueta = etiquetaLateral(item.tipo);
 
     return '<a class="lateral-item" href="' + enlace + '">' +
-      (etiqueta ? '<span class="lateral-tag">' + etiqueta + '</span>' : '') +
       (img ? '<img class="lateral-img" src="' + escaparHTML(img) + '" alt="' +
         escaparHTML(o.titulo || 'Obra') + '" loading="lazy" decoding="async">' : '') +
       '<span class="lateral-nombre">' + escaparHTML(o.titulo || 'Sin título') + '</span>' +

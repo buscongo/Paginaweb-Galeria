@@ -622,9 +622,11 @@ h3 { font-size: 1.25rem; }
 }
 
 /* ===== Tarjetas de obra ===== */
+/* El fondo de la tarjeta se desvanece hacia abajo (alfa sobre el degradado de la página) */
 .tarjeta-obra {
   position: relative;
-  background: var(--bg-card-art);
+  background: linear-gradient(180deg, rgba(115, 115, 115, 0.98) 0%,
+    rgba(115, 115, 115, 0.82) 45%, rgba(115, 115, 115, 0.35) 85%, rgba(115, 115, 115, 0) 100%);
   border-radius: 0;
   overflow: visible;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
@@ -634,6 +636,21 @@ h3 { font-size: 1.25rem; }
 
 .tarjeta-obra:hover {
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Esquina de la tarjeta cuando la obra se editó hace menos de un mes */
+.sello-actualizado {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  padding: 0.18rem 0.45rem;
+  background: rgba(30, 30, 30, 0.82);
+  color: #ffffff;
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 2;
 }
 
 /* Imagen: oscurece al hover */

@@ -133,10 +133,16 @@ check('la home abre con statement y curriculum',
   /class="home-perfil"/.test(leer('html/index.html')) && /Statement/.test(leer('html/index.html')) && /Curriculum/.test(leer('html/index.html')));
 check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
-check('la barra lateral usa medium y solo etiqueta la obra editada',
-  /imagenMedium/.test(leer('js/obra-lateral.js')) && /function etiquetaLateral/.test(leer('js/obra-lateral.js')) &&
-  /'Obra actualizada'/.test(leer('js/obra-lateral.js')) &&
-  !/'Nueva Obra'/.test(leer('js/obra-lateral.js')));
+check('la barra lateral muestra solo las obras nuevas',
+  /imagenMedium/.test(leer('js/obra-lateral.js')) &&
+  /var subida = fechaMilisegundos\(o\.fechaRegistro\)/.test(leer('js/obra-lateral.js')) &&
+  !/fechaModificacion/.test(leer('js/obra-lateral.js')) &&
+  !/etiquetaLateral/.test(leer('js/obra-lateral.js')));
+check('las obras actualizadas llevan la esquina Actualizado',
+  /function esObraActualizada/.test(leer('js/data.js')) &&
+  /sello-actualizado/.test(leer('js/gallery.js')) && /\.sello-actualizado \{/.test(leer('css/styles.css')));
+check('el fondo de las tarjetas se desvanece hacia abajo',
+  /\.tarjeta-obra \{[\s\S]{0,220}linear-gradient\(180deg, rgba\(115, 115, 115/.test(leer('css/styles.css')));
 check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
   /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
 check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&

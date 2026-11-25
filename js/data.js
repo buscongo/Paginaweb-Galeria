@@ -28,6 +28,13 @@ function buscarSerie(id){return cacheSeries.find(function(s){return s.id===id;})
 function calcularPrecio(a,b,f){return (a+b)*f;}
 function formatoMoneda(c){return '$'+c.toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function generarId(){return 'obra_'+(Date.now().toString(36))+'_'+Math.random().toString(36).substr(2,5);}
+/* Marca de obra actualizada: se editó en los últimos 30 días */
+function esObraActualizada(obra, dias) {
+  if (!obra || !obra.fechaModificacion) return false;
+  var t = Date.parse(obra.fechaModificacion);
+  if (isNaN(t)) return false;
+  return t >= Date.now() - (dias || 30) * 24 * 60 * 60 * 1000;
+}
 function generarIdSerie(){return 'serie_'+(Date.now().toString(36))+'_'+Math.random().toString(36).substr(2,4);}
 function añoActual(){var d=new Date();return d.getFullYear();}
 function fechaHoyStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
