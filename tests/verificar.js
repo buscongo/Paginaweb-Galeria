@@ -196,16 +196,6 @@ check('CSS balanceado', (css.match(/{/g) || []).length === (css.match(/}/g) || [
   check('existe js/' + f, existe('js/' + f));
 });
 
-/* ---------- Salida ---------- */
-var fallos = 0;
-ok.forEach(function (par) {
-  console.log((par[1] ? '✅ ' : '❌ ') + par[0]);
-  if (!par[1]) fallos++;
-});
-console.log('\n' + (ok.length - fallos) + '/' + ok.length + ' comprobaciones OK — ' +
-  activas.length + ' obras activas de ' + obras.length + ', ' + detalles.length + ' detalles.');
-process.exit(fallos ? 1 : 0);
-
 /* ---------- HD privado, medium público ---------- */
 var detallesSinMedium = [];
 obras.forEach(function (o) {
@@ -218,11 +208,24 @@ obras.forEach(function (o) {
 check('cada detalle tiene su versión medium en disco', detallesSinMedium.length === 0);
 check('la ficha nunca pide el HD', !/imagenHD/.test(leer('js/pintura.js')) && /versionMedium/.test(leer('js/pintura.js')));
 check('el servidor no publica el HD', /function obraPublica/.test(leer('server.js')) &&
-  /_hd\\.\(jpe\?g\|png\|webp\)\$\/i\\.test\(req\.path\)/.test(leer('server.js')) &&
+  /_hd/.test(leer('server.js')) && /req\.path/.test(leer('server.js')) && /autenticado\(req\)/.test(leer('server.js')) &&
   /obras\.map\(obraPublica\)/.test(leer('server.js')));
 check('la exportación a PDF usa el medium', !/imagenHD/.test(leer('js/exportar.js')));
 check('el precio se revela con un botón', /id="btn-ver-precio"/.test(leer('html/pintura.html')) &&
   /btnPrecio\.onclick/.test(leer('js/pintura.js')) && /\.btn-ver-precio \{/.test(leer('css/styles.css')));
+check('el admin regenera los medium que faltan', /js\/mantener-mediums\.js/.test(leer('html/admin.html')) &&
+  /obtenerObras/.test(leer('js/mantener-mediums.js')) && /archivo: p\.media/.test(leer('js/mantener-mediums.js')));
 check('la ficha no repite los datos bajo el título',
   !/pintura-meta-texto|pintura-descripcion/.test(leer('html/pintura.html')) &&
   /\.ficha-label::after/.test(leer('css/styles.css')));
+
+/* ---------- Salida ---------- */
+var fallos = 0;
+ok.forEach(function (par) {
+  console.log((par[1] ? '✅ ' : '❌ ') + par[0]);
+  if (!par[1]) fallos++;
+});
+console.log('\n' + (ok.length - fallos) + '/' + ok.length + ' comprobaciones OK — ' +
+  activas.length + ' obras activas de ' + obras.length + ', ' + detalles.length + ' detalles.');
+process.exit(fallos ? 1 : 0);
+

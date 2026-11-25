@@ -302,7 +302,7 @@ async function prepararImagenes(obras) {
   for (var i = 0; i < obras.length; i++) {
     var o = obras[i];
     salida.grande[o.id] = await embeber(o.imagenMedium || o.imagen);
-    salida.chico[o.id] = await embeber(o.imagen || o.imagenMedium || o.imagenHD);
+    salida.chico[o.id] = await embeber(o.imagen || o.imagenMedium);
   }
   salida.retrato = await embeber('img/retrato_andres_hd.jpg');
   return salida;

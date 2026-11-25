@@ -143,7 +143,12 @@ function obraPublica(obra) {
     copia.detalles.forEach(function (d) {
       if (!d) return;
       if (d.hd) {
-        d.medium = String(d.hd).replace(/_hd\.(jpe?g|png|webp)$/i, '_medium.$1');
+        var media = String(d.hd).replace(/_hd\.(jpe?g|png|webp)$/i, '_medium.$1');
+        if (existeImagen(media)) {
+          d.medium = media;
+        } else {
+          d.medium = d.thumb; /* todavía no tiene medium: se muestra la miniatura */
+        }
         delete d.hd;
       }
       delete d.full;
