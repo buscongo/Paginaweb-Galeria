@@ -12,7 +12,7 @@
 }
 
 :root {
-  --bg-primary: #cccccc;        /* fondo de página: gris al 80 % */
+  --bg-primary: #343434;        /* fondo de página: gris 20 % */
   --bg-secondary: #101010;      /* superficies hundidas: inputs, placeholders */
   --bg-card: #1c1c1c;           /* paneles, modales, barra de filtros */
   --bg-card-art: #1c1c1c;       /* tarjetas de obra */
@@ -36,7 +36,7 @@ body {
   background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: #1a1a1a;              /* texto sobre el gris claro de la página */
+  color: #ffffff;              /* texto sobre el gris de la página */
   line-height: 1.6;
   -webkit-tap-highlight-color: transparent;
 }
@@ -1295,7 +1295,7 @@ footer .footer-email {
   font-size: 2rem;
   font-weight: 400;
   margin: 0;
-  color: #1a1a1a;
+  color: #ffffff;
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
 }
 
@@ -1347,12 +1347,12 @@ footer .footer-email {
 
 .ficha-label {
   font-weight: 500;
-  color: #4a4a4a;
+  color: #d0d0d0;
   font-size: 0.9rem;
 }
 
 .ficha-value {
-  color: #1a1a1a;
+  color: #ffffff;
   font-size: 0.9rem;
 }
 
@@ -1364,7 +1364,7 @@ footer .footer-email {
 }
 
 .detalles h3 {
-  color: #1a1a1a;
+  color: #ffffff;
   font-size: 1rem;
   color: var(--text-secondary);
   font-weight: 600;
@@ -1403,13 +1403,13 @@ footer .footer-email {
 
 .pintura-meta h2 {
   font-size: 1.4rem;
-  color: #1a1a1a;
+  color: #ffffff;
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
 }
 
 .pintura-meta p {
   margin-top: 0.4rem;
-  color: #404040;
+  color: #dcdcdc;
   font-size: 0.95rem;
 }
 

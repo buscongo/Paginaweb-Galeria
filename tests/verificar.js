@@ -146,7 +146,7 @@ check('las obras actualizadas llevan la esquina Actualizado',
 check('las tarjetas usan el degradado y todo el fondo es gris sin hue',
   /\.tarjeta-obra \{[\s\S]{0,400}?linear-gradient\(180deg, #707070 0%, #707070 25%, #333333 100%\)/.test(leer('css/styles.css')) &&
   !/\.tarjeta-obra:hover/.test(leer('css/styles.css')) &&
-  /--bg-primary: #cccccc/.test(leer('css/styles.css')) && /--bg-card: #1c1c1c/.test(leer('css/styles.css')) &&
+  /--bg-primary: #343434/.test(leer('css/styles.css')) && /--bg-card: #1c1c1c/.test(leer('css/styles.css')) &&
   /--accent: #1d1d1d/.test(leer('css/styles.css')) &&
   /\.disponibilidad-indicator\.Rojo \{\s*background: #4f4f4f/.test(leer('css/styles.css')));
 check('el pie de página lleva los datos de contacto en las tres páginas públicas',
@@ -168,7 +168,7 @@ check('las tarjetas ya no llevan el sello Nuevo',
 check('todas las páginas comparten el fondo ciruela plano',
   /background-color: var\(--bg-primary\)/.test(leer('css/styles.css')) &&
   /background-image: none/.test(leer('css/styles.css')) &&
-  /--bg-primary: #cccccc/.test(leer('css/styles.css')));
+  /--bg-primary: #343434/.test(leer('css/styles.css')));
 check('la página de exportación tiene la casilla de precios',
   /id="chk-precios"/.test(leer('html/exportar.html')));
 check('el documento genera hojas de serie e índice',
