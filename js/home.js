@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   cachearNuevas(cacheObras);
 
   renderizarObras(cacheObras);
+  renderizarTabsHome(cacheObras);
 
   inicializarFiltrosHome();
   inicializarNav();
@@ -211,7 +212,7 @@ function renderizarSeriesColapsablesConFiltros(obras) {
 
   contenedor.innerHTML = '';
 
-  var series = obras.length > 0 ? cacheSeries.slice().sort(function (a, b) { return a.tema.localeCompare(b.tema); }) : [];
+  var series = obras.length > 0 ? seriesOrdenadas(cacheSeries, obras) : [];
 
   series.forEach(function (serie) {
     var obrasSerie = obras.filter(function (x) { return x.serieId === serie.id; });
@@ -273,7 +274,7 @@ function renderizarGaleriaSeriesConFiltros(obras) {
 
   c.innerHTML = '';
 
-  var series = cacheSeries.slice().sort(function (a, b) { return a.tema.localeCompare(b.tema); });
+  var series = seriesOrdenadas(cacheSeries, obras);
   series.forEach(function (serie) {
     var delSerie = obras.filter(function (x) { return x.serieId === serie.id; });
     if (delSerie.length > 0) c.appendChild(crearFilaSerie(serie.tema, delSerie));
@@ -482,6 +483,30 @@ function ajustarEspaciadoFiltros() {
 
 // ===== Navegación de series: menú hamburguesa (mobile-first) =====
 // Mobile: hamburguesa + panel desplegable vertical. Desktop (>=700px): pestañas en fila.
+/* Pestañas de la home en el mismo orden que la galería: Nubes primero, luego por cantidad */
+function renderizarTabsHome(obras) {
+  var nav = document.getElementById('series-tabs');
+  if (!nav) return;
+
+  var toggle = nav.querySelector('.series-toggle');
+  nav.innerHTML = '';
+  if (toggle) nav.appendChild(toggle);
+
+  var inicio = document.createElement('a');
+  inicio.href = 'index.html';
+  inicio.className = 'tab active';
+  inicio.textContent = (typeof t === 'function' && t('inicio')) || 'Inicio';
+  nav.appendChild(inicio);
+
+  seriesOrdenadas(cacheSeries, obras).forEach(function (s) {
+    var a = document.createElement('a');
+    a.href = 'serie.html?serie=' + encodeURIComponent(s.id);
+    a.className = 'tab';
+    a.textContent = capitalizar(s.tema);
+    nav.appendChild(a);
+  });
+}
+
 function inicializarNav() {
   var nav = document.querySelector('.series-tabs');
   var tgl = document.querySelector('.series-toggle');

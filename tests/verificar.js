@@ -145,6 +145,13 @@ check('la barra lateral va dentro de la columna central, bajo los filtros',
   /\.home-cuerpo \{/.test(leer('css/styles.css')) &&
   /position: sticky/.test(leer('css/styles.css')) &&
   /home-cuerpo[\s\S]{0,200}obra-lateral/.test(leer('html/index.html').replace(/\r/g, '')));
+check('las series se ordenan con Nubes primero y luego por cantidad',
+  /function seriesOrdenadas/.test(leer('js/data.js')) &&
+  /Nubes/.test(leer('html/index.html')) &&
+  leer('html/index.html').indexOf('serie_nubes') < leer('html/index.html').indexOf('serie_vestigio') &&
+  /seriesOrdenadas\(cacheSeries/.test(leer('js/home.js')) &&
+  /seriesOrdenadas\(cacheSeries/.test(leer('js/admin.js')) &&
+  /seriesOrdenadas\(cacheSeries/.test(leer('js/exportar.js')));
 check('la columna central incluye el bloque de perfil',
   /\.home-perfil \{[\s\S]{0,400}max-width: calc\(72rem/.test(leer('css/styles.css').replace(/\r/g, '')));
 check('el servidor sella fechaModificacion al guardar',

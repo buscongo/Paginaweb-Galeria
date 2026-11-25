@@ -159,6 +159,13 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **WHY**: el artista necesita llevar selecciones de obra a PDF sin depender de herramientas externas.  \
 **IMPL**: `html/exportar.html` + `js/exportar.js` (`planificarSecciones()` numera las hojas, `construirDocumento()`, `hojaSerie()`, `hojaIndice()`, `prepararImagenes()` con las imágenes embebidas en base64 —grande para la hoja, thumb para el índice—), estilos de impresión con `@page { size: 1920px 1080px }`; alias `/exportar` en `server.js`.
 
+### RF-20: Orden de las series en todo el sitio ✅
+**WHEN** el visitante recorre la navegación, la galería, una página de serie, el admin o la página de exportación  \
+**THEN** las series SHALL aparecer siempre con **Nubes primero** y, después, de mayor a menor **cantidad de obras** (si empatan, por nombre)  \
+**AND** el mismo orden SHALL aplicarse a las pestañas, a las filas de la home, a los grupos del admin, a los filtros de serie y a los grupos del PDF.  \
+**WHY**: el artista quiere que Nubes abra siempre y que lo más abundante venga después.  \
+**IMPL**: `seriesOrdenadas(series, obras)` en `js/data.js`; se usa en `js/home.js` (`renderizarTabsHome()`, filas), `js/serie.js` (pestañas), `js/admin.js` (select y grupos) y `js/exportar.js` (`ordenarObras()`, grupos y select). Las pestañas estáticas de `index.html`, `serie.html` y `pintura.html` ya están en ese orden como respaldo.
+
 ## Cómo iniciar
 ```bash
 cd <ruta-del-proyecto>

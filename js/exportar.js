@@ -60,7 +60,7 @@ async function iniciarExportar() {
 function poblarFiltrosExportar() {
   var selSerie = document.getElementById('filtro-serie');
   selSerie.innerHTML = '<option value="">Todas las series</option>' +
-    cacheSeries.map(function (s) {
+    seriesOrdenadas(cacheSeries, obrasExp).map(function (s) {
       return '<option value="' + escaparHTML(s.id) + '">' + escaparHTML(s.tema) + '</option>';
     }).join('');
 
@@ -110,7 +110,10 @@ function renderExportar() {
   obras.forEach(function (o) { (grupos[o.serieId] = grupos[o.serieId] || []).push(o); });
 
   var html = '';
-  Object.keys(grupos).forEach(function (serieId) {
+  var ordenExp = seriesOrdenadas(cacheSeries, obrasExp).map(function (s) { return s.id; });
+  Object.keys(grupos).forEach(function (id) { if (ordenExp.indexOf(id) === -1) ordenExp.push(id); });
+  ordenExp.forEach(function (serieId) {
+    if (!grupos[serieId]) return;
     var serie = buscarSerie(serieId);
     var tema = serie ? serie.tema : 'sin serie';
     var lista = grupos[serieId].slice().sort(function (a, b) {
@@ -349,7 +352,7 @@ var OBRAS_POR_INDICE = 8;
 /* Ordena por serie (según el orden del sitio) y dentro de cada serie por fecha */
 function ordenarObras(obras) {
   var posicion = {};
-  cacheSeries.forEach(function (s, i) { posicion[s.id] = i; });
+  seriesOrdenadas(cacheSeries, obrasExp).forEach(function (s, i) { posicion[s.id] = i; });
   return obras.slice().sort(function (a, b) {
     var pa = posicion[a.serieId];
     var pb = posicion[b.serieId];

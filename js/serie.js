@@ -10,6 +10,7 @@ function capitalizar(txt) {
 // Fecha de corte: obras subidas ANTES no marcan "nuevo"
 var FECHA_DESPLEGUE_SERIE = '2026-10-04';
 var cacheNuevasIds = [];
+var obrasTodasSerie = [];   /* todas las obras, para ordenar las pestañas por cantidad */
 
 function qs(key) {
   return new URLSearchParams(window.location.search).get(key);
@@ -52,29 +53,36 @@ function renderizarTabs(serieActiva) {
     ((typeof t === 'function') ? (t('inicio') || 'Inicio') : 'Inicio') + '</a>';
   var html = inicio;
   if (typeof cacheSeries !== 'undefined' && cacheSeries.length) {
-    cacheSeries.forEach(function (s) {
+    var toggle = cont.querySelector('.series-toggle');
+    var orden = (typeof seriesOrdenadas === 'function')
+      ? seriesOrdenadas(cacheSeries, obrasTodasSerie)
+      : cacheSeries;
+    orden.forEach(function (s) {
       var activo = (s.id === serieActiva);
       html += '<a href="serie.html?serie=' + s.id + '" class="tab' +
         (activo ? ' active' : '') + '">' +
         escaparHTML(capitalizar(s.tema)) + '</a>';
     });
+    cont.innerHTML = (toggle ? toggle.outerHTML : '') + html;
+    return;
   }
   cont.innerHTML = html;
 }
 
 async function initSerie() {
   MODO = 'publico';
-  inicializarNav();
   try { await cargarIdioma(); } catch (e) { /* idioma opcional */ }
 
   await obtenerSeries();
   var obrasTodas = await obtenerObras();
+  obrasTodasSerie = obrasTodas;
 
   // sello "Nuevo" (obras nuevas post-despliegue)
   cacheNuevasIds = obtenerNuevasSerie(obrasTodas).map(function (x) { return x.id; });
 
   var serieId = qs('serie') || '';
   renderizarTabs(serieId);
+  inicializarNav();      /* después de pintar las pestañas: el botón ☰ se recrea */
   // init cierre modal (shared en gallery.js): X, overlay click y back/popstate
   if (typeof inicializarModal === 'function') inicializarModal();
 

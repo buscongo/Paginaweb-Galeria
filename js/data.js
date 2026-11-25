@@ -51,3 +51,17 @@ async function aplicarIdioma(){
   if(tb){tb.textContent = IDIOMA === 'es' ? 'EN' : 'ES';}
 }
 async function cambiarIdioma(){IDIOMA = IDIOMA === 'es' ? 'en' : 'es';await guardarIdiomaAPI(IDIOMA);await aplicarIdioma();}
+/* Orden de series en todo el sitio: Nubes siempre primero, después por cantidad
+   de obras (de más a menos) y, si empatan, por nombre. */
+function esSerieNubes(s){return /nubes/i.test(String(s&&s.tema||''))||s&&s.id==='serie_nubes';}
+function seriesOrdenadas(series,obras){
+  var cuenta={};
+  (obras||[]).forEach(function(o){cuenta[o.serieId]=(cuenta[o.serieId]||0)+1;});
+  return (series||[]).slice().sort(function(a,b){
+    var na=esSerieNubes(a)?1:0,nb=esSerieNubes(b)?1:0;
+    if(na!==nb)return nb-na;
+    var ca=cuenta[a.id]||0,cb=cuenta[b.id]||0;
+    if(ca!==cb)return cb-ca;
+    return String(a.tema).localeCompare(String(b.tema));
+  });
+}

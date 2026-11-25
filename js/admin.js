@@ -57,7 +57,7 @@ function pintarFiltros() {
   var selDisp = document.getElementById('filtro-disponibilidad');
 
   selSerie.innerHTML = '<option value="">Todas las series</option>' +
-    cacheSeries.map(function (s) {
+    seriesOrdenadas(cacheSeries, cacheObras).map(function (s) {
       return '<option value="' + s.id + '">' + escaparHTML(s.tema) + '</option>';
     }).join('');
 
@@ -103,7 +103,10 @@ function render() {
   obras.forEach(function (o) { (grupos[o.serieId] = grupos[o.serieId] || []).push(o); });
 
   var html = '';
-  Object.keys(grupos).forEach(function (serieId) {
+  var orden = seriesOrdenadas(cacheSeries, obras).map(function (s) { return s.id; });
+  Object.keys(grupos).forEach(function (id) { if (orden.indexOf(id) === -1) orden.push(id); });
+  orden.forEach(function (serieId) {
+    if (!grupos[serieId]) return;
     var serie = buscarSerie(serieId);
     var tema = serie ? serie.tema : 'Sin serie';
     var lista = grupos[serieId].slice().sort(function (a, b) {
