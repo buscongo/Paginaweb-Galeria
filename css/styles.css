@@ -18,8 +18,8 @@
   --bg-card-art: #40464b;       /* tarjetas de obra (musgo) */
   --text-primary: #ffffff;
   --text-secondary: #f5f5f5;
-  --accent: #2d0a2b;            /* relleno de botones/etiquetas: ciruela oscuro */
-  --accent-orange: #4a1445;
+  --accent: #1f1921;            /* relleno de botones/etiquetas: gris ciruela oscuro */
+  --accent-orange: #2f2733;
   --border: rgba(255, 255, 255, 0.25);
   --border-hover: rgba(255, 255, 255, 0.45);
 }
@@ -80,7 +80,7 @@ h3 { font-size: 1.25rem; }
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
   max-width: calc(72rem - 2.5rem);      /* misma columna central que la galería, sin su padding */
   margin: 44px auto 0;
-  background: #33102e;          /* gris más oscuro que el fondo de la página */
+  background: #251d29;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
   border-bottom: 1px solid var(--border);
 }
@@ -88,7 +88,7 @@ h3 { font-size: 1.25rem; }
 .perfil-foto {
   position: relative;
   overflow: hidden;
-  background: #260722;
+  background: #191320;
 }
 
 .perfil-foto img {
@@ -644,7 +644,7 @@ h3 { font-size: 1.25rem; }
   top: 0.4rem;
   right: 0.4rem;
   padding: 0.08rem 0.22rem;
-  background: rgba(45, 10, 43, 0.85);
+  background: rgba(31, 25, 33, 0.85);
   color: #ffffff;
   font-size: 0.32rem;
   letter-spacing: 0.1em;
@@ -976,7 +976,7 @@ header h1 {
 }
 
 .btn-editar:hover {
-  background: #4a1445;
+  background: #2f2733;
   transform: translateY(-1px);
 }
 
@@ -1202,7 +1202,7 @@ header h1 {
 }
 
 .btn-primario:hover {
-  background: #4a1445;
+  background: #2f2733;
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(106, 106, 112, 0.3);
 }
@@ -1348,7 +1348,7 @@ footer .footer-email {
 }
 
 .btn-go-back:hover {
-  background: #4a1445;
+  background: #2f2733;
 }
 
 .btn-go-back::before {
@@ -1665,7 +1665,7 @@ footer .footer-email {
   box-shadow: none;
 }
 .filtros-barra .btn-ver-todo.activo:hover {
-  background: #1f0519;
+  background: #14101a;
   color: #fff;
 }
 
@@ -1854,7 +1854,7 @@ footer .footer-email {
   gap: 0.5rem;
   width: 100%;
   padding: 0.7rem 0.8rem 1rem;
-  background: #260722;
+  background: #191320;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
   max-height: calc(100vh - 0.5rem);
@@ -1906,7 +1906,7 @@ footer .footer-email {
   display: block;
   width: 100%;
   height: auto;
-  background: #1f0519;
+  background: #14101a;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -1992,7 +1992,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   opacity: 1;
   background: #ffffff;
   border-color: #ffffff;
-  color: #1f0519;
+  color: #14101a;
 }
 
 .tarjeta-sel.marcada { outline: 3px solid #ffffff; outline-offset: -3px; }
@@ -2010,7 +2010,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   gap: 1rem;
   height: 64px;
   padding: 0 1.2rem;
-  background: #260722;
+  background: #191320;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
   font-size: 0.9rem;
@@ -2050,7 +2050,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   width: 100%;
   padding: 0.7rem 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: #33102e;
+  background: #251d29;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.95rem;
@@ -2112,7 +2112,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transform: translate(-50%, 1rem);
   max-width: min(92vw, 34rem);
   padding: 0.75rem 1.1rem;
-  background: #2d0a2b;
+  background: #1f1921;
   border: 1px solid var(--border);
   color: #ffffff;
   font-size: 0.8rem;
@@ -2136,8 +2136,8 @@ body.con-barra-exportar { padding-bottom: 84px; }
   display: inline-flex;
   align-items: center;
   padding: 0.65rem 1.6rem;
-  background: #2d0a2b;
-  border: 1px solid #6b2462;
+  background: #1f1921;
+  border: 1px solid #4a3f52;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.78rem;
@@ -2147,6 +2147,6 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn-ver-precio:hover { background: #52164c; border-color: #7a2a70; }
+.btn-ver-precio:hover { background: #332a3a; border-color: #4a3f52; }
 .btn-ver-precio[hidden] { display: none; }
 .pintura-precio[hidden] { display: none; }
