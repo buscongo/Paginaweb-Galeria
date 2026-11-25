@@ -137,6 +137,12 @@ check('la barra lateral usa medium y solo etiqueta la obra editada',
   /imagenMedium/.test(leer('js/obra-lateral.js')) && /function etiquetaLateral/.test(leer('js/obra-lateral.js')) &&
   /'Obra actualizada'/.test(leer('js/obra-lateral.js')) &&
   !/'Nueva Obra'/.test(leer('js/obra-lateral.js')));
+check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&
+  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
+  /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
+check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&
+  /contextmenu/.test(leer('js/proteger-imagenes.js')) &&
+  /@media print[\s\S]{0,120}#imagen-grande/.test(leer('css/styles.css')));
 check('las tarjetas ya no llevan el sello Nuevo',
   !/sello-nuevo/.test(leer('js/gallery.js')) && !/\.sello-nuevo \{/.test(leer('css/styles.css')));
 check('todas las páginas tienen fondo con degradado sutil',

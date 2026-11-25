@@ -2092,3 +2092,46 @@ body.con-barra-exportar { padding-bottom: 84px; }
   accent-color: #ffffff;
   cursor: pointer;
 }
+
+/* ===== Protección de las obras en la ficha ===== */
+#imagen-grande,
+#zoom-imagen,
+.detalle-thumbs img {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  pointer-events: auto;
+}
+
+/* Al imprimir la ficha no se va la obra en grande */
+@media print {
+  #imagen-grande,
+  #zoom-imagen,
+  .zoom-overlay,
+  .detalle-thumbs { display: none !important; }
+}
+
+.aviso-proteccion {
+  position: fixed;
+  left: 50%;
+  bottom: 1.4rem;
+  transform: translate(-50%, 1rem);
+  max-width: min(92vw, 34rem);
+  padding: 0.75rem 1.1rem;
+  background: #2b2b2b;
+  border: 1px solid var(--border);
+  color: #ffffff;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 4000;
+}
+
+.aviso-proteccion.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

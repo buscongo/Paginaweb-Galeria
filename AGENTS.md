@@ -11,8 +11,9 @@ Sitio web para registrar, organizar y compartir pinturas. Frontend sin framework
 - **js/gallery.js** — Renderizado de tarjetas, filtrado, modal de detalles, modal de consulta de precios.
 - **js/form.js** — Manejo del formulario Admin (tabs obra/serie, validación, preview de imagen, editar obra).
 - **js/home.js** — Inicialización de la página Home.
-- **js/obra-lateral.js** — Barra lateral fija de la home con la obra nueva o actualizada (`elegirObraLateral()`); regla de 30 días por `fechaRegistro`, si no por `fechaModificacion`.
+- **js/obra-lateral.js** — Barra lateral de la home con las obras de los últimos 30 días (`obrasRecientes()`, `pintarLateral()`), la más nueva primero; solo etiqueta «Obra actualizada».
 - **js/admin.js** — Inicialización de la página Admin.
+- **js/proteger-imagenes.js** — Disuasión de copia en la ficha de obra: clic derecho, arrastre, `Ctrl+S/P/U` y `@media print`.
 - **server.js** — Backend Express: sirve estáticos (html/css/js/img) + API REST.
 - **db.json** — Base de datos (obras, series, config). Se crea automáticamente si no existe.
 - **package.json** — Dependencia: express.

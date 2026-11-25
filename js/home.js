@@ -405,14 +405,14 @@ function poblarAnios(select) {
   cacheObras.forEach(function (o) { y[o.anio] = true; });
   var años = Object.keys(y).map(Number).filter(function (a) { return a > 0; });
   años.sort(function (a, b) { return b - a; });
-  var h = '<option value="' + t('todosAños') + '">' + t('todosAños') + '</option>';
+  var h = '<option value="">' + t('todosAños') + '</option>';
   años.forEach(function (a) { h += '<option value="' + a + '">' + a + '</option>'; });
   select.innerHTML = h;
 }
 
 function poblarDisponibilidad(select) {
   if (!select) return;
-  var h = '<option value="' + t('todos') + '">' + t('todos') + '</option>'
+  var h = '<option value="">' + t('todos') + '</option>'
     + '<option value="true">' + t('disponible') + '</option>'
     + '<option value="false">' + t('noDisponible') + '</option>';
   select.innerHTML = h;
@@ -437,7 +437,11 @@ function inicializarFiltrosHome() {
   }
 
   if (sA) sA.addEventListener('change', function () { filtrosHome.ano = sA.value; repintar(); });
-  if (sD) sD.addEventListener('change', function () { filtrosHome.disponible = sD.value; repintar(); });
+  if (sD) sD.addEventListener('change', function () {
+    // «Todos» vale vacío: solo 'true' y 'false' filtran
+    filtrosHome.disponible = (sD.value === 'true' || sD.value === 'false') ? sD.value : '';
+    repintar();
+  });
   if (sT) sT.addEventListener('change', function () { filtrosHome.tamano = sT.value; repintar(); });
   if (buscar) {
     var espera = null;
