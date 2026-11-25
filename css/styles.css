@@ -32,7 +32,10 @@ html {
 
 body {
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
-  background: var(--bg-primary);
+  background-color: var(--bg-primary);
+  background-image: linear-gradient(180deg, #8d8d8d 0%, #868686 38%, #7b7b7b 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-tap-highlight-color: transparent;
@@ -616,23 +619,6 @@ h3 { font-size: 1.25rem; }
 /* Solo mostrar Rojo cuando NO disponible (disponible: false) */
 .disponibilidad-indicator.Rojo {
   background: #ff3b30;
-}
-
-/* Sello "Nuevo" */
-.sello-nuevo {
-  position: absolute;
-  top: 0.6rem;
-  left: 0.6rem;
-  background: var(--accent);
-  color: #ffffff;
-  font-size: 0.62rem;
-  font-weight: 600;
-  padding: 0.2rem 0.5rem;
-  border-radius: 0;
-  z-index: 2;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
 }
 
 /* ===== Tarjetas de obra ===== */
@@ -1922,8 +1908,6 @@ footer .footer-email {
   text-transform: uppercase;
   opacity: 0.62;
 }
-
-.lateral-tag-nueva { opacity: 0.95; }
 
 .lateral-img {
   display: block;

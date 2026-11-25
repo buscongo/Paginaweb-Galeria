@@ -133,8 +133,16 @@ check('la home abre con statement y curriculum',
   /class="home-perfil"/.test(leer('html/index.html')) && /Statement/.test(leer('html/index.html')) && /Curriculum/.test(leer('html/index.html')));
 check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
-check('la barra lateral usa medium y las dos etiquetas',
-  /imagenMedium/.test(leer('js/obra-lateral.js')) && /Nueva Obra/.test(leer('js/obra-lateral.js')) && /Obra actualizada/.test(leer('js/obra-lateral.js')));
+check('la barra lateral usa medium y solo etiqueta la obra editada',
+  /imagenMedium/.test(leer('js/obra-lateral.js')) && /function etiquetaLateral/.test(leer('js/obra-lateral.js')) &&
+  /'Obra actualizada'/.test(leer('js/obra-lateral.js')) &&
+  !/'Nueva Obra'/.test(leer('js/obra-lateral.js')));
+check('las tarjetas ya no llevan el sello Nuevo',
+  !/sello-nuevo/.test(leer('js/gallery.js')) && !/\.sello-nuevo \{/.test(leer('css/styles.css')));
+check('todas las páginas tienen fondo con degradado sutil',
+  /linear-gradient\(180deg/.test(leer('css/styles.css')) &&
+  /background-attachment: fixed/.test(leer('css/styles.css')) &&
+  /background-color: var\(--bg-primary\)/.test(leer('css/styles.css')));
 check('la página de exportación tiene la casilla de precios',
   /id="chk-precios"/.test(leer('html/exportar.html')));
 check('el documento genera hojas de serie e índice',

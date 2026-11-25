@@ -58,6 +58,12 @@ function textoTamano(obra) {
   return ancho + ' × ' + alto + ' cm';
 }
 
+/* Etiqueta «Nueva Obra» retirada: estar en la barra ya significa que es reciente.
+   Solo se distingue la obra editada. */
+function etiquetaLateral(tipo) {
+  return tipo === 'actualizada' ? 'Obra actualizada' : '';
+}
+
 function pintarLateral(lista) {
   var caja = document.getElementById('obra-lateral');
   var cont = document.getElementById('obra-lateral-lista');
@@ -74,10 +80,10 @@ function pintarLateral(lista) {
     var enlace = 'pintura.html?id=' + encodeURIComponent(o.id);
     var img = o.imagenMedium || o.imagenHD || o.imagen || '';
     var partes = [textoTamano(o), textoDisponibilidad(o)].filter(Boolean).join(' · ');
+    var etiqueta = etiquetaLateral(item.tipo);
 
     return '<a class="lateral-item" href="' + enlace + '">' +
-      '<span class="lateral-tag lateral-tag-' + item.tipo + '">' +
-        (item.tipo === 'nueva' ? 'Nueva Obra' : 'Obra actualizada') + '</span>' +
+      (etiqueta ? '<span class="lateral-tag">' + etiqueta + '</span>' : '') +
       (img ? '<img class="lateral-img" src="' + escaparHTML(img) + '" alt="' +
         escaparHTML(o.titulo || 'Obra') + '" loading="lazy" decoding="async">' : '') +
       '<span class="lateral-nombre">' + escaparHTML(o.titulo || 'Sin título') + '</span>' +

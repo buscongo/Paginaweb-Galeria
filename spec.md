@@ -136,7 +136,7 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **WHEN** el visitante abre la home en una pantalla de 900 px o más de ancho  \
 **THEN** SHALL verse una barra **dentro de la columna central** (260 px, `#3f3f3f`), debajo del menú de filtros y alineada con la primera fila de obras  \
 **AND** SHALL listar **todas** las obras subidas o actualizadas en los últimos **30 días**, la más reciente primero; al cumplirse el mes la obra sale de la lista sola  \
-**AND** cada entrada SHALL mostrar la etiqueta **«Nueva Obra»** (si se subió en el mes) o **«Obra actualizada»** (si se editó), la imagen `imagenMedium`, el nombre, el tamaño y la disponibilidad  \
+**AND** cada entrada SHALL mostrar la imagen `imagenMedium`, el nombre, el tamaño y la disponibilidad; la etiqueta **«Obra actualizada»** SHALL aparecer solo cuando la obra se editó (estar en la barra ya significa que es reciente, así que no se marca «nueva»)  \
 **AND** si no hay ninguna obra del último mes, la barra SHALL ocultarse.  \
 **WHY**: destacar lo último sin que el visitante tenga que buscarlo.  \
 **IMPL**: `js/obra-lateral.js` (`obrasRecientes()` filtra por `fechaModificacion`/`fechaRegistro` y ordena por fecha; `pintarLateral()`), markup `#obra-lateral` dentro de `.home-cuerpo` en `html/index.html`, estilos `.lateral-item` (lista con scroll interno y `max-height: 100vh`). La barra superior se esconde al bajar (clase `nav-oculta`). Se oculta en móvil (<900 px).
