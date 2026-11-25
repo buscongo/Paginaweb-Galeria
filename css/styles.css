@@ -75,7 +75,8 @@ h3 { font-size: 1.25rem; }
   display: grid;
   grid-template-columns: 46% 54%;
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
-  margin-top: 44px;
+  max-width: 72rem;                    /* misma columna central que la galería */
+  margin: 44px auto 0;
   background: #4a4a4a;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
   border-bottom: 1px solid var(--border);
@@ -113,6 +114,7 @@ h3 { font-size: 1.25rem; }
   line-height: 1.02;
   text-transform: uppercase;
   opacity: 0.85;
+  overflow-wrap: break-word;
 }
 
 .perfil-bloque h2 {
@@ -180,6 +182,10 @@ h3 { font-size: 1.25rem; }
   .perfil-info {
     padding: 1.75rem 1.25rem 2.5rem;
     gap: 1.6rem;
+  }
+
+  .perfil-nombre {
+    font-size: clamp(1.45rem, 9vw, 2.2rem);   /* en móvil el 5.2vh desborda el ancho */
   }
 
   .perfil-bloque p,
@@ -451,6 +457,11 @@ h3 { font-size: 1.25rem; }
   padding-top: 0;
 }
 
+/* La barra de filtros ocupa el ancho de la columna, alineada con las tarjetas */
+.franja-todas .filtros-barra {
+  max-width: none;
+}
+
 /* ===== Barra de filtros (mobile-first) =====
    Mobile: selects en una fila desplazable + acciones (VER TODO / Limpiar) siempre visibles.
    Desktop (>=700px): todo en una sola fila. */
@@ -483,6 +494,9 @@ h3 { font-size: 1.25rem; }
 }
 .filtros-selects::-webkit-scrollbar { display: none; }
 .filtros-selects select { flex: 0 0 auto; }   /* no se comprimen: la fila se desplaza */
+
+/* Un solo filtro (páginas de serie) no debe estirarse a todo el ancho */
+.filtros-selects > select { max-width: 20rem; }
 
 /* Buscador por nombre: mismo lenguaje visual que los selects */
 .filtros-barra .filtro-buscar {
@@ -1842,45 +1856,29 @@ footer .footer-email {
   .btn-admin { padding: 1.3rem 1rem; }
 }
 
-/* ===== Barra lateral fija: obra nueva / actualizada ===== */
+/* ===== Barra lateral: obra nueva / actualizada, dentro de la columna central ===== */
+.home-cuerpo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+  align-items: start;
+}
+
+.home-cuerpo > #contenido-obras { min-width: 0; }
+
 .obra-lateral {
-  position: fixed;
-  top: var(--lateral-top, 44px);
-  left: 0;
-  bottom: 0;
-  width: var(--lateral-ancho, 250px);
-  padding: 0.9rem 0.9rem 1.4rem;
+  position: sticky;
+  top: 0;
+  align-self: start;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.7rem 0.8rem 1rem;
   background: #3f3f3f;
-  border-right: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  overflow-y: auto;
-  z-index: 900;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
-
-.obra-lateral-cerrar {
-  position: absolute;
-  top: 0.35rem;
-  right: 0.45rem;
-  width: 1.4rem;
-  height: 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: none;
-  background: none;
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 1.05rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.obra-lateral-cerrar:hover { color: #fff; }
 
 .obra-lateral-etiqueta {
   margin: 0;
@@ -1923,9 +1921,9 @@ footer .footer-email {
   opacity: 0.85;
 }
 
-/* El contenido se corre para no quedar debajo de la barra */
+/* La barra lateral solo cabe en la columna central desde 900 px */
 @media (min-width: 900px) {
-  body.con-obra-lateral { padding-left: var(--lateral-ancho, 250px); }
+  .home-cuerpo { grid-template-columns: 260px minmax(0, 1fr); gap: 1.8rem; }
 }
 
 /* En móvil no hay sitio para una barra lateral */
@@ -1933,11 +1931,9 @@ footer .footer-email {
   .obra-lateral { display: none !important; }
 }
 
-/* La barra superior se esconde al bajar y la lateral sube hasta el borde */
+/* La barra superior se esconde al bajar */
 .series-tabs { transition: transform 0.28s ease; }
 body.nav-oculta .series-tabs { transform: translateY(-100%); }
-
-.obra-lateral { will-change: top; }
 
 /* ===== Página de exportación: selección de obras ===== */
 .exportar-ayuda {

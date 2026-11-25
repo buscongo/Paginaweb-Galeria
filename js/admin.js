@@ -24,6 +24,7 @@ async function iniciar() {
 
   document.getElementById('filtro-serie').addEventListener('change', render);
   document.getElementById('filtro-ano').addEventListener('change', render);
+  document.getElementById('filtro-disponibilidad').addEventListener('change', render);
 
   var chk = document.getElementById('chk-archivadas');
   chk.addEventListener('change', async function () {
@@ -53,6 +54,7 @@ function alternarPanel() {
 function pintarFiltros() {
   var selSerie = document.getElementById('filtro-serie');
   var selAnio = document.getElementById('filtro-ano');
+  var selDisp = document.getElementById('filtro-disponibilidad');
 
   selSerie.innerHTML = '<option value="">Todas las series</option>' +
     cacheSeries.map(function (s) {
@@ -65,14 +67,24 @@ function pintarFiltros() {
     Object.keys(anios).sort(function (a, b) { return b - a; }).map(function (a) {
       return '<option value="' + a + '">' + a + '</option>';
     }).join('');
+
+  if (selDisp) {
+    selDisp.innerHTML = '<option value="">Toda disponibilidad</option>' +
+      '<option value="true">Disponibles</option>' +
+      '<option value="false">No disponibles</option>';
+  }
 }
 
 function obrasFiltradas() {
   var sId = document.getElementById('filtro-serie').value;
   var anio = document.getElementById('filtro-ano').value;
+  var disp = document.getElementById('filtro-disponibilidad');
+  var disponible = disp ? disp.value : '';
   return cacheObras.filter(function (o) {
     if (sId && o.serieId !== sId) return false;
     if (anio && String(o.anio) !== String(anio)) return false;
+    if (disponible === 'true' && !o.disponible) return false;
+    if (disponible === 'false' && o.disponible) return false;
     return true;
   });
 }

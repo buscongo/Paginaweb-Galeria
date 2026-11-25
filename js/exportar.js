@@ -429,7 +429,7 @@ function hojaSerie(grupo) {
   return '<section class="hoja serie-hoja">' +
     '<p class="serie-etiqueta">Serie</p>' +
     '<h2 class="serie-nombre-grande">' + escaparHTML(tema) + '</h2>' +
-    '<p class="serie-cuenta-grande">' + n + (n === 1 ? ' obra seleccionada' : ' obras seleccionadas') + '</p>' +
+    '<p class="serie-cuenta-grande">' + n + (n === 1 ? ' obra' : ' obras') + '</p>' +
     '</section>';
 }
 

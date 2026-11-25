@@ -78,7 +78,20 @@
         <button type="button" id="limpiar-filtros" class="btn btn-cancelar">Limpiar filtros</button>
       </div>
     </div>
-    <div id="contenido-obras"></div>
+
+    <div class="home-cuerpo">
+      <!-- Barra lateral: obra nueva o actualizada, alineada con la galería -->
+      <aside id="obra-lateral" class="obra-lateral" hidden aria-label="Obra destacada">
+        <p class="obra-lateral-etiqueta" id="obra-lateral-etiqueta">Nueva Obra</p>
+        <a class="obra-lateral-foto" id="obra-lateral-foto" href="#">
+          <img id="obra-lateral-img" src="" alt="" loading="lazy" decoding="async">
+        </a>
+        <h3 class="obra-lateral-nombre"><a id="obra-lateral-nombre" href="#"></a></h3>
+        <p class="obra-lateral-datos" id="obra-lateral-datos"></p>
+      </aside>
+
+      <div id="contenido-obras"></div>
+    </div>
   </div>
 
   <!-- Modal: Detalles de obra -->
@@ -98,15 +111,6 @@
   </div>
 
   <!-- Barra lateral fija: obra nueva o actualizada -->
-  <aside id="obra-lateral" class="obra-lateral" hidden aria-label="Obra destacada">
-    <button type="button" class="obra-lateral-cerrar" id="obra-lateral-cerrar" aria-label="Cerrar">&times;</button>
-    <p class="obra-lateral-etiqueta" id="obra-lateral-etiqueta">Nueva Obra</p>
-    <a class="obra-lateral-foto" id="obra-lateral-foto" href="#">
-      <img id="obra-lateral-img" src="" alt="" loading="lazy" decoding="async">
-    </a>
-    <h3 class="obra-lateral-nombre"><a id="obra-lateral-nombre" href="#"></a></h3>
-    <p class="obra-lateral-datos" id="obra-lateral-datos"></p>
-  </aside>
 
   <!-- Scripts -->
   <script src="../js/data.js"></script>

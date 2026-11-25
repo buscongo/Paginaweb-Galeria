@@ -140,8 +140,13 @@ check('la página de exportación tiene la casilla de precios',
 check('el documento genera hojas de serie e índice',
   /function hojaSerie/.test(leer('js/exportar.js')) && /function hojaIndice/.test(leer('js/exportar.js')) &&
   /OBRAS_POR_INDICE = 8/.test(leer('js/exportar.js')));
-check('la barra lateral arranca debajo del menú de filtros',
-  /--lateral-top/.test(leer('css/styles.css')) && /filtros-barra/.test(leer('js/obra-lateral.js')));
+check('la barra lateral va dentro de la columna central, bajo los filtros',
+  /class="home-cuerpo"/.test(leer('html/index.html')) &&
+  /\.home-cuerpo \{/.test(leer('css/styles.css')) &&
+  /position: sticky/.test(leer('css/styles.css')) &&
+  /home-cuerpo[\s\S]{0,200}obra-lateral/.test(leer('html/index.html').replace(/\r/g, '')));
+check('la columna central incluye el bloque de perfil',
+  /\.home-perfil \{[\s\S]{0,400}max-width: 72rem/.test(leer('css/styles.css').replace(/\r/g, '')));
 check('el servidor sella fechaModificacion al guardar',
   /obra\.fechaModificacion = ahora\.toISOString\(\)/.test(servidor) && /fechaModificacion: new Date\(\)\.toISOString\(\)/.test(servidor));
 check('el admin tiene el tercer botón de exportar',

@@ -94,14 +94,49 @@ async function initSerie() {
   // Grid de cards
   var g = document.getElementById('galeria-series');
   if (!g) return;
+
+  obrasSerieActual = deSerie;
+  poblarDisponibilidadSerie();
+  var selDisp = document.getElementById('filtro-disponibilidad');
+  if (selDisp) {
+    selDisp.addEventListener('change', function () {
+      pintarGrillaSerie(obrasSerieActual, selDisp.value);
+    });
+  }
+  pintarGrillaSerie(deSerie, selDisp ? selDisp.value : '');
+}
+
+var obrasSerieActual = [];
+
+function poblarDisponibilidadSerie() {
+  var sel = document.getElementById('filtro-disponibilidad');
+  if (!sel || sel.options.length) return;
+  var etiqueta = (typeof t === 'function') ? t : function (k) { return k; };
+  sel.innerHTML = '<option value="">' + (etiqueta('todos') || 'Todos') + '</option>' +
+    '<option value="true">' + (etiqueta('disponible') || 'Disponible') + '</option>' +
+    '<option value="false">' + (etiqueta('noDisponible') || 'No disponible') + '</option>';
+  sel.value = '';
+}
+
+function pintarGrillaSerie(obras, disponible) {
+  var g = document.getElementById('galeria-series');
+  if (!g) return;
   g.innerHTML = '';
-  if (deSerie.length === 0) {
+
+  var lista = obras.filter(function (o) {
+    if (disponible === 'true') return !!o.disponible;
+    if (disponible === 'false') return !o.disponible;
+    return true;
+  });
+
+  if (lista.length === 0) {
     g.innerHTML = '<p class="mensaje-vacio">' +
       ((typeof t === 'function') ? (t('sinResultadosFiltro') || 'No se encontraron obras.') : 'No se encontraron obras.') +
       '</p>';
     return;
   }
-  deSerie.forEach(function (o) {
+
+  lista.forEach(function (o) {
     o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
     g.appendChild(crearTarjetaObra(o));
   });

@@ -134,13 +134,21 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 
 ### RF-17: Barra lateral con la obra reciente ✅
 **WHEN** el visitante abre la home en una pantalla de 900 px o más de ancho  \
-**THEN** SHALL verse una barra fija a la **izquierda** (250 px, `#3f3f3f`), pegada al borde superior, con la obra más reciente  \
+**THEN** SHALL verse una barra **dentro de la columna central** (260 px, `#3f3f3f`), debajo del menú de filtros y alineada con la primera fila de obras, con la obra más reciente  \
+**AND** al hacer scroll SHALL quedarse pegada arriba (`position: sticky`) y su alto SHALL terminar donde termina su contenido, no al pie de la ventana  \
 **AND** si alguna obra tiene `fechaRegistro` en los últimos 30 días, SHALL mostrar la más nueva con el título **«Nueva Obra»**  \
 **AND** si no, SHALL mostrar la obra con `fechaModificacion` más reciente con el título **«Obra actualizada»** (si no hay `fechaModificacion`, se usa `fechaRegistro`)  \
 **AND** debajo de la imagen SHALL mostrar nombre, tamaño (`ancho × alto cm`, se omite si es 0) y disponibilidad  \
 **AND** la imagen SHALL ser la versión `imagenMedium` y enlazar a la ficha de la obra.  \
 **WHY**: destacar lo último sin que el visitante tenga que buscarlo.  \
-**IMPL**: `js/obra-lateral.js` (`elegirObraLateral()`), markup `#obra-lateral` en `html/index.html`, estilos `.obra-lateral`; el servidor sella `fechaModificacion` en cada `POST`/`PUT` de obras. La barra superior se esconde al bajar (clase `nav-oculta` en el `body`) y la lateral se estira hasta el borde. Se oculta en móvil (<900 px) y el botón × la cierra durante la sesión.
+**IMPL**: `js/obra-lateral.js` (`elegirObraLateral()`), markup `#obra-lateral` dentro de `.home-cuerpo` en `html/index.html`, estilos `.home-cuerpo` / `.obra-lateral`. La barra superior se esconde al bajar (clase `nav-oculta` en el `body`). Se oculta en móvil (<900 px).
+
+### RF-19: Filtro por disponibilidad en todas las páginas ✅
+**WHEN** el visitante o el administrador abre la home, una página de serie o el panel Editar del admin  \
+**THEN** SHALL ver un filtro de **disponibilidad** (Todos / Disponibles / No disponibles) junto a los demás filtros  \
+**AND** el listado SHALL mostrar solo las obras que correspondan, combinado con los otros filtros; en la página de serie el grid se repinta sin recargar.  \
+**WHY**: poder ver solo lo que está a la venta (o solo lo vendido).  \
+**IMPL**: `#filtro-disponibilidad` en `html/index.html`, `html/serie.html` y `html/admin.html`; `js/serie.js` (`pintarGrillaSerie()`), `js/admin.js` (`obrasFiltradas()`), `js/home.js` (`filtrosHome.disponible`).
 
 ### RF-18: Exportar la galería a PDF ✅
 **WHEN** el administrador entra a `admin.html` y pulsa **Exportar PDF**  \
