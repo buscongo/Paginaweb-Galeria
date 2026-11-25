@@ -1,6 +1,6 @@
 /* ========================================
    styles.css — Galería de Arte
-   Brief: gris oscuro #081c2b + teal #0eb5a0
+   Brief: gris oscuro #111b22 + teal #388b81
    Energía/vida · serif elegante · masonry grid · 3D hover
    ======================================== */
 
@@ -12,14 +12,14 @@
 }
 
 :root {
-  --bg-primary: #102e12;        /* fondo de página: verde musgo oscuro */
-  --bg-secondary: #0b220d;      /* superficies hundidas: inputs, placeholders */
-  --bg-card: #2d0a2b;           /* paneles, modales, barra de filtros (musgo) */
-  --bg-card-art: #2d0a2b;       /* tarjetas de obra (musgo) */
+  --bg-primary: #182618;        /* fondo de página: verde musgo oscuro */
+  --bg-secondary: #111c12;      /* superficies hundidas: inputs, placeholders */
+  --bg-card: #241323;           /* paneles, modales, barra de filtros (musgo) */
+  --bg-card-art: #241323;       /* tarjetas de obra (musgo) */
   --text-primary: #ffffff;
   --text-secondary: #f5f5f5;
-  --accent: #1f1921;            /* relleno de botones/etiquetas: gris ciruela oscuro */
-  --accent-orange: #2f2733;
+  --accent: #1e1b1f;            /* relleno de botones/etiquetas: gris ciruela oscuro */
+  --accent-orange: #2e2a30;
   --border: rgba(255, 255, 255, 0.25);
   --border-hover: rgba(255, 255, 255, 0.45);
 }
@@ -33,7 +33,7 @@ html {
 body {
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
   background-color: var(--bg-primary);
-  background-image: linear-gradient(180deg, #133315 0%, #102e12 38%, #0b220d 100%);
+  background-image: linear-gradient(180deg, #1b2b1c 0%, #182618 38%, #111c12 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--text-primary);
@@ -80,7 +80,7 @@ h3 { font-size: 1.25rem; }
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
   max-width: calc(72rem - 2.5rem);      /* misma columna central que la galería, sin su padding */
   margin: 44px auto 0;
-  background: #251d29;          /* gris más oscuro que el fondo de la página */
+  background: #242026;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
   border-bottom: 1px solid var(--border);
 }
@@ -88,7 +88,7 @@ h3 { font-size: 1.25rem; }
 .perfil-foto {
   position: relative;
   overflow: hidden;
-  background: #191320;
+  background: #19161d;
 }
 
 .perfil-foto img {
@@ -225,7 +225,7 @@ h3 { font-size: 1.25rem; }
   left: 0;
   width: 100%;
   height: 44px;
-  background: rgba(13, 38, 16, 0.96);
+  background: rgba(19, 32, 21, 0.96);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
@@ -260,7 +260,7 @@ h3 { font-size: 1.25rem; }
   align-items: stretch;
   height: auto;
   padding-bottom: 8px;
-  background: rgba(13, 38, 16, 0.99);
+  background: rgba(19, 32, 21, 0.99);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 .series-tabs.open .tab {
@@ -309,7 +309,7 @@ h3 { font-size: 1.25rem; }
   position: absolute;
   inset: 0;
   /* degradé vertical: metal azul oscuro denso arriba → 10% opaco abajo */
-  background: linear-gradient(to bottom, rgba(10, 36, 99, 0.8) 0%, rgba(10, 36, 99, 0.1) 100%);
+  background: linear-gradient(to bottom, rgba(32, 45, 77, 0.8) 0%, rgba(32, 45, 77, 0.1) 100%);
 }
 
 .hero-contenido {
@@ -618,15 +618,15 @@ h3 { font-size: 1.25rem; }
 
 /* Solo mostrar Rojo cuando NO disponible (disponible: false) */
 .disponibilidad-indicator.Rojo {
-  background: #8c1d12;   /* rojo oscuro: obra no disponible */
+  background: #6e3630;   /* rojo oscuro: obra no disponible */
 }
 
 /* ===== Tarjetas de obra ===== */
 /* El fondo de la tarjeta se desvanece hacia abajo (alfa sobre el degradado de la página) */
 .tarjeta-obra {
   position: relative;
-  background: linear-gradient(180deg, rgba(45, 10, 43, 0.98) 0%,
-    rgba(45, 10, 43, 0.82) 45%, rgba(45, 10, 43, 0.35) 85%, rgba(45, 10, 43, 0) 100%);
+  background: linear-gradient(180deg, rgba(36, 19, 35, 0.98) 0%,
+    rgba(36, 19, 35, 0.82) 45%, rgba(36, 19, 35, 0.35) 85%, rgba(36, 19, 35, 0) 100%);
   border-radius: 0;
   overflow: visible;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
@@ -644,7 +644,7 @@ h3 { font-size: 1.25rem; }
   top: 0.4rem;
   right: 0.4rem;
   padding: 0.08rem 0.22rem;
-  background: rgba(31, 25, 33, 0.85);
+  background: rgba(30, 27, 31, 0.85);
   color: #ffffff;
   font-size: 0.32rem;
   letter-spacing: 0.1em;
@@ -852,7 +852,7 @@ header h1 {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(24, 24, 28, 0.55);
+  background: rgba(25, 25, 27, 0.55);
   backdrop-filter: blur(4px);
   align-items: center;
   justify-content: center;
@@ -956,7 +956,7 @@ header h1 {
 .precio-revelado {
   margin-top: 0.75rem;
   padding: 0.5rem 0.8rem;
-  background: rgba(106, 106, 112, 0.08);
+  background: rgba(108, 108, 111, 0.08);
   border-radius: 0;
   font-size: 0.95rem;
   color: #ffffff;
@@ -976,17 +976,17 @@ header h1 {
 }
 
 .btn-editar:hover {
-  background: #2f2733;
+  background: #2e2a30;
   transform: translateY(-1px);
 }
 
 .btn-archivar {
-  background: #ff3b30;
+  background: #cb6964;
   color: var(--text-primary);
 }
 
 .btn-archivar:hover {
-  background: #e02b16;
+  background: #ae5348;
 }
 
 /* ===== Consulta de precios (modal) ===== */
@@ -1056,7 +1056,7 @@ header h1 {
 
 .campo-grupo label[for]:not(.checkbox-label)::after {
   content: ' *';
-  color: #ff3b30;
+  color: #cb6964;
 }
 
 .campo-grupo input[type="text"],
@@ -1078,7 +1078,7 @@ header h1 {
 .campo-grupo select:focus {
   outline: none;
   border-color: rgba(255, 255, 255, 0.75);
-  box-shadow: 0 0 0 3px rgba(106, 106, 112, 0.15);
+  box-shadow: 0 0 0 3px rgba(108, 108, 111, 0.15);
 }
 
 .campo-grupo textarea {
@@ -1124,7 +1124,7 @@ header h1 {
 .checkmark {
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(106, 106, 112, 0.4);
+  border: 2px solid rgba(108, 108, 111, 0.4);
   border-radius: 0;
   position: relative;
   transition: all 0.2s ease;
@@ -1202,9 +1202,9 @@ header h1 {
 }
 
 .btn-primario:hover {
-  background: #2f2733;
+  background: #2e2a30;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(106, 106, 112, 0.3);
+  box-shadow: 0 4px 14px rgba(108, 108, 111, 0.3);
 }
 
 .btn-precio {
@@ -1348,7 +1348,7 @@ footer .footer-email {
 }
 
 .btn-go-back:hover {
-  background: #2f2733;
+  background: #2e2a30;
 }
 
 .btn-go-back::before {
@@ -1665,7 +1665,7 @@ footer .footer-email {
   box-shadow: none;
 }
 .filtros-barra .btn-ver-todo.activo:hover {
-  background: #14101a;
+  background: #141218;
   color: #fff;
 }
 
@@ -1763,7 +1763,7 @@ footer .footer-email {
   font-family: inherit;
   font-size: 0.95rem;
 }
-.gate-error { margin: 0; min-height: 1.1rem; font-size: 0.8rem; color: #ffd2d2; }
+.gate-error { margin: 0; min-height: 1.1rem; font-size: 0.8rem; color: #f4dddd; }
 
 /* Formulario de obra (subir / editar) */
 .form-obra {
@@ -1854,7 +1854,7 @@ footer .footer-email {
   gap: 0.5rem;
   width: 100%;
   padding: 0.7rem 0.8rem 1rem;
-  background: #191320;
+  background: #19161d;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
   max-height: calc(100vh - 0.5rem);
@@ -1906,7 +1906,7 @@ footer .footer-email {
   display: block;
   width: 100%;
   height: auto;
-  background: #14101a;
+  background: #141218;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -1992,7 +1992,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   opacity: 1;
   background: #ffffff;
   border-color: #ffffff;
-  color: #14101a;
+  color: #141218;
 }
 
 .tarjeta-sel.marcada { outline: 3px solid #ffffff; outline-offset: -3px; }
@@ -2010,7 +2010,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   gap: 1rem;
   height: 64px;
   padding: 0 1.2rem;
-  background: #191320;
+  background: #19161d;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
   font-size: 0.9rem;
@@ -2050,7 +2050,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   width: 100%;
   padding: 0.7rem 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: #251d29;
+  background: #242026;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.95rem;
@@ -2112,7 +2112,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transform: translate(-50%, 1rem);
   max-width: min(92vw, 34rem);
   padding: 0.75rem 1.1rem;
-  background: #1f1921;
+  background: #1e1b1f;
   border: 1px solid var(--border);
   color: #ffffff;
   font-size: 0.8rem;
@@ -2136,8 +2136,8 @@ body.con-barra-exportar { padding-bottom: 84px; }
   display: inline-flex;
   align-items: center;
   padding: 0.65rem 1.6rem;
-  background: #1f1921;
-  border: 1px solid #4a3f52;
+  background: #1e1b1f;
+  border: 1px solid #49444d;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.78rem;
@@ -2147,6 +2147,6 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn-ver-precio:hover { background: #332a3a; border-color: #4a3f52; }
+.btn-ver-precio:hover { background: #322e36; border-color: #49444d; }
 .btn-ver-precio[hidden] { display: none; }
 .pintura-precio[hidden] { display: none; }
