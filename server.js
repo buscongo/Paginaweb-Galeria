@@ -133,6 +133,33 @@ app.use(express.json({ limit: '200mb' }));
 app.use(express.static('html'));
 app.use('/css', express.static('css'));
 app.use('/js', express.static('js'));
+/* ---- Versión pública de una obra ----
+   El archivo HD (1920 px) es el que se usa para vender: no se publica.
+   El visitante recibe el medium (1200 px) también en las fotos de detalle. */
+function obraPublica(obra) {
+  var copia = JSON.parse(JSON.stringify(obra));
+  delete copia.imagenHD;
+  if (Array.isArray(copia.detalles)) {
+    copia.detalles.forEach(function (d) {
+      if (!d) return;
+      if (d.hd) {
+        d.medium = String(d.hd).replace(/_hd\.(jpe?g|png|webp)$/i, '_medium.$1');
+        delete d.hd;
+      }
+      delete d.full;
+    });
+  }
+  return copia;
+}
+
+/* El HD no se sirve al público: solo con sesión de admin (para vender el archivo) */
+app.use('/img', function (req, res, next) {
+  if (/_hd\.(jpe?g|png|webp)$/i.test(req.path) && !autenticado(req)) {
+    return res.status(404).type('text/plain').send('No encontrado');
+  }
+  next();
+});
+
 app.use('/img', express.static(IMG_DIR));
 app.use('/img', express.static(path.join(__dirname, 'img')));
 
@@ -237,14 +264,14 @@ app.get('/api/obras', function (req, res) {
   var archivadas = req.query.archivadas === 'true';
   var obras = db.obras.filter(function (o) { return !!o.archivado === archivadas; });
   obras.sort(function (a, b) { return b.fechaRegistro.localeCompare(a.fechaRegistro); });
-  res.json(obras);
+  res.json(autenticado(req) ? obras : obras.map(obraPublica));
 });
 
 app.get('/api/obras/:id', function (req, res) {
   var db = cargarDB();
   var obra = db.obras.find(function (o) { return o.id === req.params.id; });
   if (!obra) return res.status(404).json({ error: 'Obra no encontrada' });
-  res.json(obra);
+  res.json(autenticado(req) ? obra : obraPublica(obra));
 });
 
 app.post('/api/obras', requiereAdmin, function (req, res) {

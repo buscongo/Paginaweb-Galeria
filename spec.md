@@ -88,20 +88,21 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **AND** al hacer clic en un thumbnail, cambiar la imagen grande a la versión 2k de esa foto.  
 **WHY**: apreciar la obra a máxima resolución y sus detalles sin recargar la galería.
 
-### RF-12: Precio en detalle solo si está disponible ✅
-**WHEN** el visitante abre la página de detalle `pintura.html?id=<obraId>`  
-**AND** la obra tiene `disponible: true`  
-**THEN** el sistema SHALL mostrar el precio al final de la información, después de la ficha técnica  
-**UNLESS** la obra no está disponible (`disponible: false`), **THEN** el sistema SHALL ocultar el precio por completo (sin texto ni espacio reservado).  
-**WHY**: el precio solo es relevante cuando la obra se puede adquirir; mostrarlo en obras vendidas no aporta.  
-**IMPL**: `js/pintura.js` → `renderizarDetalle()` usa `o.disponible && o.precio`; el `<p id="pintura-precio">` queda con atributo `hidden`. Formato con `formatoMoneda()` (USD).
+### RF-12: Precio oculto hasta pedirlo ✅
+**WHEN** el visitante abre la página de detalle `pintura.html?id=<obraId>` y la obra está disponible con `precio`  
+**THEN** al final de la ficha SHALL verse un botón **marrón oscuro** (`#4a3423`) con el texto **«Ver precio»**, sin ningún precio a la vista  
+**AND** al pulsarlo SHALL revelarse `Precio: $2,400` (USD, con `formatoMoneda()`) y el botón SHALL desaparecer  
+**UNLESS** la obra no está disponible, **THEN** ni el botón ni el precio SHALL aparecer (sin texto ni espacio reservado), y el precio no se muestra en la home ni en el admin.  
+**WHY**: el artista prefiere que el precio no esté a la vista de cualquiera, pero el visitante interesado lo ve en un clic.  
+**IMPL**: `html/pintura.html` (`#precio-caja`, `#btn-ver-precio`), `js/pintura.js` (`btnPrecio.onclick`), estilos `.btn-ver-precio`.
 
 ### RF-13: Tamaños de imagen al subir ✅
 **WHEN** el admin sube la **foto principal** de una obra  
 **THEN** el navegador SHALL generar tres versiones: **thumb 400 px** (lado mayor, tarjetas), **medium 1200 px** (lado mayor, modal y ficha) y **HD**  
 **AND** el HD SHALL ser de **1920 px de ancho** si la imagen es horizontal y de **1080 px de ancho** si es vertical  
 **WHEN** el admin sube una **foto de detalle**  
-**THEN** el navegador SHALL generar solo dos versiones: **thumb 400 px** (tira de miniaturas de la ficha) y **HD** (misma regla) para verla ampliada.  
+**THEN** el navegador SHALL generar **tres** versiones: **thumb 400 px** (tira de miniaturas), **medium 1200 px** (máximo público) y **HD** (misma regla, privado)  
+**AND** el archivo **HD NO SHALL servirse al público**: `server.js` responde 404 a `*_hd.jpg` sin sesión de admin y la API pública no expone `imagenHD` ni `detalles[].hd` (en su lugar entrega `medium`).  
 **AND** el servidor SHALL guardarlas en `img/` como `<base>_thumb.jpg`, `<base>_medium.jpg`, `<base>_hd.jpg`  
 **AND** la obra SHALL guardar `imagen`, `imagenMedium`, `imagenHD` y, por cada detalle, `{thumb, hd}`.  
 **UNLESS** la foto original sea menor que el tamaño objetivo, **THEN** SHALL guardarse sin ampliar.  

@@ -78,7 +78,7 @@ function pintarLateral(lista) {
   cont.innerHTML = lista.map(function (item) {
     var o = item.obra;
     var enlace = 'pintura.html?id=' + encodeURIComponent(o.id);
-    var img = o.imagenMedium || o.imagenHD || o.imagen || '';
+    var img = o.imagenMedium || o.imagen || '';
     var partes = [textoTamano(o), textoDisponibilidad(o)].filter(Boolean).join(' · ');
     var etiqueta = etiquetaLateral(item.tipo);
 

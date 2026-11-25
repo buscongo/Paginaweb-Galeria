@@ -103,7 +103,7 @@ check('todas las obras tienen imagenMedium (modal)', sinMedium.length === 0);
 var mediumDef = Object.keys(obras.reduce(function (m, o) { if (o.imagenMedium) m[o.imagenMedium] = 1; return m; }, {}));
 var mediumGrandes = mediumDef.filter(function (f) { return ladoMayor(f) > 1200; });
 check('los ' + mediumDef.length + ' medium miden 1200 px como máximo', mediumGrandes.length === 0);
-check('el modal usa imagenMedium', /o\.imagenMedium\|\|o\.imagenHD/.test(leer('js/gallery.js')));
+check('el modal usa imagenMedium (nunca el HD)', /o\.imagenMedium\|\|o\.imagen/.test(leer('js/gallery.js')) && !/imagenHD/.test(leer('js/gallery.js')));
 
 /* ---------- Código ---------- */
 var imagenes = leer('js/imagenes.js');
@@ -115,8 +115,8 @@ check('existe generarDosTamanos para los detalles', /function generarDosTamanos/
 
 var pintura = leer('js/pintura.js');
 check('la ficha usa fotos[0].view (medium)', /imgGrande\.src = fotos\[0\]\.view/.test(pintura));
-check('el zoom usa el HD', /zoomImg\.src = \(actual && actual\.hd\)/.test(pintura));
-check('los detalles entran al carrusel con hd', /view: d\.hd \|\| d\.full/.test(pintura));
+check('el zoom usa el medium, nunca el HD', /zoomImg\.src = \(actual && actual\.view\)/.test(pintura));
+check('los detalles entran al carrusel con su medium', /versionMedium\(d\.hd\)/.test(pintura));
 
 var galeria = leer('js/gallery.js');
 check('el modal usa imagenMedium con respaldo', /o\.imagenMedium\|\|o\.imagen/.test(galeria));
@@ -137,8 +137,7 @@ check('la barra lateral usa medium y solo etiqueta la obra editada',
   /imagenMedium/.test(leer('js/obra-lateral.js')) && /function etiquetaLateral/.test(leer('js/obra-lateral.js')) &&
   /'Obra actualizada'/.test(leer('js/obra-lateral.js')) &&
   !/'Nueva Obra'/.test(leer('js/obra-lateral.js')));
-check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&
-  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
+check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
   /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
 check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&
   /contextmenu/.test(leer('js/proteger-imagenes.js')) &&
@@ -206,3 +205,24 @@ ok.forEach(function (par) {
 console.log('\n' + (ok.length - fallos) + '/' + ok.length + ' comprobaciones OK — ' +
   activas.length + ' obras activas de ' + obras.length + ', ' + detalles.length + ' detalles.');
 process.exit(fallos ? 1 : 0);
+
+/* ---------- HD privado, medium público ---------- */
+var detallesSinMedium = [];
+obras.forEach(function (o) {
+  (o.detalles || []).forEach(function (d) {
+    if (!d || !d.hd) return;
+    var media = d.hd.replace(/_hd\.(jpe?g|png|webp)$/i, '_medium.$1');
+    if (!existe(media)) detallesSinMedium.push(media);
+  });
+});
+check('cada detalle tiene su versión medium en disco', detallesSinMedium.length === 0);
+check('la ficha nunca pide el HD', !/imagenHD/.test(leer('js/pintura.js')) && /versionMedium/.test(leer('js/pintura.js')));
+check('el servidor no publica el HD', /function obraPublica/.test(leer('server.js')) &&
+  /_hd\\.\(jpe\?g\|png\|webp\)\$\/i\\.test\(req\.path\)/.test(leer('server.js')) &&
+  /obras\.map\(obraPublica\)/.test(leer('server.js')));
+check('la exportación a PDF usa el medium', !/imagenHD/.test(leer('js/exportar.js')));
+check('el precio se revela con un botón', /id="btn-ver-precio"/.test(leer('html/pintura.html')) &&
+  /btnPrecio\.onclick/.test(leer('js/pintura.js')) && /\.btn-ver-precio \{/.test(leer('css/styles.css')));
+check('la ficha no repite los datos bajo el título',
+  !/pintura-meta-texto|pintura-descripcion/.test(leer('html/pintura.html')) &&
+  /\.ficha-label::after/.test(leer('css/styles.css')));

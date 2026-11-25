@@ -39,10 +39,10 @@ function obtenerNuevasSerie(obras) {
 
 // 2k random de las obras de esta serie
 function obtener2kSerie(obras) {
-  var pool = obras.filter(function (x) { return x.imagenHD || x.imagen2k; });
+  var pool = obras.filter(function (x) { return x.imagenMedium || x.imagen2k; });
   if (pool.length === 0) return null;
   var p = pool[Math.floor(Math.random() * pool.length)];
-  return p.imagenHD || p.imagen2k;
+  return p.imagenMedium || p.imagen2k;
 }
 
 // Tabs dinámicas — marca activa según serie en ?serie=

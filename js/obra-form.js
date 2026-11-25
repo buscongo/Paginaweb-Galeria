@@ -278,7 +278,7 @@ var FormObra = (function () {
         obra.imagenHD = estado.portada.hd;
       }
 
-      // --- Detalles: 2 tamaños (thumb 400 / HD) ---
+      // --- Detalles: 3 tamaños (thumb 400 / medium 1200 / HD privado) ---
       var detalles = [];
       var nuevas = 0;
       for (var i = 0; i < estado.detalles.length; i++) {
@@ -288,11 +288,11 @@ var FormObra = (function () {
           continue;
         }
         nuevas++;
-        setEstado('Subiendo detalle ' + nuevas + ' (miniatura y HD)…');
+        setEstado('Subiendo detalle ' + nuevas + ' (miniatura, medium y HD)…');
         var marca = 'det' + (i + 1) + '-' + Math.random().toString(36).slice(2, 5);
         var r = await subirFotoAPI(base, marca, await generarDosTamanos(d.file));
         if (r.error) throw new Error('Detalle ' + (i + 1) + ': ' + r.error);
-        detalles.push({ thumb: r.thumb, hd: r.hd });
+        detalles.push({ thumb: r.thumb, medium: r.medium, hd: r.hd });
       }
       obra.detalles = detalles;
 

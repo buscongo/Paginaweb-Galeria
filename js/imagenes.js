@@ -6,9 +6,10 @@
      hd        horizontal: 1920 px de ancho
                vertical:   1080 px de ancho  → al hacer zoom
 
-   FOTOS DE DETALLE → 2 tamaños
+   FOTOS DE DETALLE → 3 tamaños
      thumb  400 px de lado mayor → tira de miniaturas en la ficha
-     hd     misma regla que la principal → al elegirla para ver
+     medium 1200 px de lado mayor → tamaño máximo público desde 2026-11
+     hd     misma regla que la principal → archivo privado, no se sirve
 
    Nunca se amplía una imagen: si el original es menor, se guarda tal cual. */
 
@@ -64,11 +65,12 @@ async function generarTresTamanos(file) {
   };
 }
 
-/* Foto de detalle: { thumb, hd } */
+/* Foto de detalle: { thumb, medium, hd } */
 async function generarDosTamanos(file) {
   var img = await cargarImagenArchivo(file);
   return {
     thumb: redimensionarLado(img, TAMANOS_IMAGEN.detalleThumb, 0.80),
+    medium: redimensionarLado(img, TAMANOS_IMAGEN.medium, 0.85),
     hd: redimensionarHD(img, 0.88)
   };
 }

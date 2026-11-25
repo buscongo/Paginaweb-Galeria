@@ -46,22 +46,17 @@
       <!-- Título -->
       <h1 id="pintura-titulo-detalle" class="pintura-titulo-detalle"></h1>
       
-      <!-- Meta información -->
-      <p id="pintura-meta-texto" class="pintura-meta-texto"></p>
-      
-      <!-- Descripción -->
-      <p id="pintura-descripcion" class="pintura-descripcion"></p>
-      
-      <!-- Serie -->
-      <p id="pintura-serie" class="pintura-serie"></p>
-      
-      <!-- Ficha técnica -->
+      <!-- Ficha técnica: la única lista de datos de la ficha -->
+
       <div class="ficha-tecnica layout2" id="ficha-tecnica">
         <!-- Se llena dinámicamente -->
       </div>
 
-      <!-- Precio: al final de la información y solo si la obra está disponible -->
-      <p id="pintura-precio" class="pintura-precio" hidden></p>
+      <!-- Precio: oculto hasta pulsar «Ver precio»; solo si la obra está disponible -->
+      <div class="precio-caja" id="precio-caja" hidden>
+        <button type="button" class="btn-ver-precio" id="btn-ver-precio">Ver precio</button>
+        <p id="pintura-precio" class="pintura-precio" hidden></p>
+      </div>
       
       <!-- Botón volver -->
       <button type="button" class="btn btn-go-back" onclick="history.back()">

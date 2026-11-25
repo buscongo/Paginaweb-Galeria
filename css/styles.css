@@ -1305,35 +1305,12 @@ footer .footer-email {
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
 }
 
-/* Meta información en línea */
-.pintura-meta-texto {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  margin: 0;
-  font-style: italic;
-}
-
 /* Precio - solo visible vía email */
 .pintura-precio {
   font-size: 1.3rem;
   font-weight: 600;
   color: #ffffff;
   margin: 0.5rem 0;
-}
-
-/* Descripción de la obra */
-.pintura-descripcion {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin: 0;
-  color: var(--text-primary);
-}
-
-/* Serie */
-.pintura-serie {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  margin: 0;
 }
 
 /* Botón volver */
@@ -1380,6 +1357,8 @@ footer .footer-email {
   color: var(--text-secondary);
   font-size: 0.9rem;
 }
+
+.ficha-label::after { content: ' :'; }
 
 .ficha-value {
   color: var(--text-primary);
@@ -2135,3 +2114,25 @@ body.con-barra-exportar { padding-bottom: 84px; }
   opacity: 1;
   transform: translate(-50%, 0);
 }
+
+/* ===== Precio revelado en la ficha ===== */
+.precio-caja { margin: 1.1rem 0 0; }
+
+.btn-ver-precio {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.6rem;
+  background: #4a3423;
+  border: 1px solid #6b4a30;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-ver-precio:hover { background: #5b4029; border-color: #8a6340; }
+.btn-ver-precio[hidden] { display: none; }
+.pintura-precio[hidden] { display: none; }
