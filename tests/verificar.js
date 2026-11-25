@@ -217,7 +217,8 @@ check('el admin regenera los medium que faltan', /js\/mantener-mediums\.js/.test
   /obtenerObras/.test(leer('js/mantener-mediums.js')) && /archivo: p\.media/.test(leer('js/mantener-mediums.js')));
 check('la ficha no repite los datos bajo el título',
   !/pintura-meta-texto|pintura-descripcion/.test(leer('html/pintura.html')) &&
-  /\.ficha-label::after/.test(leer('css/styles.css')));
+  /\.ficha-item \{ display: contents/.test(leer('css/styles.css')) &&
+  /\.ficha-tecnica \{[\s\S]{0,120}grid-template-columns: 1fr 2fr/.test(leer('css/styles.css')));
 
 /* ---------- Salida ---------- */
 var fallos = 0;

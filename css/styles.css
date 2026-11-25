@@ -1339,26 +1339,23 @@ footer .footer-email {
 }
 
 /* Ficha técnica de la obra */
+/* Igual que la rejilla del modal: dos columnas alineadas a la izquierda */
 .ficha-tecnica {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 0.4rem 1rem;
   margin-top: 1rem;
+  font-size: 0.9rem;
 }
 
-.ficha-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+/* Deja que etiqueta y dato entren en las columnas del contenedor */
+.ficha-item { display: contents; }
 
 .ficha-label {
   font-weight: 500;
   color: var(--text-secondary);
   font-size: 0.9rem;
 }
-
-.ficha-label::after { content: ' :'; }
 
 .ficha-value {
   color: var(--text-primary);
