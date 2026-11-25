@@ -1,6 +1,6 @@
 /* ========================================
    styles.css — Galería de Arte
-   Brief: gris oscuro #111b22 + teal #388b81
+   Brief: fondo ciruela #240822 · tarjetas #2d0a2b · secciones oscuras en gris neutro
    Energía/vida · serif elegante · masonry grid · 3D hover
    ======================================== */
 
@@ -12,14 +12,14 @@
 }
 
 :root {
-  --bg-primary: #182618;        /* fondo de página: verde musgo oscuro */
-  --bg-secondary: #111c12;      /* superficies hundidas: inputs, placeholders */
-  --bg-card: #241323;           /* paneles, modales, barra de filtros (musgo) */
-  --bg-card-art: #241323;       /* tarjetas de obra (musgo) */
+  --bg-primary: #240822;        /* fondo de página: ciruela, 20 % bajo las tarjetas */
+  --bg-secondary: #1b0619;      /* superficies hundidas: inputs, placeholders */
+  --bg-card: #2d0a2b;           /* paneles, modales, barra de filtros */
+  --bg-card-art: #2d0a2b;       /* tarjetas de obra */
   --text-primary: #ffffff;
   --text-secondary: #f5f5f5;
-  --accent: #1e1b1f;            /* relleno de botones/etiquetas: gris ciruela oscuro */
-  --accent-orange: #2e2a30;
+  --accent: #1d1d1d;            /* secciones oscuras: gris neutro */
+  --accent-orange: #2d2d2d;
   --border: rgba(255, 255, 255, 0.25);
   --border-hover: rgba(255, 255, 255, 0.45);
 }
@@ -33,7 +33,7 @@ html {
 body {
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
   background-color: var(--bg-primary);
-  background-image: linear-gradient(180deg, #1b2b1c 0%, #182618 38%, #111c12 100%);
+  background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--text-primary);
@@ -80,7 +80,7 @@ h3 { font-size: 1.25rem; }
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
   max-width: calc(72rem - 2.5rem);      /* misma columna central que la galería, sin su padding */
   margin: 44px auto 0;
-  background: #242026;          /* gris más oscuro que el fondo de la página */
+  background: #232323;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
   border-bottom: 1px solid var(--border);
 }
@@ -88,7 +88,7 @@ h3 { font-size: 1.25rem; }
 .perfil-foto {
   position: relative;
   overflow: hidden;
-  background: #19161d;
+  background: #1a1a1a;
 }
 
 .perfil-foto img {
@@ -225,7 +225,7 @@ h3 { font-size: 1.25rem; }
   left: 0;
   width: 100%;
   height: 44px;
-  background: rgba(19, 32, 21, 0.96);
+  background: rgba(26, 26, 26, 0.96);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
@@ -260,7 +260,7 @@ h3 { font-size: 1.25rem; }
   align-items: stretch;
   height: auto;
   padding-bottom: 8px;
-  background: rgba(19, 32, 21, 0.99);
+  background: rgba(26, 26, 26, 0.99);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 .series-tabs.open .tab {
@@ -308,8 +308,8 @@ h3 { font-size: 1.25rem; }
 .hero-overlay {
   position: absolute;
   inset: 0;
-  /* degradé vertical: metal azul oscuro denso arriba → 10% opaco abajo */
-  background: linear-gradient(to bottom, rgba(32, 45, 77, 0.8) 0%, rgba(32, 45, 77, 0.1) 100%);
+  /* degradé vertical: gris oscuro denso arriba → 10 % abajo */
+  background: linear-gradient(to bottom, rgba(28, 28, 28, 0.8) 0%, rgba(28, 28, 28, 0.1) 100%);
 }
 
 .hero-contenido {
@@ -622,20 +622,13 @@ h3 { font-size: 1.25rem; }
 }
 
 /* ===== Tarjetas de obra ===== */
-/* El fondo de la tarjeta se desvanece hacia abajo (alfa sobre el degradado de la página) */
+/* Tarjeta plana: sin degradado, sin sombra y sin efectos al pasar el mouse */
 .tarjeta-obra {
   position: relative;
-  background: linear-gradient(180deg, rgba(36, 19, 35, 0.98) 0%,
-    rgba(36, 19, 35, 0.82) 45%, rgba(36, 19, 35, 0.35) 85%, rgba(36, 19, 35, 0) 100%);
+  background: #2d0a2b;          /* color plano, sin degradado ni efectos */
   border-radius: 0;
   overflow: visible;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
-  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
   cursor: pointer;
-}
-
-.tarjeta-obra:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 /* Esquina de la tarjeta cuando la obra se editó hace menos de un mes */
@@ -644,7 +637,7 @@ h3 { font-size: 1.25rem; }
   top: 0.4rem;
   right: 0.4rem;
   padding: 0.08rem 0.22rem;
-  background: rgba(30, 27, 31, 0.85);
+  background: rgba(29, 29, 29, 0.85);
   color: #ffffff;
   font-size: 0.32rem;
   letter-spacing: 0.1em;
@@ -654,24 +647,6 @@ h3 { font-size: 1.25rem; }
 }
 
 /* Imagen: oscurece al hover */
-.tarjeta-obra:hover .tarjeta-imagen {
-  filter: brightness(0.7);
-  position: relative;
-}
-
-.tarjeta-obra:hover .tarjeta-imagen::after {
-  content: 'Ver';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #ffffff;
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-  pointer-events: none;
-}
-
 .tarjeta-imagen {
   width: 100%;
   height: 180px;
@@ -976,7 +951,7 @@ header h1 {
 }
 
 .btn-editar:hover {
-  background: #2e2a30;
+  background: #2d2d2d;
   transform: translateY(-1px);
 }
 
@@ -1202,7 +1177,7 @@ header h1 {
 }
 
 .btn-primario:hover {
-  background: #2e2a30;
+  background: #2d2d2d;
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(108, 108, 111, 0.3);
 }
@@ -1348,7 +1323,7 @@ footer .footer-email {
 }
 
 .btn-go-back:hover {
-  background: #2e2a30;
+  background: #2d2d2d;
 }
 
 .btn-go-back::before {
@@ -1665,7 +1640,7 @@ footer .footer-email {
   box-shadow: none;
 }
 .filtros-barra .btn-ver-todo.activo:hover {
-  background: #141218;
+  background: #151515;
   color: #fff;
 }
 
@@ -1854,7 +1829,7 @@ footer .footer-email {
   gap: 0.5rem;
   width: 100%;
   padding: 0.7rem 0.8rem 1rem;
-  background: #19161d;
+  background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
   max-height: calc(100vh - 0.5rem);
@@ -1906,7 +1881,7 @@ footer .footer-email {
   display: block;
   width: 100%;
   height: auto;
-  background: #141218;
+  background: #151515;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -1992,7 +1967,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   opacity: 1;
   background: #ffffff;
   border-color: #ffffff;
-  color: #141218;
+  color: #151515;
 }
 
 .tarjeta-sel.marcada { outline: 3px solid #ffffff; outline-offset: -3px; }
@@ -2010,7 +1985,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   gap: 1rem;
   height: 64px;
   padding: 0 1.2rem;
-  background: #19161d;
+  background: #1a1a1a;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
   font-size: 0.9rem;
@@ -2050,7 +2025,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   width: 100%;
   padding: 0.7rem 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: #242026;
+  background: #232323;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.95rem;
@@ -2112,7 +2087,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transform: translate(-50%, 1rem);
   max-width: min(92vw, 34rem);
   padding: 0.75rem 1.1rem;
-  background: #1e1b1f;
+  background: #1d1d1d;
   border: 1px solid var(--border);
   color: #ffffff;
   font-size: 0.8rem;
@@ -2136,8 +2111,8 @@ body.con-barra-exportar { padding-bottom: 84px; }
   display: inline-flex;
   align-items: center;
   padding: 0.65rem 1.6rem;
-  background: #1e1b1f;
-  border: 1px solid #49444d;
+  background: #1d1d1d;
+  border: 1px solid #484848;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.78rem;
@@ -2147,6 +2122,6 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn-ver-precio:hover { background: #322e36; border-color: #49444d; }
+.btn-ver-precio:hover { background: #323232; border-color: #484848; }
 .btn-ver-precio[hidden] { display: none; }
 .pintura-precio[hidden] { display: none; }

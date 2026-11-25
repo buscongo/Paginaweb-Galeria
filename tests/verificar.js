@@ -142,10 +142,12 @@ check('la barra lateral muestra solo las obras nuevas',
 check('las obras actualizadas llevan la esquina Actualizado',
   /function esObraActualizada/.test(leer('js/data.js')) &&
   /sello-actualizado/.test(leer('js/gallery.js')) && /\.sello-actualizado \{/.test(leer('css/styles.css')));
-check('el fondo de las tarjetas se desvanece hacia abajo',
-  /\.tarjeta-obra \{[\s\S]{0,220}linear-gradient\(180deg, rgba\(36, 19, 35/.test(leer('css/styles.css')) &&
-  /\.disponibilidad-indicator\.Rojo \{\s*background: #6e3630/.test(leer('css/styles.css')) &&
-  /--bg-primary: #182618/.test(leer('css/styles.css')) && /--accent: #1e1b1f/.test(leer('css/styles.css')) && /--bg-card: #241323/.test(leer('css/styles.css')));
+check('las tarjetas son planas y el fondo es ciruela sin hue en las secciones oscuras',
+  /\.tarjeta-obra \{\s*position: relative;\s*background: #2d0a2b;/.test(leer('css/styles.css')) &&
+  !/\.tarjeta-obra:hover/.test(leer('css/styles.css')) &&
+  /--bg-primary: #240822/.test(leer('css/styles.css')) && /--bg-card: #2d0a2b/.test(leer('css/styles.css')) &&
+  /--accent: #1d1d1d/.test(leer('css/styles.css')) &&
+  /\.disponibilidad-indicator\.Rojo \{\s*background: #6e3630/.test(leer('css/styles.css')));
 check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
   /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
 check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&
@@ -153,10 +155,10 @@ check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test
   /@media print[\s\S]{0,120}#imagen-grande/.test(leer('css/styles.css')));
 check('las tarjetas ya no llevan el sello Nuevo',
   !/sello-nuevo/.test(leer('js/gallery.js')) && !/\.sello-nuevo \{/.test(leer('css/styles.css')));
-check('todas las páginas tienen fondo con degradado sutil',
-  /linear-gradient\(180deg/.test(leer('css/styles.css')) &&
-  /background-attachment: fixed/.test(leer('css/styles.css')) &&
-  /background-color: var\(--bg-primary\)/.test(leer('css/styles.css')));
+check('todas las páginas comparten el fondo ciruela plano',
+  /background-color: var\(--bg-primary\)/.test(leer('css/styles.css')) &&
+  /background-image: none/.test(leer('css/styles.css')) &&
+  /--bg-primary: #240822/.test(leer('css/styles.css')));
 check('la página de exportación tiene la casilla de precios',
   /id="chk-precios"/.test(leer('html/exportar.html')));
 check('el documento genera hojas de serie e índice',
