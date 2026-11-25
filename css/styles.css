@@ -12,7 +12,7 @@
 }
 
 :root {
-  --bg-primary: #161616;        /* fondo de página: gris, 20 % bajo las tarjetas */
+  --bg-primary: #cccccc;        /* fondo de página: gris al 80 % */
   --bg-secondary: #101010;      /* superficies hundidas: inputs, placeholders */
   --bg-card: #1c1c1c;           /* paneles, modales, barra de filtros */
   --bg-card-art: #1c1c1c;       /* tarjetas de obra */
@@ -36,7 +36,7 @@ body {
   background-image: none;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  color: var(--text-primary);
+  color: #1a1a1a;              /* texto sobre el gris claro de la página */
   line-height: 1.6;
   -webkit-tap-highlight-color: transparent;
 }
@@ -841,6 +841,7 @@ header h1 {
 }
 
 .modal {
+  color: #ffffff;
   position: relative;
   background: var(--bg-card);
   border-radius: 0;
@@ -1294,7 +1295,7 @@ footer .footer-email {
   font-size: 2rem;
   font-weight: 400;
   margin: 0;
-  color: var(--text-primary);
+  color: #1a1a1a;
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
 }
 
@@ -1346,12 +1347,12 @@ footer .footer-email {
 
 .ficha-label {
   font-weight: 500;
-  color: var(--text-secondary);
+  color: #4a4a4a;
   font-size: 0.9rem;
 }
 
 .ficha-value {
-  color: var(--text-primary);
+  color: #1a1a1a;
   font-size: 0.9rem;
 }
 
@@ -1363,6 +1364,7 @@ footer .footer-email {
 }
 
 .detalles h3 {
+  color: #1a1a1a;
   font-size: 1rem;
   color: var(--text-secondary);
   font-weight: 600;
@@ -1401,13 +1403,13 @@ footer .footer-email {
 
 .pintura-meta h2 {
   font-size: 1.4rem;
-  color: var(--text-primary);
+  color: #1a1a1a;
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
 }
 
 .pintura-meta p {
   margin-top: 0.4rem;
-  color: var(--text-secondary);
+  color: #404040;
   font-size: 0.95rem;
 }
 
@@ -1416,6 +1418,7 @@ footer .footer-email {
 }
 
 .detalles h3 {
+  color: #1a1a1a;
   font-size: 1rem;
   color: var(--text-secondary);
   font-weight: 600;
@@ -1720,6 +1723,7 @@ footer .footer-email {
   backdrop-filter: blur(3px);
 }
 .gate-caja {
+  color: #ffffff;
   width: 100%;
   max-width: 360px;
   display: flex;
@@ -1905,9 +1909,15 @@ footer .footer-email {
   .home-cuerpo { grid-template-columns: 260px minmax(0, 1fr); gap: 1.8rem; }
 }
 
-/* En móvil no hay sitio para una barra lateral */
+/* En móvil la barra pasa a ser la primera sección, con la obra más nueva */
 @media (max-width: 899px) {
-  .obra-lateral { display: none !important; }
+  .obra-lateral {
+    position: static;
+    max-height: none;
+    margin-bottom: 1.6rem;
+  }
+  .obra-lateral-lista { overflow: visible; }
+  .obra-lateral .lateral-img { max-height: 340px; object-fit: contain; }
 }
 
 /* La barra superior se esconde al bajar */
@@ -2126,3 +2136,63 @@ body.con-barra-exportar { padding-bottom: 84px; }
 .btn-ver-precio:hover { background: #323232; border-color: #484848; }
 .btn-ver-precio[hidden] { display: none; }
 .pintura-precio[hidden] { display: none; }
+
+/* ===== Pie de página con los datos de contacto ===== */
+.pie-pagina {
+  text-align: left;
+  width: 100%;
+  max-width: 1100px;
+  margin: 2.5rem auto 0;
+  padding: 1.5rem 1.25rem 1.7rem;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.pie-titulo {
+  margin: 0 0 0.9rem;
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.pie-datos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.pie-etiqueta {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+.pie-datos a {
+  color: #ffffff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.32);
+  padding-bottom: 1px;
+}
+
+.pie-datos a:hover {
+  border-bottom-color: #ffffff;
+}
+
+@media (min-width: 700px) {
+  .pie-datos { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.4rem; }
+}
+
+/* En la home el pie ocupa solo la columna central, alineado con las obras */
+@media (min-width: 900px) {
+  .home-cuerpo > .pie-pagina { grid-column: 2 / -1; }
+  .home-cuerpo.sin-lateral { grid-template-columns: 1fr; }
+  .home-cuerpo.sin-lateral > .pie-pagina { grid-column: auto; }
+}

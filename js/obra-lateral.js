@@ -55,13 +55,24 @@ function textoTamano(obra) {
 }
 
 function pintarLateral(lista) {
+  /* En móvil la barra se convierte en la primera sección y muestra solo lo último subido */
+  var esMovil = window.matchMedia('(max-width: 899px)').matches;
+  if (esMovil && lista && lista.length > 1) lista = lista.slice(0, 1);
+
   var caja = document.getElementById('obra-lateral');
   var cont = document.getElementById('obra-lateral-lista');
   if (!caja || !cont) return;
 
+  /* Sin obras nuevas la barra desaparece y la columna central puede ocupar todo el ancho */
+  var cuerpo = caja.closest('.home-cuerpo');
+  function marcarSinLateral(sin) {
+    if (cuerpo) cuerpo.classList.toggle('sin-lateral', sin);
+  }
+
   if (!lista || !lista.length) {
     cont.innerHTML = '';
     caja.hidden = true;
+    marcarSinLateral(true);
     return;
   }
 
@@ -80,6 +91,7 @@ function pintarLateral(lista) {
   }).join('');
 
   caja.hidden = false;
+  marcarSinLateral(false);
 }
 
 /* Compatibilidad con llamadas antiguas */

@@ -146,9 +146,18 @@ check('las obras actualizadas llevan la esquina Actualizado',
 check('las tarjetas usan el degradado y todo el fondo es gris sin hue',
   /\.tarjeta-obra \{[\s\S]{0,400}?linear-gradient\(180deg, #707070 0%, #707070 25%, #333333 100%\)/.test(leer('css/styles.css')) &&
   !/\.tarjeta-obra:hover/.test(leer('css/styles.css')) &&
-  /--bg-primary: #161616/.test(leer('css/styles.css')) && /--bg-card: #1c1c1c/.test(leer('css/styles.css')) &&
+  /--bg-primary: #cccccc/.test(leer('css/styles.css')) && /--bg-card: #1c1c1c/.test(leer('css/styles.css')) &&
   /--accent: #1d1d1d/.test(leer('css/styles.css')) &&
   /\.disponibilidad-indicator\.Rojo \{\s*background: #4f4f4f/.test(leer('css/styles.css')));
+check('el pie de página lleva los datos de contacto en las tres páginas públicas',
+  /buscongo@gmail\.com/.test(leer('html/index.html')) && /buscongo_fineart/.test(leer('html/index.html')) &&
+  /\(506\) 8348 7471/.test(leer('html/index.html')) && /\.pie-pagina \{/.test(leer('css/styles.css')) &&
+  /pie-pagina/.test(leer('html/serie.html')) && /pie-pagina/.test(leer('html/pintura.html')));
+check('en móvil la barra lateral es la sección Nueva Obra con una sola obra',
+  /max-width: 899px\)[\s\S]{0,200}\.obra-lateral \{\s*position: static/.test(leer('css/styles.css')) &&
+  /matchMedia\('\(max-width: 899px\)'\)/.test(leer('js/obra-lateral.js')) &&
+  /lista = lista\.slice\(0, 1\)/.test(leer('js/obra-lateral.js')));
+
 check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
   /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
 check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&
@@ -159,7 +168,7 @@ check('las tarjetas ya no llevan el sello Nuevo',
 check('todas las páginas comparten el fondo ciruela plano',
   /background-color: var\(--bg-primary\)/.test(leer('css/styles.css')) &&
   /background-image: none/.test(leer('css/styles.css')) &&
-  /--bg-primary: #161616/.test(leer('css/styles.css')));
+  /--bg-primary: #cccccc/.test(leer('css/styles.css')));
 check('la página de exportación tiene la casilla de precios',
   /id="chk-precios"/.test(leer('html/exportar.html')));
 check('el documento genera hojas de serie e índice',
