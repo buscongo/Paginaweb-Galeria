@@ -145,6 +145,14 @@ check('la barra lateral va dentro de la columna central, bajo los filtros',
   /\.home-cuerpo \{/.test(leer('css/styles.css')) &&
   /position: sticky/.test(leer('css/styles.css')) &&
   /home-cuerpo[\s\S]{0,200}obra-lateral/.test(leer('html/index.html').replace(/\r/g, '')));
+check('la barra lateral acumula las obras del último mes',
+  /function obrasRecientes/.test(leer('js/obra-lateral.js')) &&
+  /obra-lateral-lista/.test(leer('html/index.html')) &&
+  /lateral-item/.test(leer('js/obra-lateral.js')));
+check('el PDF trae una hoja de perfil antes del índice',
+  /function hojaPerfil/.test(leer('js/exportar.js')) &&
+  /\{ tipo: 'portada' \}, \{ tipo: 'perfil' \}/.test(leer('js/exportar.js')) &&
+  /perfil-foto-pdf/.test(leer('js/exportar.js')));
 check('las series se ordenan con Nubes primero y luego por cantidad',
   /function seriesOrdenadas/.test(leer('js/data.js')) &&
   /Nubes/.test(leer('html/index.html')) &&

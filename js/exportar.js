@@ -263,7 +263,8 @@ async function generarDocumento() {
 
   try {
     var imagenes = await prepararImagenes(obras);
-    var html = construirDocumento(nombre, obras, imagenes, { precios: mostrarPrecios });
+    var perfil = await leerPerfil();
+    var html = construirDocumento(nombre, obras, imagenes, { precios: mostrarPrecios, perfil: perfil });
     abrirDocumento(html);
     cerrarModalNombre();
   } catch (e) {
@@ -273,15 +274,37 @@ async function generarDocumento() {
   }
 }
 
+/* Lee el retrato, el statement y el curriculum de la home para no duplicarlos */
+async function leerPerfil() {
+  var perfil = { nombre: 'Andrés Ramírez Ortiz', statement: '', curriculum: [] };
+  try {
+    var html = await (await fetch('index.html')).text();
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var nombre = doc.querySelector('.perfil-nombre');
+    var st = doc.querySelector('.perfil-bloque p');
+    var lis = doc.querySelectorAll('.perfil-lista li');
+    if (nombre && nombre.textContent.trim()) perfil.nombre = nombre.textContent.trim();
+    if (st) perfil.statement = st.textContent.replace(/\s+/g, ' ').trim();
+    perfil.curriculum = Array.prototype.map.call(lis, function (li) {
+      return li.textContent.replace(/\s+/g, ' ').trim();
+    }).filter(Boolean);
+  } catch (e) {
+    console.warn('No se pudo leer el perfil de la home:', e.message);
+  }
+  return perfil;
+}
+
 /* Convierte cada imagen en data URL para que el archivo generado funcione solo.
-   Se guardan dos versiones por obra: la grande (hoja) y el thumb (índice). */
+   Se guardan dos versiones por obra: la grande (hoja) y el thumb (índice),
+   más el retrato que va en la hoja de perfil. */
 async function prepararImagenes(obras) {
-  var salida = { grande: {}, chico: {} };
+  var salida = { grande: {}, chico: {}, retrato: '' };
   for (var i = 0; i < obras.length; i++) {
     var o = obras[i];
     salida.grande[o.id] = await embeber(o.imagenHD || o.imagenMedium || o.imagen);
     salida.chico[o.id] = await embeber(o.imagen || o.imagenMedium || o.imagenHD);
   }
+  salida.retrato = await embeber('img/retrato_andres_hd.jpg');
   return salida;
 }
 
@@ -323,7 +346,7 @@ function agruparPorSerie(obras) {
 /* Arma el orden de hojas y numera cada obra como página del PDF */
 function planificarSecciones(obras) {
   var grupos = agruparPorSerie(obras);
-  var secciones = [{ tipo: 'portada' }];
+  var secciones = [{ tipo: 'portada' }, { tipo: 'perfil' }];
 
   var paginasIndice = Math.max(1, Math.ceil(obras.length / OBRAS_POR_INDICE));
   for (var i = 0; i < paginasIndice; i++) {
@@ -374,6 +397,7 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
 
   var hojas = plan.secciones.map(function (s) {
     if (s.tipo === 'portada') return portada(nombre, total, fecha);
+    if (s.tipo === 'perfil') return hojaPerfil(opciones.perfil, imagenes.retrato);
     if (s.tipo === 'indice') {
       return hojaIndice(plan.ordenObras.slice(s.desde, s.desde + OBRAS_POR_INDICE),
         imagenes.chico, plan.paginaDeObra, s.numero, totalPaginas);
@@ -393,6 +417,28 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
       '<button type="button" class="barra-boton" onclick="window.print()">Exportar a PDF</button>' +
     '</div>\n' +
     hojas + '\n</body>\n</html>';
+}
+
+/* Hoja de perfil: retrato en un tercio, statement y curriculum en los dos tercios */
+function hojaPerfil(perfil, retrato) {
+  var p = perfil || {};
+  var nombre = p.nombre || 'Andrés Ramírez Ortiz';
+  var statement = p.statement || '';
+  var curriculum = p.curriculum || [];
+  var lis = curriculum.map(function (x) { return '<li>' + escaparHTML(x) + '</li>'; }).join('');
+
+  return '<section class="hoja perfil-hoja">' +
+    '<div class="perfil-foto-pdf">' +
+      (retrato ? '<img src="' + retrato + '" alt="' + escaparHTML(nombre) + '">' : '') +
+    '</div>' +
+    '<div class="perfil-texto">' +
+      '<h1 class="perfil-nombre-pdf">' + escaparHTML(nombre) + '</h1>' +
+      '<div class="perfil-columnas">' +
+        '<div class="perfil-col"><h2>Statement</h2><p>' + escaparHTML(statement) + '</p></div>' +
+        '<div class="perfil-col"><h2>Curriculum</h2><ul>' + lis + '</ul></div>' +
+      '</div>' +
+    '</div>' +
+  '</section>';
 }
 
 function portada(nombre, total, fecha) {
@@ -487,6 +533,20 @@ function estilosDocumento() {
     '.portada-nombre { margin: 0; font-size: 92px; line-height: 1.04; letter-spacing: .02em; text-transform: uppercase; }',
     '.portada-obra { margin: 0; font-size: 44px; opacity: .9; }',
     '.portada-pie { margin: 24px 0 0; font-size: 22px; opacity: .65; letter-spacing: .12em; text-transform: uppercase; }',
+    '.perfil-hoja { display: grid; grid-template-columns: 640px 1280px; }',
+    '.perfil-foto-pdf { width: 640px; height: 1080px; background: #3f3f3f; overflow: hidden; }',
+    '.perfil-foto-pdf img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }',
+    '.perfil-texto { width: 1280px; padding: 64px 0 54px; display: flex; flex-direction: column; }',
+    '.perfil-nombre-pdf { margin: 0; padding: 0 60px 30px; font-size: 52px; font-weight: 400;',
+    '  letter-spacing: .04em; line-height: 1.05; text-transform: uppercase; }',
+    '.perfil-columnas { display: grid; grid-template-columns: 640px 640px; }',
+    '.perfil-col { padding: 0 52px; }',
+    '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
+    '  opacity: .45; font-weight: 400; }',
+    '.perfil-col p { margin: 0; font-size: 17px; line-height: 1.52; }',
+    '.perfil-col ul { margin: 0; padding: 0; list-style: none; }',
+    '.perfil-col li { font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid #e8e8e8; }',
+    '.perfil-col li:first-child { border-top: none; padding-top: 0; }',
     '.obra-imagen { width: 1280px; height: 1080px; display: flex; align-items: center; justify-content: center;',
     '  background: #ececec; padding: 40px; }',
     '.obra-imagen img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }',

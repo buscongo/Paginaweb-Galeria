@@ -132,16 +132,14 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 **WHY**: el admin permite modificar y borrar obras; una sesión eterna en un equipo ajeno es un riesgo.  
 **IMPL**: `server.js` (`SESIONES` Map con última actividad, `INTENTOS` Map por IP) + `js/admin-gate.js`. Ajustable con `SESION_TTL_MIN`.
 
-### RF-17: Barra lateral con la obra reciente ✅
+### RF-17: Barra lateral con las obras recientes ✅
 **WHEN** el visitante abre la home en una pantalla de 900 px o más de ancho  \
-**THEN** SHALL verse una barra **dentro de la columna central** (260 px, `#3f3f3f`), debajo del menú de filtros y alineada con la primera fila de obras, con la obra más reciente  \
-**AND** al hacer scroll SHALL quedarse pegada arriba (`position: sticky`) y su alto SHALL terminar donde termina su contenido, no al pie de la ventana  \
-**AND** si alguna obra tiene `fechaRegistro` en los últimos 30 días, SHALL mostrar la más nueva con el título **«Nueva Obra»**  \
-**AND** si no, SHALL mostrar la obra con `fechaModificacion` más reciente con el título **«Obra actualizada»** (si no hay `fechaModificacion`, se usa `fechaRegistro`)  \
-**AND** debajo de la imagen SHALL mostrar nombre, tamaño (`ancho × alto cm`, se omite si es 0) y disponibilidad  \
-**AND** la imagen SHALL ser la versión `imagenMedium` y enlazar a la ficha de la obra.  \
+**THEN** SHALL verse una barra **dentro de la columna central** (260 px, `#3f3f3f`), debajo del menú de filtros y alineada con la primera fila de obras  \
+**AND** SHALL listar **todas** las obras subidas o actualizadas en los últimos **30 días**, la más reciente primero; al cumplirse el mes la obra sale de la lista sola  \
+**AND** cada entrada SHALL mostrar la etiqueta **«Nueva Obra»** (si se subió en el mes) o **«Obra actualizada»** (si se editó), la imagen `imagenMedium`, el nombre, el tamaño y la disponibilidad  \
+**AND** si no hay ninguna obra del último mes, la barra SHALL ocultarse.  \
 **WHY**: destacar lo último sin que el visitante tenga que buscarlo.  \
-**IMPL**: `js/obra-lateral.js` (`elegirObraLateral()`), markup `#obra-lateral` dentro de `.home-cuerpo` en `html/index.html`, estilos `.home-cuerpo` / `.obra-lateral`. La barra superior se esconde al bajar (clase `nav-oculta` en el `body`). Se oculta en móvil (<900 px).
+**IMPL**: `js/obra-lateral.js` (`obrasRecientes()` filtra por `fechaModificacion`/`fechaRegistro` y ordena por fecha; `pintarLateral()`), markup `#obra-lateral` dentro de `.home-cuerpo` en `html/index.html`, estilos `.lateral-item` (lista con scroll interno y `max-height: 100vh`). La barra superior se esconde al bajar (clase `nav-oculta`). Se oculta en móvil (<900 px).
 
 ### RF-19: Filtro por disponibilidad en todas las páginas ✅
 **WHEN** el visitante o el administrador abre la home, una página de serie o el panel Editar del admin  \
@@ -153,11 +151,11 @@ Web estática (HTML/CSS/JS vanilla) con cuatro páginas: **Home** (hero header, 
 ### RF-18: Exportar la galería a PDF ✅
 **WHEN** el administrador entra a `admin.html` y pulsa **Exportar PDF**  \
 **THEN** SHALL ver la galería agrupada por serie (como en Editar) con una casilla por obra y por serie, los mismos filtros de la galería (serie, año, disponibilidad, tamaño, nombre) y un botón **Seleccionar todo** que abarca solo las obras filtradas  \
-**AND** al pulsar **Exportar** SHALL pedir un nombre (modal, con la casilla «Mostrar precios») y abrir un HTML nuevo con una portada 1920 × 1080 («Andrés Ramírez Ortiz» / «Obra \<nombre\>»), seguida de las **hojas de índice** (8 obras por hoja en dos columnas, miniatura de 100 × 100 px, nombre y número de página), una **hoja de serie** («Serie: \<nombre\>» y cuántas obras de esa serie se seleccionaron) antes de las obras de cada serie distinta, y **una hoja de 1920 × 1080 por obra**: la imagen ocupando los dos tercios izquierdos y la ficha completa en el tercio derecho  \
+**AND** al pulsar **Exportar** SHALL pedir un nombre (modal, con la casilla «Mostrar precios») y abrir un HTML nuevo con una portada 1920 × 1080 («Andrés Ramírez Ortiz» / «Obra \<nombre\>»), seguida de una **hoja de perfil** (retrato en el tercio izquierdo y, en los dos tercios de la derecha, el nombre arriba y dos columnas iguales: statement y curriculum), las **hojas de índice** (8 obras por hoja en dos columnas, miniatura de 100 × 100 px, nombre y número de página), una **hoja de serie** («Serie: \<nombre\>» y cuántas obras de esa serie se seleccionaron) antes de las obras de cada serie distinta, y **una hoja de 1920 × 1080 por obra**: la imagen ocupando los dos tercios izquierdos y la ficha completa en el tercio derecho  \
 **AND** la fila de precio SHALL aparecer solo si se marcó «Mostrar precios» (valor `$1,600` si está disponible, «Consultar» si no)  \
 **AND** ese documento SHALL tener un botón fijo «Exportar a PDF» que abre el diálogo de impresión con páginas de 1920 × 1080 px (1440 × 810 pt), una hoja por página.  \
 **WHY**: el artista necesita llevar selecciones de obra a PDF sin depender de herramientas externas.  \
-**IMPL**: `html/exportar.html` + `js/exportar.js` (`planificarSecciones()` numera las hojas, `construirDocumento()`, `hojaSerie()`, `hojaIndice()`, `prepararImagenes()` con las imágenes embebidas en base64 —grande para la hoja, thumb para el índice—), estilos de impresión con `@page { size: 1920px 1080px }`; alias `/exportar` en `server.js`.
+**IMPL**: `html/exportar.html` + `js/exportar.js` (`planificarSecciones()` numera las hojas, `construirDocumento()`, `hojaPerfil()` —lee retrato, statement y curriculum de `index.html` con `leerPerfil()`—, `hojaSerie()`, `hojaIndice()`, `prepararImagenes()` con las imágenes embebidas en base64), estilos de impresión con `@page { size: 1920px 1080px }`; alias `/exportar` en `server.js`.
 
 ### RF-20: Orden de las series en todo el sitio ✅
 **WHEN** el visitante recorre la navegación, la galería, una página de serie, el admin o la página de exportación  \

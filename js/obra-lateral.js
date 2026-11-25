@@ -17,43 +17,34 @@ function fechaMilisegundos(valor) {
   return NaN;
 }
 
-/* Devuelve { obra, tipo: 'nueva' | 'actualizada' } o null */
-function elegirObraLateral(obras, ahora) {
+/* Devuelve [{ obra, tipo, fecha }] con las obras subidas o actualizadas en el
+   último mes, la más reciente primero. Al cumplir el mes salen de la barra. */
+function obrasRecientes(obras, ahora) {
   var hoy = ahora ? new Date(ahora) : new Date();
-  var limite = new Date(hoy.getTime() - DIAS_MES * 24 * 60 * 60 * 1000);
-  var limiteDia = limite.toISOString().slice(0, 10);   /* comparación por día, no por hora */
-  var activas = (obras || []).filter(function (o) { return o && !o.archivado; });
+  var limite = hoy.getTime() - DIAS_MES * 24 * 60 * 60 * 1000;
+  var lista = [];
 
-  var nuevas = activas.filter(function (o) {
-    var dia = String(o.fechaRegistro || '').slice(0, 10);
-    return /^\d{4}-\d{2}-\d{2}$/.test(dia) && dia >= limiteDia;
+  (obras || []).forEach(function (o) {
+    if (!o || o.archivado) return;
+    var subida = fechaMilisegundos(o.fechaRegistro);
+    var editada = fechaMilisegundos(o.fechaModificacion);
+    var ultima = Math.max(isNaN(subida) ? -Infinity : subida, isNaN(editada) ? -Infinity : editada);
+    if (!isFinite(ultima) || ultima < limite) return;
+    lista.push({
+      obra: o,
+      tipo: (!isNaN(subida) && subida >= limite) ? 'nueva' : 'actualizada',
+      fecha: ultima
+    });
   });
 
-  if (nuevas.length) {
-    return { obra: masReciente(nuevas, function (o) { return fechaMilisegundos(o.fechaRegistro); }), tipo: 'nueva' };
-  }
-
-  var editadas = activas.filter(function (o) {
-    return !isNaN(fechaMilisegundos(o.fechaModificacion || o.fechaRegistro));
-  });
-  if (!editadas.length) return null;
-
-  return {
-    obra: masReciente(editadas, function (o) {
-      return fechaMilisegundos(o.fechaModificacion || o.fechaRegistro);
-    }),
-    tipo: 'actualizada'
-  };
+  lista.sort(function (a, b) { return b.fecha - a.fecha; });
+  return lista;
 }
 
-function masReciente(lista, obtenerFecha) {
-  var mejor = lista[0];
-  var mejorT = obtenerFecha(mejor);
-  for (var i = 1; i < lista.length; i++) {
-    var t = obtenerFecha(lista[i]);
-    if (t > mejorT) { mejor = lista[i]; mejorT = t; }
-  }
-  return mejor;
+/* Compatibilidad: la primera de la lista */
+function elegirObraLateral(obras, ahora) {
+  var lista = obrasRecientes(obras, ahora);
+  return lista.length ? lista[0] : null;
 }
 
 function textoDisponibilidad(obra) {
@@ -67,30 +58,39 @@ function textoTamano(obra) {
   return ancho + ' × ' + alto + ' cm';
 }
 
-function pintarObraLateral(seleccion) {
+function pintarLateral(lista) {
   var caja = document.getElementById('obra-lateral');
-  if (!caja || !seleccion || !seleccion.obra) return;
+  var cont = document.getElementById('obra-lateral-lista');
+  if (!caja || !cont) return;
 
-  var obra = seleccion.obra;
-  var etiqueta = document.getElementById('obra-lateral-etiqueta');
-  var foto = document.getElementById('obra-lateral-foto');
-  var img = document.getElementById('obra-lateral-img');
-  var nombre = document.getElementById('obra-lateral-nombre');
-  var datos = document.getElementById('obra-lateral-datos');
-  var enlace = 'pintura.html?id=' + encodeURIComponent(obra.id);
+  if (!lista || !lista.length) {
+    cont.innerHTML = '';
+    caja.hidden = true;
+    return;
+  }
 
-  etiqueta.textContent = seleccion.tipo === 'nueva' ? 'Nueva Obra' : 'Obra actualizada';
+  cont.innerHTML = lista.map(function (item) {
+    var o = item.obra;
+    var enlace = 'pintura.html?id=' + encodeURIComponent(o.id);
+    var img = o.imagenMedium || o.imagenHD || o.imagen || '';
+    var partes = [textoTamano(o), textoDisponibilidad(o)].filter(Boolean).join(' · ');
 
-  img.src = obra.imagenMedium || obra.imagenHD || obra.imagen || '';
-  img.alt = obra.titulo || 'Obra';
-  foto.href = enlace;
-  nombre.textContent = obra.titulo || 'Sin título';
-  nombre.href = enlace;
-
-  var partes = [textoTamano(obra), textoDisponibilidad(obra)].filter(Boolean);
-  datos.textContent = partes.join(' · ');
+    return '<a class="lateral-item" href="' + enlace + '">' +
+      '<span class="lateral-tag lateral-tag-' + item.tipo + '">' +
+        (item.tipo === 'nueva' ? 'Nueva Obra' : 'Obra actualizada') + '</span>' +
+      (img ? '<img class="lateral-img" src="' + escaparHTML(img) + '" alt="' +
+        escaparHTML(o.titulo || 'Obra') + '" loading="lazy" decoding="async">' : '') +
+      '<span class="lateral-nombre">' + escaparHTML(o.titulo || 'Sin título') + '</span>' +
+      (partes ? '<span class="lateral-datos">' + escaparHTML(partes) + '</span>' : '') +
+    '</a>';
+  }).join('');
 
   caja.hidden = false;
+}
+
+/* Compatibilidad con llamadas antiguas */
+function pintarObraLateral(seleccion) {
+  pintarLateral(seleccion ? [seleccion] : []);
 }
 
 /* La barra de navegación se oculta al bajar y reaparece al subir */
@@ -117,7 +117,7 @@ function vigilarScrollNav() {
 
 async function iniciarObraLateral() {
   var obras = await obtenerObras();
-  pintarObraLateral(elegirObraLateral(obras));
+  pintarLateral(obrasRecientes(obras));
   vigilarScrollNav();
 }
 
