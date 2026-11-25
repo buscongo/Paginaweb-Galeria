@@ -75,7 +75,7 @@ h3 { font-size: 1.25rem; }
   display: grid;
   grid-template-columns: 46% 54%;
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
-  max-width: 72rem;                    /* misma columna central que la galería */
+  max-width: calc(72rem - 2.5rem);      /* misma columna central que la galería, sin su padding */
   margin: 44px auto 0;
   background: #4a4a4a;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
