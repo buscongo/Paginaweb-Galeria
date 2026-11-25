@@ -145,7 +145,7 @@ check('las obras actualizadas llevan la esquina Actualizado',
 check('el fondo de las tarjetas se desvanece hacia abajo',
   /\.tarjeta-obra \{[\s\S]{0,220}linear-gradient\(180deg, rgba\(64, 70, 75/.test(leer('css/styles.css')) &&
   /\.disponibilidad-indicator\.Rojo \{\s*background: #8c1d12/.test(leer('css/styles.css')) &&
-  /--bg-primary: #33383c/.test(leer('css/styles.css')) && /--accent: #3a2b21/.test(leer('css/styles.css')) && /--bg-card: #40464b/.test(leer('css/styles.css')));
+  /--bg-primary: #33383c/.test(leer('css/styles.css')) && /--accent: #2d0a2b/.test(leer('css/styles.css')) && /--bg-card: #40464b/.test(leer('css/styles.css')));
 check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
   /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
 check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&
