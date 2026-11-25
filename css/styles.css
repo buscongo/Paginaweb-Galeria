@@ -111,7 +111,7 @@ h3 { font-size: 1.25rem; }
 
 .perfil-nombre {
   margin: 0;
-  font-size: clamp(1.4rem, 5.2vh, 3.12rem);   /* 4× el tamaño anterior a 900 px de alto */
+  font-size: clamp(0.7rem, 2.6vh, 1.56rem);   /* la mitad del tamaño anterior */
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.02;
@@ -188,7 +188,7 @@ h3 { font-size: 1.25rem; }
   }
 
   .perfil-nombre {
-    font-size: clamp(1.45rem, 9vw, 2.2rem);   /* en móvil el 5.2vh desborda el ancho */
+    font-size: clamp(0.73rem, 4.5vw, 1.1rem);  /* la mitad, para que el nombre siga entrando */
   }
 
   .perfil-bloque p,
