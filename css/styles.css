@@ -12,14 +12,14 @@
 }
 
 :root {
-  --bg-primary: #808080;        /* fondo de página: gris al 50% */
-  --bg-secondary: #6e6e6e;      /* superficies hundidas: inputs, placeholders */
-  --bg-card: #737373;           /* paneles, modales, barra de filtros */
-  --bg-card-art: #737373;       /* tarjetas de obra: gris al 45% */
+  --bg-primary: #7c8560;        /* fondo de página: verde musgo claro */
+  --bg-secondary: #666e4c;      /* superficies hundidas: inputs, placeholders */
+  --bg-card: #717a54;           /* paneles, modales, barra de filtros (musgo) */
+  --bg-card-art: #717a54;       /* tarjetas de obra (musgo) */
   --text-primary: #ffffff;
   --text-secondary: #f5f5f5;
-  --accent: #2b2b2b;            /* relleno de botones/etiquetas */
-  --accent-orange: #5e5e5e;
+  --accent: #3a2b21;            /* relleno de botones/etiquetas: marrón oscuro */
+  --accent-orange: #4a382a;
   --border: rgba(255, 255, 255, 0.25);
   --border-hover: rgba(255, 255, 255, 0.45);
 }
@@ -33,7 +33,7 @@ html {
 body {
   font-family: 'GFS Didot', Georgia, 'Times New Roman', serif;
   background-color: var(--bg-primary);
-  background-image: linear-gradient(180deg, #8d8d8d 0%, #868686 38%, #7b7b7b 100%);
+  background-image: linear-gradient(180deg, #848d64 0%, #7d8659 38%, #727a54 100%);
   background-repeat: no-repeat;
   background-attachment: fixed;
   color: var(--text-primary);
@@ -80,7 +80,7 @@ h3 { font-size: 1.25rem; }
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
   max-width: calc(72rem - 2.5rem);      /* misma columna central que la galería, sin su padding */
   margin: 44px auto 0;
-  background: #4a4a4a;          /* gris más oscuro que el fondo de la página */
+  background: #3b2c22;          /* gris más oscuro que el fondo de la página */
   color: #ffffff;
   border-bottom: 1px solid var(--border);
 }
@@ -88,7 +88,7 @@ h3 { font-size: 1.25rem; }
 .perfil-foto {
   position: relative;
   overflow: hidden;
-  background: #3f3f3f;
+  background: #33261d;
 }
 
 .perfil-foto img {
@@ -225,7 +225,7 @@ h3 { font-size: 1.25rem; }
   left: 0;
   width: 100%;
   height: 44px;
-  background: rgba(84, 84, 84, 0.96);
+  background: rgba(86, 94, 64, 0.96);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
@@ -260,7 +260,7 @@ h3 { font-size: 1.25rem; }
   align-items: stretch;
   height: auto;
   padding-bottom: 8px;
-  background: rgba(84, 84, 84, 0.99);
+  background: rgba(86, 94, 64, 0.99);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 .series-tabs.open .tab {
@@ -612,21 +612,21 @@ h3 { font-size: 1.25rem; }
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border: 0;
   z-index: 2;
 }
 
 /* Solo mostrar Rojo cuando NO disponible (disponible: false) */
 .disponibilidad-indicator.Rojo {
-  background: #ff3b30;
+  background: #8c1d12;   /* rojo oscuro: obra no disponible */
 }
 
 /* ===== Tarjetas de obra ===== */
 /* El fondo de la tarjeta se desvanece hacia abajo (alfa sobre el degradado de la página) */
 .tarjeta-obra {
   position: relative;
-  background: linear-gradient(180deg, rgba(115, 115, 115, 0.98) 0%,
-    rgba(115, 115, 115, 0.82) 45%, rgba(115, 115, 115, 0.35) 85%, rgba(115, 115, 115, 0) 100%);
+  background: linear-gradient(180deg, rgba(113, 122, 84, 0.98) 0%,
+    rgba(113, 122, 84, 0.82) 45%, rgba(113, 122, 84, 0.35) 85%, rgba(113, 122, 84, 0) 100%);
   border-radius: 0;
   overflow: visible;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
@@ -644,7 +644,7 @@ h3 { font-size: 1.25rem; }
   top: 0.55rem;
   right: 0.55rem;
   padding: 0.18rem 0.45rem;
-  background: rgba(30, 30, 30, 0.82);
+  background: rgba(58, 43, 33, 0.82);
   color: #ffffff;
   font-size: 0.52rem;
   letter-spacing: 0.14em;
@@ -976,7 +976,7 @@ header h1 {
 }
 
 .btn-editar:hover {
-  background: #7a7a80;
+  background: #4a382a;
   transform: translateY(-1px);
 }
 
@@ -1202,7 +1202,7 @@ header h1 {
 }
 
 .btn-primario:hover {
-  background: #7c7c82;
+  background: #4a382a;
   transform: translateY(-1px);
   box-shadow: 0 4px 14px rgba(106, 106, 112, 0.3);
 }
@@ -1348,7 +1348,7 @@ footer .footer-email {
 }
 
 .btn-go-back:hover {
-  background: #7c7c82;
+  background: #4a382a;
 }
 
 .btn-go-back::before {
@@ -1665,7 +1665,7 @@ footer .footer-email {
   box-shadow: none;
 }
 .filtros-barra .btn-ver-todo.activo:hover {
-  background: #2e2e2e;
+  background: #2a1f18;
   color: #fff;
 }
 
@@ -1854,7 +1854,7 @@ footer .footer-email {
   gap: 0.5rem;
   width: 100%;
   padding: 0.7rem 0.8rem 1rem;
-  background: #3f3f3f;
+  background: #33261d;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
   max-height: calc(100vh - 0.5rem);
@@ -1906,7 +1906,7 @@ footer .footer-email {
   display: block;
   width: 100%;
   height: auto;
-  background: #2f2f2f;
+  background: #2a1f18;
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -1992,7 +1992,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   opacity: 1;
   background: #ffffff;
   border-color: #ffffff;
-  color: #1a1a1a;
+  color: #2a1f18;
 }
 
 .tarjeta-sel.marcada { outline: 3px solid #ffffff; outline-offset: -3px; }
@@ -2010,7 +2010,7 @@ body.nav-oculta .series-tabs { transform: translateY(-100%); }
   gap: 1rem;
   height: 64px;
   padding: 0 1.2rem;
-  background: #3a3a3a;
+  background: #33261d;
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
   font-size: 0.9rem;
@@ -2050,7 +2050,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   width: 100%;
   padding: 0.7rem 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.35);
-  background: #4a4a4a;
+  background: #3b2c22;
   color: #ffffff;
   font-family: inherit;
   font-size: 0.95rem;
@@ -2112,7 +2112,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   transform: translate(-50%, 1rem);
   max-width: min(92vw, 34rem);
   padding: 0.75rem 1.1rem;
-  background: #2b2b2b;
+  background: #3a2b21;
   border: 1px solid var(--border);
   color: #ffffff;
   font-size: 0.8rem;
@@ -2136,7 +2136,7 @@ body.con-barra-exportar { padding-bottom: 84px; }
   display: inline-flex;
   align-items: center;
   padding: 0.65rem 1.6rem;
-  background: #4a3423;
+  background: #3a2b21;
   border: 1px solid #6b4a30;
   color: #ffffff;
   font-family: inherit;
