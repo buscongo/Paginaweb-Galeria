@@ -641,13 +641,13 @@ h3 { font-size: 1.25rem; }
 /* Esquina de la tarjeta cuando la obra se editó hace menos de un mes */
 .sello-actualizado {
   position: absolute;
-  top: 0.55rem;
-  right: 0.55rem;
-  padding: 0.18rem 0.45rem;
+  top: 0.4rem;
+  right: 0.4rem;
+  padding: 0.08rem 0.22rem;
   background: rgba(58, 43, 33, 0.82);
   color: #ffffff;
-  font-size: 0.52rem;
-  letter-spacing: 0.14em;
+  font-size: 0.32rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   pointer-events: none;
   z-index: 2;
