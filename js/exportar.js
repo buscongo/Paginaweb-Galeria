@@ -434,8 +434,8 @@ function hojaPerfil(perfil, retrato) {
     '<div class="perfil-texto">' +
       '<h1 class="perfil-nombre-pdf">' + escaparHTML(nombre) + '</h1>' +
       '<div class="perfil-columnas">' +
-        '<div class="perfil-col"><h2>Statement</h2><p>' + escaparHTML(statement) + '</p></div>' +
-        '<div class="perfil-col"><h2>Curriculum</h2><ul>' + lis + '</ul></div>' +
+        '<div class="perfil-col"><h2>Sobre mi obra.</h2><p>' + escaparHTML(statement) + '</p></div>' +
+        '<div class="perfil-col"><h2>Trayectoria, 2020 al presente.</h2><ul>' + lis + '</ul></div>' +
       '</div>' +
     '</div>' +
   '</section>';

@@ -131,7 +131,8 @@ check('existe el retrato de la home (3 tamaños)',
   existe('img/retrato_andres_thumb.jpg') && existe('img/retrato_andres_medium.jpg') && existe('img/retrato_andres_hd.jpg'));
 check('la home abre con statement y curriculum (sin títulos)',
   /class="home-perfil"/.test(leer('html/index.html')) && /class="perfil-bloque"/.test(leer('html/index.html')) &&
-  /class="perfil-lista"/.test(leer('html/index.html')) && !/<h2>Statement<\/h2>/.test(leer('html/index.html')));
+  /class="perfil-lista"/.test(leer('html/index.html')) && !/<h2>Statement<\/h2>/.test(leer('html/index.html')) &&
+  /<h2>Sobre mi obra\.<\/h2>/.test(leer('html/index.html')) && /<h2>Trayectoria, 2020 al presente\.<\/h2>/.test(leer('html/index.html')));
 check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
 check('la barra lateral muestra solo las obras nuevas',
