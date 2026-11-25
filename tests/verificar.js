@@ -143,7 +143,7 @@ check('las obras actualizadas llevan la esquina Actualizado',
   /function esObraActualizada/.test(leer('js/data.js')) &&
   /sello-actualizado/.test(leer('js/gallery.js')) && /\.sello-actualizado \{/.test(leer('css/styles.css')));
 check('las tarjetas son planas y el fondo es ciruela sin hue en las secciones oscuras',
-  /\.tarjeta-obra \{\s*position: relative;\s*background: #1c1c1c;/.test(leer('css/styles.css')) &&
+  /\.tarjeta-obra \{\s*position: relative;\s*background: #333333;/.test(leer('css/styles.css')) &&
   !/\.tarjeta-obra:hover/.test(leer('css/styles.css')) &&
   /--bg-primary: #161616/.test(leer('css/styles.css')) && /--bg-card: #1c1c1c/.test(leer('css/styles.css')) &&
   /--accent: #1d1d1d/.test(leer('css/styles.css')) &&

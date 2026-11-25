@@ -625,7 +625,7 @@ h3 { font-size: 1.25rem; }
 /* Tarjeta plana: sin degradado, sin sombra y sin efectos al pasar el mouse */
 .tarjeta-obra {
   position: relative;
-  background: #1c1c1c;          /* color plano, sin degradado ni efectos */
+  background: #333333;          /* color plano, sin degradado ni efectos (10 % más claro) */
   border-radius: 0;
   overflow: visible;
   cursor: pointer;
