@@ -46,8 +46,45 @@ function requiereAdmin(req, res, next) {
   res.status(401).json({ error: 'No autorizado' });
 }
 
-/* ---- Base de datos: archivo JSON ---- */
-var DB_PATH = path.join(__dirname, 'db.json');
+/* ---- Base de datos: archivo JSON ----
+   DATA_DIR permite guardar fuera del código desplegado (en Render el sistema de
+   archivos se reinicia en cada deploy). Por defecto sigue en la carpeta del proyecto. */
+var DATA_DIR = process.env.DATA_DIR || __dirname;
+var IMG_DIR = path.join(DATA_DIR, 'img');
+var DB_PATH = path.join(DATA_DIR, 'db.json');
+
+/* Primer arranque con DATA_DIR: copia la base y las imágenes que vienen en el repo */
+function sembrarDatos() {
+  try {
+    if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+    if (!fs.existsSync(IMG_DIR)) fs.mkdirSync(IMG_DIR, { recursive: true });
+
+    if (!fs.existsSync(DB_PATH)) {
+      var origen = path.join(__dirname, 'db.json');
+      if (fs.existsSync(origen)) {
+        fs.copyFileSync(origen, DB_PATH);
+        console.log('db.json copiada a ' + DB_PATH);
+      } else {
+        guardarDB({ series: [], obras: [], config: {} });
+      }
+    }
+
+    var origenImg = path.join(__dirname, 'img');
+    if (DATA_DIR !== __dirname && fs.existsSync(origenImg)) {
+      var copiadas = 0;
+      fs.readdirSync(origenImg).forEach(function (f) {
+        var destino = path.join(IMG_DIR, f);
+        if (!fs.existsSync(destino)) {
+          fs.copyFileSync(path.join(origenImg, f), destino);
+          copiadas++;
+        }
+      });
+      if (copiadas) console.log('Imágenes copiadas a DATA_DIR: ' + copiadas);
+    }
+  } catch (e) {
+    console.error('No se pudo preparar DATA_DIR:', e.message);
+  }
+}
 
 function cargarDB() {
   if (!fs.existsSync(DB_PATH)) {
@@ -65,6 +102,11 @@ function guardarDB(db) {
   fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2), 'utf8');
 }
 
+/* Una imagen puede estar en DATA_DIR (subida desde el admin) o en el repo */
+function existeImagen(rel) {
+  return fs.existsSync(path.join(DATA_DIR, rel)) || fs.existsSync(path.join(__dirname, rel));
+}
+
 /* ---- Middleware ---- */
 app.use(express.json({ limit: '200mb' }));
 
@@ -72,7 +114,8 @@ app.use(express.json({ limit: '200mb' }));
 app.use(express.static('html'));
 app.use('/css', express.static('css'));
 app.use('/js', express.static('js'));
-app.use('/img', express.static('img'));
+app.use('/img', express.static(IMG_DIR));
+app.use('/img', express.static(path.join(__dirname, 'img')));
 
 /* ==== API: SESIÓN DE ADMIN ==== */
 
@@ -138,7 +181,7 @@ app.post('/api/imagenes', requiereAdmin, function (req, res) {
     else if (/^img\/[A-Za-z0-9._\- ]+_medium\.jpg$/.test(rel)) claveExacta = 'medium';
     else if (/^img\/[A-Za-z0-9._\- ]+_hd\.jpg$/.test(rel)) claveExacta = 'hd';
     else return res.status(400).json({ error: 'Ruta no permitida: ' + rel });
-    if (!fs.existsSync(path.join(__dirname, rel)) && claveExacta !== 'medium') {
+    if (!existeImagen(rel) && claveExacta !== 'medium') {
       return res.status(400).json({ error: 'El archivo no existe: ' + rel });
     }
     archivoExacto = path.basename(rel);
@@ -155,7 +198,7 @@ app.post('/api/imagenes', requiereAdmin, function (req, res) {
     var nombre = (archivoExacto && k === claveExacta) ? archivoExacto
       : base + (variante ? '_' + variante : '') + '_' + k + ext;
     try {
-      fs.writeFileSync(path.join(__dirname, 'img', nombre), buf);
+      fs.writeFileSync(path.join(IMG_DIR, nombre), buf);
     } catch (e) {
       error = 'No se pudo escribir ' + nombre + ': ' + e.message;
       return;
@@ -288,7 +331,9 @@ app.use(function (req, res) {
 
 /* ---- Iniciar ---- */
 app.listen(PORT, function () {
+  sembrarDatos();
   console.log('Servidor corriendo en http://localhost:' + PORT);
+  console.log('Datos en: ' + DATA_DIR);
   console.log('API: http://localhost:' + PORT + '/api/obras');
   if (!fs.existsSync(DB_PATH)) {
     guardarDB({ series: [], obras: [], config: {} });
