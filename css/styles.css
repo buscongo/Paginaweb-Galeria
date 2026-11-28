@@ -76,7 +76,7 @@ h3 { font-size: 1.25rem; }
 
 .home-perfil {
   display: grid;
-  grid-template-columns: 46% 54%;
+  grid-template-columns: 66.667% 33.333%;   /* foto dos tercios, texto un tercio */
   min-height: calc(66.667vh - 44px);   /* el bloque ocupa dos tercios de la pantalla */
   max-width: calc(72rem - 2.5rem);      /* misma columna central que la galería, sin su padding */
   margin: 44px auto 0;
@@ -130,12 +130,14 @@ h3 { font-size: 1.25rem; }
 }
 
 .perfil-bloque p {
-  margin: 0;
+  margin: 0 0 0.55em;
   max-width: 22rem;            /* ~un tercio del ancho de la sección */
   font-size: clamp(0.72rem, 1.95vh, 0.88rem);
   line-height: 1.95;
   letter-spacing: 0.012em;
 }
+
+.perfil-bloque p:last-child { margin-bottom: 0; }
 
 /* En móvil el texto usa todo el ancho disponible */
 @media (max-width: 899px) {

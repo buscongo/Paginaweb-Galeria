@@ -289,10 +289,15 @@ async function leerPerfil() {
     var html = await (await fetch('index.html')).text();
     var doc = new DOMParser().parseFromString(html, 'text/html');
     var nombre = doc.querySelector('.perfil-nombre');
-    var st = doc.querySelector('.perfil-bloque p');
+    var sts = doc.querySelectorAll('.perfil-bloque p');
     var lis = doc.querySelectorAll('.perfil-lista li');
     if (nombre && nombre.textContent.trim()) perfil.nombre = nombre.textContent.trim();
-    if (st) perfil.statement = st.textContent.replace(/\s+/g, ' ').trim();
+    /* un párrafo por línea, tal como está escrito en la home */
+    if (sts.length) {
+      perfil.statement = Array.prototype.map.call(sts, function (x) {
+        return x.textContent.replace(/\s+/g, ' ').trim();
+      }).filter(Boolean).join('\n');
+    }
     perfil.curriculum = Array.prototype.map.call(lis, function (li) {
       return li.textContent.replace(/\s+/g, ' ').trim();
     }).filter(Boolean);
@@ -448,7 +453,9 @@ function hojaPerfil(perfil) {
   }).join('');
 
   /* cada punto del texto va como párrafo aparte */
-  var puntos = String(statement).split(/\n+/).join(' ').match(/[^.]+\.[^.]*|.+$/g) || [];
+  var puntos = /\n/.test(String(statement))
+    ? String(statement).split(/\n+/)
+    : (String(statement).match(/[^.]+\.[^.]*|.+$/g) || []);
   var parrafos = puntos
     .map(function (x) { return x.trim(); })
     .filter(Boolean)
