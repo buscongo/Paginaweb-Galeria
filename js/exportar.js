@@ -465,7 +465,7 @@ function hojaPerfil(perfil) {
     '<div class="perfil-texto">' +
       '<div class="perfil-columnas">' +
         '<div class="perfil-col perfil-col-obra"><h2>Sobre mi obra.</h2>' + parrafos + '</div>' +
-        '<div class="perfil-col"><h2>Trayectoria, 2021 al presente.</h2><ul>' + lis + '</ul></div>' +
+        '<div class="perfil-col perfil-col-trayectoria"><h2>Trayectoria, 2021 al presente.</h2><ul>' + lis + '</ul></div>' +
       '</div>' +
     '</div>' +
   '</section>';
@@ -565,9 +565,13 @@ function estilosDocumento() {
     '.portada-obra { margin: 0; font-size: 40px; opacity: .92; }',
     '.portada-pie { margin: 26px 0 0; font-size: 19px; opacity: .6; letter-spacing: .16em; text-transform: uppercase; }',
     '.perfil-hoja { background: #343434; color: #fff; display: flex; align-items: center; justify-content: center; }',
-    '.perfil-texto { width: 1920px; padding: 90px 150px; display: flex; align-items: center; justify-content: center; background: #232323; }',
-    '.perfil-columnas { display: grid; grid-template-columns: 525px 525px; gap: 90px; align-content: center; }',   /* 25 % menos ancho */
+    '.perfil-texto { width: 1920px; padding: 90px 0; display: flex; align-items: center; background: #232323; }',
+    /* el corte entre columnas cae a un tercio del ancho de la hoja */
+    '.perfil-columnas { display: grid; grid-template-columns: 640px 1280px; width: 100%; align-content: center; }',
     '.perfil-col { padding: 0; }',
+    '.perfil-col-obra { padding: 0 64px 0 40px; }',
+    '.perfil-col-obra p, .perfil-col-obra h2 { max-width: 394px; margin-left: auto; margin-right: 0; }',
+    '.perfil-col-trayectoria { padding: 0 120px 0 64px; }',
     '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
     '  opacity: .45; font-weight: 400; }',
     '.perfil-col p { margin: 0 0 10px; font-size: 17px; line-height: 1.62; color: #e6e6e6; }',
