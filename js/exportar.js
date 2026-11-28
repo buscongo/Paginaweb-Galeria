@@ -436,7 +436,16 @@ function hojaPerfil(perfil) {
   var nombre = p.nombre || 'Andrés Ramírez Ortiz';
   var statement = p.statement || '';
   var curriculum = p.curriculum || [];
-  var lis = curriculum.map(function (x) { return '<li>' + escaparHTML(x) + '</li>'; }).join('');
+  /* cada línea: la fecha en una columna y el texto en otra, sin que se meta debajo */
+  var lis = curriculum.map(function (x) {
+    var m = String(x).match(/^\s*(\d{4}(?:\s*[-–]\s*\d{4})?)\s*[-–:.]?\s*([\s\S]*)$/);
+    var anio = m ? m[1].replace(/\s+/g, '') : '';
+    var texto = m ? m[2] : x;
+    return '<li>' +
+      '<span class="tray-anio">' + escaparHTML(anio) + '</span>' +
+      '<span class="tray-texto">' + escaparHTML(texto) + '</span>' +
+      '</li>';
+  }).join('');
 
   /* cada punto del texto va como párrafo aparte */
   var puntos = String(statement).split(/\n+/).join(' ').match(/[^.]+\.[^.]*|.+$/g) || [];
@@ -572,7 +581,10 @@ function estilosDocumento() {
     '.perfil-col-obra { text-align: right; }',
     '.perfil-col-obra h2 { text-align: right; }',
     '.perfil-col ul { margin: 0; padding: 0; list-style: none; }',
-    '.perfil-col li { font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, .16); color: #dcdcdc; }',
+    '.perfil-col li { display: grid; grid-template-columns: 118px 1fr; gap: 14px; align-items: baseline;',
+    '  font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, .16); color: #dcdcdc; }',
+    '.tray-anio { color: #ffffff; white-space: nowrap; font-variant-numeric: tabular-nums; }',
+    '.tray-texto { display: block; }',
     '.perfil-col li:first-child { border-top: none; padding-top: 0; }',
     '.obra-imagen { width: 1280px; height: 1080px; display: flex; align-items: center; justify-content: center;',
     '  background: #ececec; padding: 40px; }',
