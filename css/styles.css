@@ -2345,3 +2345,58 @@ body.con-barra-exportar { padding-bottom: 84px; }
   align-self: flex-start;
   margin-top: 0.3rem;
 }
+
+/* ===== En móvil los filtros son un menú desplegable ===== */
+.filtros-toggle { display: none; }
+
+@media (max-width: 899px) {
+  .filtros-barra {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+  }
+
+  .filtros-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.62rem 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: #1d1d1d;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .filtros-toggle::after {
+    content: '⌄';
+    font-size: 0.9rem;
+    line-height: 1;
+    transition: transform 0.22s ease;
+  }
+
+  .filtros-toggle[aria-expanded="true"]::after { transform: rotate(180deg); }
+
+  .filtros-selects {
+    display: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.85rem;
+    overflow: visible;
+    padding-top: 0.2rem;
+  }
+
+  .filtros-selects.abierto { display: flex; }
+
+  .filtros-selects .filtro-campo { width: 100%; min-width: 0; }
+
+  .filtros-selects select,
+  .filtros-selects .filtro-buscar {
+    width: 100%;
+    max-width: none;
+  }
+}

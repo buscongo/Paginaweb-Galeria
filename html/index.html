@@ -49,7 +49,9 @@
   <!-- Franja: filtros y galería principal (vista única controlada por VER TODO) -->
   <div class="franja franja-todas">
     <div class="filtros-barra">
-      <div class="filtros-selects">
+      <button type="button" class="filtros-toggle" id="filtros-toggle"
+              aria-expanded="false" aria-controls="filtros-panel">Filtrar</button>
+      <div class="filtros-selects" id="filtros-panel">
         <label class="filtro-campo" for="filtro-ano">
           <span class="filtro-etiqueta">Año</span>
           <select id="filtro-ano"></select>

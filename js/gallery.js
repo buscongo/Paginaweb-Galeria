@@ -20,3 +20,27 @@ function poblarSelectTamano(s){if(!s)return;s.innerHTML='<option value="">'+t('t
 async function actualizarFiltrosSerie(){var s=document.getElementById('filtro-serie');if(!s)return;await obtenerSeries();var series=cacheSeries;if(series.length===0){s.innerHTML='<option value="">'+t('todasSeries')+'</option>';return;}var html='<option value="">'+t('todasSeries')+'</option>';series.forEach(function(x){html+='<option value="'+x.id+'">'+escaparHTML(x.tema)+'</option>';});s.innerHTML=html;}
 async function actualizarFiltroAno(){var s=document.getElementById('filtro-ano');if(!s)return;var o=await obtenerObras();var años=[];var vistos={};o.forEach(function(x){var a=parseInt(x.anio,10);if(!isNaN(a)&&a>0&&!vistos[a]){vistos[a]=true;años.push(a);}});años.sort(function(a,b){return b-a;});var h='<option value="">'+t('todosAños')+'</option>';años.forEach(function(a){h+='<option value="'+a+'">'+a+'</option>';});s.innerHTML=h;}
 function escaparHTML(texto){return String(texto).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+/* Menú de filtros en móvil: se abre y se cierra desde el botón «Filtrar» */
+document.addEventListener('DOMContentLoaded', function () {
+  var btn = document.getElementById('filtros-toggle');
+  var panel = document.getElementById('filtros-panel');
+  if (!btn || !panel) return;
+
+  function fijarEstado(abierto) {
+    if (abierto) { panel.classList.add('abierto'); } else { panel.classList.remove('abierto'); }
+    btn.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+  }
+
+  btn.addEventListener('click', function () {
+    fijarEstado(!panel.classList.contains('abierto'));
+  });
+
+  /* Al elegir un filtro se cierra, para ver el resultado */
+  panel.addEventListener('change', function (e) {
+    if (e.target && (e.target.tagName === 'SELECT')) fijarEstado(false);
+  });
+  panel.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target && e.target.type === 'search') fijarEstado(false);
+  });
+});

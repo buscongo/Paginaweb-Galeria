@@ -31,7 +31,9 @@
   <!-- Grid de obras de la serie -->
   <main>
     <div class="filtros-barra">
-      <div class="filtros-selects">
+      <button type="button" class="filtros-toggle" id="filtros-toggle"
+              aria-expanded="false" aria-controls="filtros-panel">Filtrar</button>
+      <div class="filtros-selects" id="filtros-panel">
         <label class="filtro-campo" for="filtro-disponibilidad">
           <span class="filtro-etiqueta">Disponibilidad</span>
           <select id="filtro-disponibilidad"></select>

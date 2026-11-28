@@ -144,6 +144,10 @@ check('la barra lateral muestra solo las obras nuevas',
 check('no queda marca de «Actualizado» en las tarjetas',
   /var selloActualizado = ''/.test(leer('js/gallery.js')) &&
   !/sello-actualizado">Actualizado/.test(leer('js/gallery.js')));
+check('en móvil los filtros se abren con un botón «Filtrar»',
+  /id="filtros-toggle"/.test(leer('html/index.html')) && /id="filtros-panel"/.test(leer('html/serie.html')) &&
+  /\.filtros-selects\.abierto/.test(leer('css/styles.css')) &&
+  /filtros-toggle/.test(leer('js/gallery.js')));
 check('el precio no sale en la respuesta pública',
   /delete copia\.precio/.test(leer('server.js')) &&
   /autenticado\(req\) \? obras : obras\.map\(obraPublica\)/.test(leer('server.js')));
