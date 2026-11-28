@@ -144,6 +144,15 @@ check('la barra lateral muestra solo las obras nuevas',
 check('no queda marca de «Actualizado» en las tarjetas',
   /var selloActualizado = ''/.test(leer('js/gallery.js')) &&
   !/sello-actualizado">Actualizado/.test(leer('js/gallery.js')));
+check('en móvil no hay VER TODO y «Limpiar filtros» va a la izquierda',
+  /\.filtros-acciones \.btn-ver-todo \{ display: none; \}/.test(leer('css/styles.css')) &&
+  /\.filtros-acciones \{\s*justify-content: flex-start/.test(leer('css/styles.css')));
+check('las filas de serie van con el mismo aire que el título',
+  /\.serie-fila \{[\s\S]{0,80}margin-bottom: 0\.75rem/.test(leer('css/styles.css')));
+check('la tarjeta se acerca en z al pasar el mouse (escala, no desplazamiento)',
+  /transform: scale\(1\.1\)/.test(leer('css/styles.css')) &&
+  /box-shadow: 0 14px 34px/.test(leer('css/styles.css')) &&
+  !/transform: translateY\(-8px\)/.test(leer('css/styles.css')));
 check('en móvil los filtros se abren con un botón «Filtrar»',
   /id="filtros-toggle"/.test(leer('html/index.html')) && /id="filtros-panel"/.test(leer('html/serie.html')) &&
   /\.filtros-selects\.abierto/.test(leer('css/styles.css')) &&

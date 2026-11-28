@@ -284,7 +284,9 @@ h3 { font-size: 1.25rem; }
     flex-direction: row;
     align-items: center;
     height: 44px;
-    padding: 0 20px;
+    /* alineada con la columna central de contenido (1100 px) */
+    padding-left: max(20px, calc((100vw - 1100px) / 2 + 20px));
+    padding-right: 20px;
     overflow-x: auto;
     box-shadow: none;
   }
@@ -446,7 +448,7 @@ h3 { font-size: 1.25rem; }
 
 /* Galería por serie */
 .serie-fila {
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;   /* mismo aire que entre el título y su fila */
 }
 
 .serie-fila:last-child {
@@ -701,20 +703,31 @@ h3 { font-size: 1.25rem; }
    aparece el marco con los datos de la obra ya cargados. */
 @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
   .tarjeta-obra {
+    position: relative;
     background: none;
-    transition: transform 0.28s ease;
+    transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.3s ease;
+    will-change: transform;
   }
 
+  /* los datos se revelan encima de la propia imagen: sin hueco reservado */
   .tarjeta-obra .tarjeta-info {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.6rem 0.85rem 0.75rem;
+    background: linear-gradient(180deg, rgba(51, 51, 51, 0) 0%, rgba(51, 51, 51, 0.88) 45%, #333333 100%);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(6px);
+    transform: translateY(10px);
     transition: opacity 0.24s ease, transform 0.24s ease, visibility 0.24s;
   }
 
   .tarjeta-obra:hover,
   .tarjeta-obra:focus-within {
-    transform: translateY(-8px);
+    transform: scale(1.1);                 /* hacia el frente, en z */
+    z-index: 6;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
     background: linear-gradient(180deg, #707070 0%, #707070 25%, #333333 100%);
   }
 
@@ -723,6 +736,12 @@ h3 { font-size: 1.25rem; }
     opacity: 1;
     visibility: visible;
     transform: none;
+  }
+
+  /* los carruseles recortan: se les da aire para que la tarjeta ampliada no se corte */
+  .fila-carousel {
+    padding: 1.1rem 1.1rem;
+    margin: -1.1rem -1.1rem;
   }
 
   /* el punto de «no disponible» aparece junto con los datos */
@@ -2398,5 +2417,18 @@ body.con-barra-exportar { padding-bottom: 84px; }
   .filtros-selects .filtro-buscar {
     width: 100%;
     max-width: none;
+  }
+
+  /* en móvil no hay VER TODO y «Limpiar filtros» queda a la izquierda */
+  .filtros-acciones {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .filtros-acciones .btn-ver-todo { display: none; }
+
+  .filtros-acciones .btn-cancelar {
+    flex: 0 0 auto;
+    padding-left: 0;
   }
 }
