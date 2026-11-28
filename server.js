@@ -211,6 +211,57 @@ app.get('/api/sesion', function (req, res) {
   res.json({ ok: ok, minutos: SESION_TTL / 60000 });
 });
 
+/* ==== API: SOLICITUDES DE PRECIO (copia de respaldo en el servidor) ==== */
+
+var ARCHIVO_SOLICITUDES = path.join(DATA_DIR, 'solicitudes.json');
+var SOLICITUDES = [];   // se usa para limitar el ritmo
+
+function cargarSolicitudes() {
+  try {
+    if (fs.existsSync(ARCHIVO_SOLICITUDES)) {
+      SOLICITUDES = JSON.parse(fs.readFileSync(ARCHIVO_SOLICITUDES, 'utf8')) || [];
+    }
+  } catch (e) { SOLICITUDES = []; }
+  return SOLICITUDES;
+}
+
+app.post('/api/solicitud', function (req, res) {
+  var b = req.body || {};
+  var nombre = String(b.nombre || '').trim().slice(0, 120);
+  var correo = String(b.correo || '').trim().slice(0, 160);
+  var galeria = String(b.galeria || '').trim().slice(0, 160);
+  var mensaje = String(b.mensaje || '').trim().slice(0, 2000);
+  var obra = String(b.obra || '').trim().slice(0, 160);
+
+  if (!nombre || !correo || !galeria || !mensaje) {
+    return res.status(400).json({ ok: false, error: 'faltan_campos' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) {
+    return res.status(400).json({ ok: false, error: 'correo_invalido' });
+  }
+
+  var ahora = Date.now();
+  var recientes = SOLICITUDES.filter(function (s) {
+    return ahora - new Date(s.fecha).getTime() < 3600000;
+  });
+  if (recientes.length >= 20) {
+    return res.status(429).json({ ok: false, error: 'demasiadas' });
+  }
+
+  var registro = {
+    fecha: new Date().toISOString(),
+    nombre: nombre, correo: correo, galeria: galeria,
+    mensaje: mensaje, obra: obra,
+    ip: (req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.ip
+  };
+
+  SOLICITUDES.push(registro);
+  try { fs.writeFileSync(ARCHIVO_SOLICITUDES, JSON.stringify(SOLICITUDES, null, 2)); }
+  catch (e) { console.error('No se pudo guardar la solicitud:', e.message); }
+
+  res.json({ ok: true });
+});
+
 /* ==== API: IMÁGENES (el navegador manda los 3 tamaños ya redimensionados) ==== */
 
 app.post('/api/imagenes', requiereAdmin, function (req, res) {
@@ -385,6 +436,7 @@ app.use(function (req, res) {
 /* ---- Iniciar ---- */
 app.listen(PORT, function () {
   sembrarDatos();
+cargarSolicitudes();
   console.log('Servidor corriendo en http://localhost:' + PORT);
   console.log('Datos en: ' + DATA_DIR);
   if (process.env.RENDER && !process.env.DATA_DIR) {

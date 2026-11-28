@@ -175,11 +175,15 @@ check('en móvil los filtros se abren con un botón «Filtrar»',
 check('el precio no sale en la respuesta pública',
   /delete copia\.precio/.test(leer('server.js')) &&
   /autenticado\(req\) \? obras : obras\.map\(obraPublica\)/.test(leer('server.js')));
-check('la ficha abre la ventana de solicitud de precio con asunto prellenado',
+check('la ficha abre la ventana de solicitud con los cuatro campos obligatorios',
   /id="solicitud-overlay"/.test(leer('html/pintura.html')) &&
-  /Solicito el precio de la obra: /.test(leer('js/pintura.js')) &&
-  /solicitud-nombre/.test(leer('html/pintura.html')) && /solicitud-galeria/.test(leer('html/pintura.html')) &&
-  /mailto:buscongo@gmail\.com/.test(leer('js/pintura.js')));
+  /Solicito el precio|Solicitud de precio: /.test(leer('js/pintura.js')) &&
+  /solicitud-nombre/.test(leer('html/pintura.html')) &&
+  /solicitud-correo/.test(leer('html/pintura.html')) &&
+  /solicitud-galeria/.test(leer('html/pintura.html')) &&
+  /solicitud-mensaje/.test(leer('html/pintura.html')) &&
+  /formsubmit\.co\/ajax\/buscongo@gmail\.com/.test(leer('js/pintura.js')) &&
+  /app\.post\('\/api\/solicitud'/.test(leer('server.js')));
 check('las tarjetas usan el degradado y todo el fondo es gris sin hue',
   /\.tarjeta-obra \{[\s\S]{0,400}?linear-gradient\(180deg, #707070 0%, #707070 25%, #333333 100%\)/.test(leer('css/styles.css')) &&
   /\.tarjeta-obra:hover \.tarjeta-info/.test(leer('css/styles.css')) &&

@@ -75,37 +75,75 @@ function renderizarDetalle(o) {
     });
 
     if (formSolicitud) {
-      formSolicitud.addEventListener('submit', function (e) {
+      formSolicitud.addEventListener('submit', async function (e) {
         e.preventDefault();
         var nombre = (document.getElementById('solicitud-nombre') || {}).value || '';
+        var correo = (document.getElementById('solicitud-correo') || {}).value || '';
         var galeria = (document.getElementById('solicitud-galeria') || {}).value || '';
-        var asunto = 'Solicito el precio de la obra: ' + o.titulo;
-        var lineas = [
-          'Solicito el precio de la obra: ' + o.titulo,
-          '',
-          'Coleccionista: ' + (nombre.trim() || '(sin indicar)'),
-          'Galería: ' + (galeria.trim() || '(sin indicar)'),
-          '',
-          'Gracias,'
-        ];
-        var cuerpo = encodeURIComponent(lineas.join('\n'));
-        var asuntoCod = encodeURIComponent(asunto);
+        var mensaje = (document.getElementById('solicitud-mensaje') || {}).value || '';
+        var aviso = document.getElementById('solicitud-aviso');
+        var boton = document.getElementById('solicitud-enviar');
 
-        /* Gmail en el navegador: funciona aunque la computadora no tenga
-           un programa de correo configurado. */
-        var gmail = 'https://mail.google.com/mail/?view=cm&fs=1' +
-          '&to=buscongo@gmail.com&su=' + asuntoCod + '&body=' + cuerpo;
-        var mailto = 'mailto:buscongo@gmail.com?subject=' + asuntoCod + '&body=' + cuerpo;
+        nombre = nombre.trim();
+        correo = correo.trim();
+        galeria = galeria.trim();
+        mensaje = mensaje.trim();
 
-        /* deja listo el enlace alternativo dentro de la ventana */
-        var alt = document.getElementById('solicitud-mailto');
-        if (alt) alt.href = mailto;
-
-        var abierta = window.open(gmail, '_blank', 'noopener');
-        if (!abierta) {
-          window.location.href = mailto;   /* si el navegador bloquea la pestaña */
+        function decir(texto, error) {
+          if (!aviso) return;
+          aviso.textContent = texto;
+          aviso.classList.toggle('error', !!error);
         }
-        cerrarSolicitud();
+
+        if (!nombre || !correo || !galeria || !mensaje) {
+          decir('Completá todos los campos para enviar la solicitud.', true);
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(correo)) {
+          decir('Revisá el correo: parece que falta algo.', true);
+          return;
+        }
+
+        var datos = {
+          'Nombre': nombre,
+          'Correo': correo,
+          'Galería o cliente': galeria,
+          'Mensaje': mensaje,
+          'Obra': o.titulo,
+          'Enviado desde la página': 'andresramirezortiz.com',
+          _subject: 'Solicitud de precio: ' + o.titulo,
+          _replyto: correo,
+          _template: 'table'
+        };
+
+        if (boton) { boton.disabled = true; boton.textContent = 'Enviando…'; }
+        decir('Enviando la solicitud…');
+
+        try {
+          var r = await fetch('https://formsubmit.co/ajax/buscongo@gmail.com', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(datos)
+          });
+          if (!r.ok) throw new Error('respuesta ' + r.status);
+
+          /* copia en el servidor como respaldo */
+          fetch('/api/solicitud', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              nombre: nombre, correo: correo, galeria: galeria,
+              mensaje: mensaje, obra: o.titulo
+            })
+          }).catch(function () {});
+
+          decir('Solicitud enviada. Te responderé a ' + correo + '.');
+          formSolicitud.reset();
+        } catch (err) {
+          decir('No se pudo enviar. Probá de nuevo o escribí a buscongo@gmail.com.', true);
+        } finally {
+          if (boton) { boton.disabled = false; boton.textContent = 'Enviar solicitud'; }
+        }
       });
     }
   }

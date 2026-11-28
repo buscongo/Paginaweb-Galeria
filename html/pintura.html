@@ -93,21 +93,31 @@
 
         <form id="form-solicitud" class="solicitud-form" novalidate>
           <label class="campo-grupo">
-            <span>Nombre del coleccionista</span>
+            <span>Nombre y apellidos *</span>
             <input type="text" id="solicitud-nombre" autocomplete="name"
-                   placeholder="Opcional, pero se agradece">
+                   placeholder="Cómo te llamás" required>
           </label>
 
           <label class="campo-grupo">
-            <span>Nombre de la galería</span>
-            <input type="text" id="solicitud-galeria" autocomplete="organization"
-                   placeholder="Opcional, pero se agradece">
+            <span>Tu correo *</span>
+            <input type="email" id="solicitud-correo" autocomplete="email"
+                   placeholder="Para responderte" required>
           </label>
 
-          <button type="submit" class="btn btn-primario">Enviar solicitud</button>
-          <p class="solicitud-ayuda">
-            <a id="solicitud-mailto" href="mailto:buscongo@gmail.com">Prefiero mi programa de correo</a>
-          </p>
+          <label class="campo-grupo">
+            <span>Galería o cliente *</span>
+            <input type="text" id="solicitud-galeria" autocomplete="organization"
+                   placeholder="A nombre de quién va la consulta" required>
+          </label>
+
+          <label class="campo-grupo">
+            <span>Mensaje *</span>
+            <textarea id="solicitud-mensaje" rows="3" required
+                      placeholder="Contame qué te interesa de la obra"></textarea>
+          </label>
+
+          <button type="submit" class="btn btn-primario" id="solicitud-enviar">Enviar solicitud</button>
+          <p class="solicitud-aviso" id="solicitud-aviso" role="status"></p>
         </form>
       </div>
     </div>

@@ -2732,10 +2732,25 @@ body.con-barra-exportar { padding-bottom: 84px; }
 .obra-masiva-fotos:hover { color: #ffffff; }
 
 /* Aviso bajo el botón de solicitud de precio */
-.solicitud-ayuda {
-  margin: 0.7rem 0 0;
-  font-size: 0.72rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.62);
-  text-align: center;
+.solicitud-aviso {
+  margin: 0.2rem 0 0;
+  font-size: 0.58rem;
+  line-height: 1.5;
+  color: #d0d0d0;
+  min-height: 1rem;
+}
+
+.solicitud-aviso.error { color: #e8a08f; }
+
+.solicitud-form .campo-grupo textarea {
+  width: 100%;
+  min-height: 4.2rem;
+  resize: vertical;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #1d1d1d;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.62rem;
+  line-height: 1.5;
 }
