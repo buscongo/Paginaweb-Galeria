@@ -267,7 +267,12 @@ async function generarDocumento() {
   try {
     var imagenes = await prepararImagenes(obras);
     var perfil = await leerPerfil();
-    var html = construirDocumento(nombre, obras, imagenes, { precios: mostrarPrecios, perfil: perfil });
+    var html = construirDocumento(nombre, obras, imagenes, {
+      precios: mostrarPrecios,
+      perfil: perfil,
+      /* si el documento ya está filtrado, ese dato no se repite en cada ficha */
+      omitir: { anio: !!filtrosExp.ano, disponible: filtrosExp.disponible !== '' }
+    });
     abrirDocumento(html);
     cerrarModalNombre();
   } catch (e) {
@@ -393,6 +398,7 @@ function ordenarObras(obras) {
 
 function construirDocumento(nombre, obras, imagenes, opciones) {
   var precios = !!(opciones && opciones.precios);
+  var omitir = (opciones && opciones.omitir) || {};
   var hoy = new Date();
   var fecha = hoy.getDate() + '/' + (hoy.getMonth() + 1) + '/' + hoy.getFullYear();
   obras = ordenarObras(obras);
@@ -408,7 +414,7 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
         imagenes.chico, plan.paginaDeObra, s.numero, totalPaginas);
     }
     if (s.tipo === 'serie') return hojaSerie(s.grupo);
-    return hojaObra(s.obra, imagenes.grande[s.obra.id], s.numero, totalPaginas, precios);
+    return hojaObra(s.obra, imagenes.grande[s.obra.id], s.numero, totalPaginas, precios, omitir);
   }).join('\n');
 
   return '<!DOCTYPE html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n' +
@@ -492,15 +498,16 @@ function hojaSerie(grupo) {
     '</section>';
 }
 
-function hojaObra(o, imagen, numero, totalPaginas, mostrarPrecios) {
+function hojaObra(o, imagen, numero, totalPaginas, mostrarPrecios, omitir) {
   var serie = buscarSerie(o.serieId);
+  var omit = omitir || {};
   var filas = [];
-  if (o.anio) filas.push(['Año', String(o.anio)]);
+  if (o.anio && !omit.anio) filas.push(['Año', String(o.anio)]);
   if (o.tecnica) filas.push(['Técnica', o.tecnica]);
   if (o.materiales) filas.push(['Materiales', o.materiales]);
   var tam = textoTamanoObra(o);
   if (tam) filas.push(['Medidas', tam]);
-  filas.push(['Disponibilidad', o.disponible ? 'Disponible' : 'No disponible']);
+  if (!omit.disponible) filas.push(['Disponibilidad', o.disponible ? 'Disponible' : 'No disponible']);
   if (mostrarPrecios) {
     filas.push(['Precio', o.disponible && o.precio ? formatoMoneda(o.precio) : 'Consultar']);
   }
