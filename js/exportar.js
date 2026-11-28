@@ -579,7 +579,7 @@ function estilosDocumento() {
     '.portada-pie { margin: 26px 0 0; font-size: 19px; opacity: .6; letter-spacing: .16em; text-transform: uppercase; }',
     '.perfil-hoja { background: #343434; color: #fff; display: flex; align-items: center; justify-content: center; }',
     '.perfil-texto { width: 1920px; padding: 90px 150px; display: flex; align-items: center; justify-content: center; background: #232323; }',
-    '.perfil-columnas { display: grid; grid-template-columns: 700px 700px; gap: 90px; align-content: center; }',
+    '.perfil-columnas { display: grid; grid-template-columns: 525px 525px; gap: 90px; align-content: center; }',   /* 25 % menos ancho */
     '.perfil-col { padding: 0; }',
     '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
     '  opacity: .45; font-weight: 400; }',
