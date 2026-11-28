@@ -45,28 +45,53 @@ function renderizarDetalle(o) {
   var s = buscarSerie(o.serieId);
   var ns = s ? s.tema : t('sinSerie');
 
-  // Precio: al final de la información, solo si la obra está disponible.
-  // Se muestra al pulsar «Ver precio».
-  var cajaPrecio = document.getElementById('precio-caja');
+  // Precio: el botón abre una ventana para solicitar el precio por correo.
   var btnPrecio = document.getElementById('btn-ver-precio');
-  var precioEl = document.getElementById('pintura-precio');
-  if (cajaPrecio && btnPrecio && precioEl) {
-    if (o.disponible && o.precio) {
-      cajaPrecio.hidden = false;
-      cajaPrecio.removeAttribute('hidden');
-      precioEl.textContent = t('precio') + ': ' + formatoMoneda(o.precio);
-      precioEl.hidden = true;
-      precioEl.setAttribute('hidden', '');
-      btnPrecio.hidden = false;
-      btnPrecio.textContent = 'Ver precio';
-      btnPrecio.onclick = function () {
-        precioEl.hidden = false;
-        precioEl.removeAttribute('hidden');
-        btnPrecio.hidden = true;
-      };
-    } else {
-      cajaPrecio.hidden = true;
-      cajaPrecio.setAttribute('hidden', '');
+  var ovSolicitud = document.getElementById('solicitud-overlay');
+  var txtObra = document.getElementById('solicitud-obra');
+  var formSolicitud = document.getElementById('form-solicitud');
+
+  function cerrarSolicitud() {
+    if (!ovSolicitud) return;
+    ovSolicitud.classList.remove('activo');
+    document.body.style.overflow = '';
+  }
+
+  if (btnPrecio && ovSolicitud) {
+    if (txtObra) txtObra.textContent = o.titulo + ' · ' + (o.ancho || '') + ' × ' + (o.alto || '') + ' cm';
+
+    btnPrecio.onclick = function () {
+      ovSolicitud.classList.add('activo');
+      document.body.style.overflow = 'hidden';
+    };
+
+    var cerrarBtn = document.getElementById('solicitud-cerrar');
+    if (cerrarBtn) cerrarBtn.onclick = cerrarSolicitud;
+    ovSolicitud.addEventListener('click', function (e) {
+      if (e.target === ovSolicitud) cerrarSolicitud();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') cerrarSolicitud();
+    });
+
+    if (formSolicitud) {
+      formSolicitud.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var nombre = (document.getElementById('solicitud-nombre') || {}).value || '';
+        var galeria = (document.getElementById('solicitud-galeria') || {}).value || '';
+        var asunto = 'Solicito el precio de la obra: ' + o.titulo;
+        var lineas = [
+          'Solicito el precio de la obra: ' + o.titulo,
+          '',
+          'Coleccionista: ' + (nombre.trim() || '(sin indicar)'),
+          'Galería: ' + (galeria.trim() || '(sin indicar)'),
+          '',
+          'Gracias,'
+        ];
+        window.location.href = 'mailto:buscongo@gmail.com?subject=' + encodeURIComponent(asunto) +
+          '&body=' + encodeURIComponent(lineas.join('\n'));
+        cerrarSolicitud();
+      });
     }
   }
 

@@ -129,10 +129,11 @@ check('las escrituras de series exigen sesión', /app\.post\('\/api\/series', re
 check('admin.html tiene los dos botones', /id="btn-editar"/.test(leer('html/admin.html')) && /href="subir.html"/.test(leer('html/admin.html')));
 check('existe el retrato de la home (3 tamaños)',
   existe('img/retrato_andres_thumb.jpg') && existe('img/retrato_andres_medium.jpg') && existe('img/retrato_andres_hd.jpg'));
-check('la home abre con statement y curriculum (sin títulos)',
-  /class="home-perfil"/.test(leer('html/index.html')) && /class="perfil-bloque"/.test(leer('html/index.html')) &&
-  /class="perfil-lista"/.test(leer('html/index.html')) && !/<h2>Statement<\/h2>/.test(leer('html/index.html')) &&
-  /<h2>Sobre mi obra\.<\/h2>/.test(leer('html/index.html')) && /<h2>Trayectoria, 2020 al presente\.<\/h2>/.test(leer('html/index.html')));
+check('el hero deja solo el nombre y el statement; la trayectoria pasa al pie',
+  /class="home-perfil"/.test(leer('html/index.html')) &&
+  /<h2>Sobre mi obra\.<\/h2>/.test(leer('html/index.html')) &&
+  /pie-trayectoria[\s\S]{0,400}Trayectoria, 2020 al presente\./.test(leer('html/index.html')) &&
+  /perfil-bloque p \{[\s\S]{0,120}max-width: 22rem/.test(leer('css/styles.css')));
 check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
 check('la barra lateral muestra solo las obras nuevas',
@@ -140,9 +141,14 @@ check('la barra lateral muestra solo las obras nuevas',
   /var subida = fechaMilisegundos\(o\.fechaRegistro\)/.test(leer('js/obra-lateral.js')) &&
   !/fechaModificacion/.test(leer('js/obra-lateral.js')) &&
   !/etiquetaLateral/.test(leer('js/obra-lateral.js')));
-check('las obras actualizadas llevan la esquina Actualizado',
-  /function esObraActualizada/.test(leer('js/data.js')) &&
-  /sello-actualizado/.test(leer('js/gallery.js')) && /\.sello-actualizado \{/.test(leer('css/styles.css')));
+check('no queda marca de «Actualizado» en las tarjetas',
+  /var selloActualizado = ''/.test(leer('js/gallery.js')) &&
+  !/sello-actualizado">Actualizado/.test(leer('js/gallery.js')));
+check('la ficha abre la ventana de solicitud de precio con asunto prellenado',
+  /id="solicitud-overlay"/.test(leer('html/pintura.html')) &&
+  /Solicito el precio de la obra: /.test(leer('js/pintura.js')) &&
+  /solicitud-nombre/.test(leer('html/pintura.html')) && /solicitud-galeria/.test(leer('html/pintura.html')) &&
+  /mailto:buscongo@gmail\.com/.test(leer('js/pintura.js')));
 check('las tarjetas usan el degradado y todo el fondo es gris sin hue',
   /\.tarjeta-obra \{[\s\S]{0,400}?linear-gradient\(180deg, #707070 0%, #707070 25%, #333333 100%\)/.test(leer('css/styles.css')) &&
   /\.tarjeta-obra:hover \.tarjeta-info/.test(leer('css/styles.css')) &&

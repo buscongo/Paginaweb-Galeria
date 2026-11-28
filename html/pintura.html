@@ -52,10 +52,9 @@
         <!-- Se llena dinámicamente -->
       </div>
 
-      <!-- Precio: oculto hasta pulsar «Ver precio»; solo si la obra está disponible -->
-      <div class="precio-caja" id="precio-caja" hidden>
-        <button type="button" class="btn-ver-precio" id="btn-ver-precio">Ver precio</button>
-        <p id="pintura-precio" class="pintura-precio" hidden></p>
+      <!-- Precio: abre una ventana para solicitar el precio por correo -->
+      <div class="precio-caja" id="precio-caja">
+        <button type="button" class="btn-ver-precio" id="btn-ver-precio">Solicitar precio</button>
       </div>
       
       <!-- Botón volver -->
@@ -83,6 +82,33 @@
     </ul>
   </footer>
   </main>
+
+  <!-- Ventana: solicitud de precio por correo -->
+  <div id="solicitud-overlay" class="modal-overlay">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="solicitud-titulo">
+      <button type="button" class="modal-cerrar" id="solicitud-cerrar" aria-label="Cerrar">&times;</button>
+      <div class="modal-content">
+        <h3 id="solicitud-titulo" class="solicitud-titulo">Solicitar el precio de la obra</h3>
+        <p class="solicitud-obra" id="solicitud-obra"></p>
+
+        <form id="form-solicitud" class="solicitud-form" novalidate>
+          <label class="campo-grupo">
+            <span>Nombre del coleccionista</span>
+            <input type="text" id="solicitud-nombre" autocomplete="name"
+                   placeholder="Opcional, pero se agradece">
+          </label>
+
+          <label class="campo-grupo">
+            <span>Nombre de la galería</span>
+            <input type="text" id="solicitud-galeria" autocomplete="organization"
+                   placeholder="Opcional, pero se agradece">
+          </label>
+
+          <button type="submit" class="btn btn-primario">Enviar solicitud por correo</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <!-- Zoom overlay (imagen a pantalla completa) -->
   <div id="zoom-overlay" class="zoom-overlay">
