@@ -2704,19 +2704,3 @@ body.con-barra-exportar { padding-bottom: 84px; }
   color: rgba(255, 255, 255, 0.62);
   text-align: center;
 }
-
-/* Recordatorio de la carpeta de Drive al exportar */
-.modal-nombre-ruta {
-  margin: 0.45rem 0 0.9rem;
-  font-size: 0.74rem;
-  line-height: 1.5;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.modal-nombre-ruta code {
-  font-family: inherit;
-  font-size: 0.74rem;
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.05rem 0.3rem;
-}
