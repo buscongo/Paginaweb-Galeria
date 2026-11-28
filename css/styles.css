@@ -2307,7 +2307,13 @@ body.con-barra-exportar { padding-bottom: 84px; }
 
 /* En la home el pie ocupa solo la columna central, alineado con las obras */
 @media (min-width: 900px) {
-  .home-cuerpo > .pie-pagina { grid-column: 2 / -1; }
+  /* el pie cubre el ancho del sidebar y del contenido */
+  .home-cuerpo > .pie-pagina {
+    grid-column: 1 / -1;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+  }
   .home-cuerpo.sin-lateral { grid-template-columns: 1fr; }
   .home-cuerpo.sin-lateral > .pie-pagina { grid-column: auto; }
 }
