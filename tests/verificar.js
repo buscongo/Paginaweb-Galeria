@@ -149,6 +149,9 @@ check('la home muestra siempre la rejilla de todas las series (sin carruseles)',
   /renderizarSeriesColapsablesConFiltros\(filtradas\)/.test(leer('js/home.js')) &&
   !/renderizarGaleriaSeriesConFiltros\(filtradas\)/.test(leer('js/home.js')) &&
   !/btn-show-more/.test(leer('js/home.js')));
+check('el menú de filtros sigue abierto al elegir y el margen es fijo en móvil',
+  !/fijarEstado\(false\);\s*\}\);/.test(leer('js/gallery.js')) &&
+  /movil \? 16 :/.test(leer('js/home.js')));
 check('en móvil no hay VER TODO y «Limpiar filtros» va a la izquierda',
   /\.filtros-acciones \.btn-ver-todo \{ display: none; \}/.test(leer('css/styles.css')) &&
   /\.filtros-acciones \{\s*justify-content: flex-start/.test(leer('css/styles.css')));

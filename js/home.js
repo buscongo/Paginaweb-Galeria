@@ -281,7 +281,10 @@ function ajustarEspaciadoFiltros() {
   if (!barra) return;
 
   function aplicar() {
-    var h = Math.round(barra.offsetHeight || 0);
+    /* En móvil el menú de filtros crece al abrirse: con un margen fijo la barra
+       queda pegada al resto en vez de dejar un hueco enorme arriba y abajo. */
+    var movil = window.matchMedia('(max-width: 899px)').matches;
+    var h = movil ? 16 : Math.round(barra.offsetHeight || 0);
     if (h > 0) document.documentElement.style.setProperty('--filtros-espacio', h + 'px');
   }
 

@@ -36,11 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
     fijarEstado(!panel.classList.contains('abierto'));
   });
 
-  /* Al elegir un filtro se cierra, para ver el resultado */
-  panel.addEventListener('change', function (e) {
-    if (e.target && (e.target.tagName === 'SELECT')) fijarEstado(false);
-  });
-  panel.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && e.target && e.target.type === 'search') fijarEstado(false);
-  });
+  /* El menú se queda abierto: se pueden combinar varios filtros seguidos
+     y los resultados se actualizan sin cerrar la lista. */
 });
