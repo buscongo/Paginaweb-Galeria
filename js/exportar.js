@@ -438,11 +438,19 @@ function hojaPerfil(perfil) {
   var curriculum = p.curriculum || [];
   var lis = curriculum.map(function (x) { return '<li>' + escaparHTML(x) + '</li>'; }).join('');
 
+  /* cada punto del texto va como párrafo aparte */
+  var puntos = String(statement).split(/\n+/).join(' ').match(/[^.]+\.[^.]*|.+$/g) || [];
+  var parrafos = puntos
+    .map(function (x) { return x.trim(); })
+    .filter(Boolean)
+    .map(function (x) { return '<p>' + escaparHTML(x) + '</p>'; })
+    .join('');
+
   /* sin foto ni nombre: solo los dos textos, uno al lado del otro y centrados */
   return '<section class="hoja perfil-hoja">' +
     '<div class="perfil-texto">' +
       '<div class="perfil-columnas">' +
-        '<div class="perfil-col"><h2>Sobre mi obra.</h2><p>' + escaparHTML(statement) + '</p></div>' +
+        '<div class="perfil-col perfil-col-obra"><h2>Sobre mi obra.</h2>' + parrafos + '</div>' +
         '<div class="perfil-col"><h2>Trayectoria, 2021 al presente.</h2><ul>' + lis + '</ul></div>' +
       '</div>' +
     '</div>' +
@@ -559,7 +567,10 @@ function estilosDocumento() {
     '.perfil-col { padding: 0; }',
     '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
     '  opacity: .45; font-weight: 400; }',
-    '.perfil-col p { margin: 0; font-size: 17px; line-height: 1.62; color: #e6e6e6; }',
+    '.perfil-col p { margin: 0 0 10px; font-size: 17px; line-height: 1.62; color: #e6e6e6; }',
+    '.perfil-col p:last-child { margin-bottom: 0; }',
+    '.perfil-col-obra { text-align: right; }',
+    '.perfil-col-obra h2 { text-align: right; }',
     '.perfil-col ul { margin: 0; padding: 0; list-style: none; }',
     '.perfil-col li { font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, .16); color: #dcdcdc; }',
     '.perfil-col li:first-child { border-top: none; padding-top: 0; }',
