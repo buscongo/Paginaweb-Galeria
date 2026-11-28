@@ -120,9 +120,9 @@ function poblarDisponibilidadSerie() {
   var sel = document.getElementById('filtro-disponibilidad');
   if (!sel || sel.options.length) return;
   var etiqueta = (typeof t === 'function') ? t : function (k) { return k; };
-  sel.innerHTML = '<option value="">' + (etiqueta('todos') || 'Todos') + '</option>' +
+  sel.innerHTML = '<option value="">' + (etiqueta('ambos') || 'Ambos') + '</option>' +
     '<option value="true">' + (etiqueta('disponible') || 'Disponible') + '</option>' +
-    '<option value="false">' + (etiqueta('noDisponible') || 'No disponible') + '</option>';
+    '<option value="false">' + (etiqueta('vendido') || 'Vendido') + '</option>';
   sel.value = '';
 }
 

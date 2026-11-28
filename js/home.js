@@ -412,9 +412,9 @@ function poblarAnios(select) {
 
 function poblarDisponibilidad(select) {
   if (!select) return;
-  var h = '<option value="">' + t('todos') + '</option>'
+  var h = '<option value="">' + t('ambos') + '</option>'
     + '<option value="true">' + t('disponible') + '</option>'
-    + '<option value="false">' + t('noDisponible') + '</option>';
+    + '<option value="false">' + t('vendido') + '</option>';
   select.innerHTML = h;
 }
 

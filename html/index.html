@@ -67,11 +67,23 @@
   <div class="franja franja-todas">
     <div class="filtros-barra">
       <div class="filtros-selects">
-        <select id="filtro-ano"></select>
-        <select id="filtro-disponibilidad"></select>
-        <select id="filtro-tamano"></select>
-        <input type="search" id="filtro-buscar" class="filtro-buscar" placeholder="Buscar por nombre…"
-               aria-label="Buscar obras por nombre" autocomplete="off">
+        <label class="filtro-campo" for="filtro-ano">
+          <span class="filtro-etiqueta">Año</span>
+          <select id="filtro-ano"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-disponibilidad">
+          <span class="filtro-etiqueta">Disponibilidad</span>
+          <select id="filtro-disponibilidad"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-tamano">
+          <span class="filtro-etiqueta">Tamaño</span>
+          <select id="filtro-tamano"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-buscar">
+          <span class="filtro-etiqueta">Buscar</span>
+          <input type="search" id="filtro-buscar" class="filtro-buscar" placeholder="Nombre de la obra…"
+                 autocomplete="off">
+        </label>
       </div>
       <div class="filtros-acciones">
         <button type="button" id="btn-ver-todo" class="btn-ver-todo" aria-pressed="false">VER TODO</button>

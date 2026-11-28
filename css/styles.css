@@ -486,7 +486,7 @@ h3 { font-size: 1.25rem; }
 .filtros-selects {
   display: flex;
   flex: 1 1 100%;
-  gap: 0.5rem;
+  gap: 1rem;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
@@ -497,6 +497,26 @@ h3 { font-size: 1.25rem; }
 }
 .filtros-selects::-webkit-scrollbar { display: none; }
 .filtros-selects select { flex: 0 0 auto; }   /* no se comprimen: la fila se desplaza */
+
+/* Cada filtro lleva su título encima */
+.filtro-campo {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 0.22rem;
+  min-width: 8.5rem;
+}
+
+.filtro-etiqueta {
+  padding-left: 0.15rem;
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+.filtro-campo select,
+.filtro-campo .filtro-buscar { max-width: 20rem; }
 
 /* Un solo filtro (páginas de serie) no debe estirarse a todo el ancho */
 .filtros-selects > select { max-width: 20rem; }
@@ -668,6 +688,40 @@ h3 { font-size: 1.25rem; }
 
 .tarjeta-info {
   padding: 0.8rem 1rem;
+}
+
+/* Escritorio: la tarjeta es solo la imagen; al pasar el mouse se levanta y
+   aparece el marco con los datos de la obra ya cargados. */
+@media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+  .tarjeta-obra {
+    background: none;
+    transition: transform 0.28s ease;
+  }
+
+  .tarjeta-obra .tarjeta-info {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.24s ease, transform 0.24s ease, visibility 0.24s;
+  }
+
+  .tarjeta-obra:hover,
+  .tarjeta-obra:focus-within {
+    transform: translateY(-8px);
+    background: linear-gradient(180deg, #707070 0%, #707070 25%, #333333 100%);
+  }
+
+  .tarjeta-obra:hover .tarjeta-info,
+  .tarjeta-obra:focus-within .tarjeta-info {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  /* el punto de «no disponible» aparece junto con los datos */
+  .tarjeta-obra .disponibilidad-indicator { opacity: 0; transition: opacity 0.24s ease; }
+  .tarjeta-obra:hover .disponibilidad-indicator,
+  .tarjeta-obra:focus-within .disponibilidad-indicator { opacity: 1; }
 }
 
 .tarjeta-info h3 {

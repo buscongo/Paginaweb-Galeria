@@ -145,7 +145,7 @@ check('las obras actualizadas llevan la esquina Actualizado',
   /sello-actualizado/.test(leer('js/gallery.js')) && /\.sello-actualizado \{/.test(leer('css/styles.css')));
 check('las tarjetas usan el degradado y todo el fondo es gris sin hue',
   /\.tarjeta-obra \{[\s\S]{0,400}?linear-gradient\(180deg, #707070 0%, #707070 25%, #333333 100%\)/.test(leer('css/styles.css')) &&
-  !/\.tarjeta-obra:hover/.test(leer('css/styles.css')) &&
+  /\.tarjeta-obra:hover \.tarjeta-info/.test(leer('css/styles.css')) &&
   /--bg-primary: #343434/.test(leer('css/styles.css')) && /--bg-card: #1c1c1c/.test(leer('css/styles.css')) &&
   /--accent: #1d1d1d/.test(leer('css/styles.css')) &&
   /\.disponibilidad-indicator\.Rojo \{\s*background: #4f4f4f/.test(leer('css/styles.css')));
@@ -158,7 +158,17 @@ check('en móvil la barra lateral es la sección Nueva Obra con una sola obra',
   /matchMedia\('\(max-width: 899px\)'\)/.test(leer('js/obra-lateral.js')) &&
   /lista = lista\.slice\(0, 1\)/.test(leer('js/obra-lateral.js')));
 
-check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('todos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
+check('los filtros llevan título y la disponibilidad ofrece Disponible, Vendido y Ambos',
+  /class="filtro-etiqueta">Disponibilidad</.test(leer('html/index.html')) &&
+  /class="filtro-etiqueta">Disponibilidad</.test(leer('html/serie.html')) &&
+  /t\('ambos'\)/.test(leer('js/home.js')) && /t\('vendido'\)/.test(leer('js/home.js')) &&
+  /ambos:'Ambos'/.test(leer('js/data.js')) && /vendido:'Vendido'/.test(leer('js/data.js')));
+check('en móvil el modal usa la miniatura y las tarjetas se revelan al pasar el mouse',
+  /function imagenParaVista/.test(leer('js/data.js')) && /imagenParaVista\(o\)/.test(leer('js/gallery.js')) &&
+  /esPantallaMovil\(\)/.test(leer('js/data.js')) &&
+  /\.tarjeta-obra:hover \.tarjeta-info/.test(leer('css/styles.css')));
+
+check('el filtro de disponibilidad vuelve a «Todos»', /'<option value="">' \+ t\('ambos'\)/.test(leer('js/home.js')) &&  /sD\.value === 'true' \|\| sD\.value === 'false'/.test(leer('js/home.js')) &&
   /'<option value="">' \+ t\('todosAños'\)/.test(leer('js/home.js')));
 check('la ficha de obra protege las imágenes', /js\/proteger-imagenes\.js/.test(leer('html/pintura.html')) &&
   /contextmenu/.test(leer('js/proteger-imagenes.js')) &&
