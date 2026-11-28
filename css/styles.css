@@ -1913,29 +1913,35 @@ footer .footer-email {
 .home-cuerpo {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.4rem;
+  column-gap: 1.4rem;
+  row-gap: 3.5rem;      /* el mismo aire que entre los filtros y la galería */
   align-items: start;
 }
 
 .home-cuerpo > #contenido-obras { min-width: 0; }
 
-.obra-lateral {
+/* el bloque con el marco es el que se pega; el aside solo ocupa la columna */
+.obra-lateral-pegajoso {
   position: sticky;
   top: 0;
-  align-self: start;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   width: 100%;
-  padding: 0.7rem 0.8rem 1rem;
+  padding: 0.7rem 0.8rem 1.6rem;
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  /* sin barra de desplazamiento: alto justo de las tres tarjetas,
-     con aire para que la tarjeta ampliada en hover no se recorte */
+}
+
+.obra-lateral {
+  position: relative;
+  align-self: stretch;      /* la columna llega hasta donde llega la galería */
+  width: 100%;
+  background: none;         /* el marco lo pinta el bloque pegajoso */
+  border: none;
   max-height: none;
   overflow: visible;
-  padding-bottom: 1.6rem;
 }
 
 .obra-lateral-titulo {
@@ -2003,7 +2009,7 @@ footer .footer-email {
 
 /* La barra lateral solo cabe en la columna central desde 900 px */
 @media (min-width: 900px) {
-  .home-cuerpo { grid-template-columns: 260px minmax(0, 1fr); gap: 1.8rem; }
+  .home-cuerpo { grid-template-columns: 260px minmax(0, 1fr); column-gap: 1.8rem; row-gap: 3.5rem; }
 }
 
 /* En móvil la barra pasa a ser la primera sección, con la obra más nueva */
@@ -2309,12 +2315,11 @@ body.con-barra-exportar { padding-bottom: 84px; }
 
 /* En la home el pie ocupa solo la columna central, alineado con las obras */
 @media (min-width: 900px) {
-  /* el pie cubre el ancho del sidebar y del contenido */
+  /* el pie cubre el ancho del sidebar y del contenido y queda al ras de las columnas */
   .home-cuerpo > .pie-pagina {
     grid-column: 1 / -1;
     max-width: none;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 0;
   }
   .home-cuerpo.sin-lateral { grid-template-columns: 1fr; }
   .home-cuerpo.sin-lateral > .pie-pagina { grid-column: auto; }
