@@ -1926,7 +1926,11 @@ footer .footer-email {
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #ffffff;
-  max-height: calc(100vh - 0.5rem);
+  /* sin barra de desplazamiento: alto justo de las tres tarjetas,
+     con aire para que la tarjeta ampliada en hover no se recorte */
+  max-height: none;
+  overflow: visible;
+  padding-bottom: 1.6rem;
 }
 
 .obra-lateral-titulo {
@@ -1944,10 +1948,9 @@ footer .footer-email {
   flex: 1 1 auto;
   min-height: 0;
   flex-direction: column;
-  gap: 0.95rem;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  gap: 1.05rem;
+  overflow: visible;
+  padding: 0.6rem 0.6rem 0.3rem;   /* margen para el scale(1.1) de la tarjeta */
 }
 
 .lateral-item {
