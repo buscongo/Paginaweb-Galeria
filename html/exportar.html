@@ -30,13 +30,30 @@
     </p>
 
     <div class="filtros-barra filtros-exportar">
-      <div class="filtros-selects">
-        <select id="filtro-serie" aria-label="Filtrar por serie"></select>
-        <select id="filtro-ano" aria-label="Filtrar por año"></select>
-        <select id="filtro-disponibilidad" aria-label="Filtrar por disponibilidad"></select>
-        <select id="filtro-tamano" aria-label="Filtrar por tamaño"></select>
-        <input type="search" id="filtro-buscar" class="filtro-buscar" placeholder="Buscar por nombre…"
-               aria-label="Buscar obras por nombre" autocomplete="off">
+      <button type="button" class="filtros-toggle" id="filtros-toggle"
+              aria-expanded="false" aria-controls="filtros-panel">Filtrar</button>
+      <div class="filtros-selects" id="filtros-panel">
+        <label class="filtro-campo" for="filtro-serie">
+          <span class="filtro-etiqueta">Serie</span>
+          <select id="filtro-serie"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-ano">
+          <span class="filtro-etiqueta">Año</span>
+          <select id="filtro-ano"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-disponibilidad">
+          <span class="filtro-etiqueta">Disponibilidad</span>
+          <select id="filtro-disponibilidad"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-tamano">
+          <span class="filtro-etiqueta">Tamaño</span>
+          <select id="filtro-tamano"></select>
+        </label>
+        <label class="filtro-campo" for="filtro-buscar">
+          <span class="filtro-etiqueta">Buscar</span>
+          <input type="search" id="filtro-buscar" class="filtro-buscar" placeholder="Nombre de la obra…"
+                 autocomplete="off">
+        </label>
       </div>
       <div class="filtros-acciones">
         <button type="button" id="btn-todo" class="btn-ver-todo">SELECCIONAR TODO</button>
@@ -70,6 +87,7 @@
   </div>
 
   <script src="../js/data.js"></script>
+  <script src="../js/filtros-movil.js"></script>
   <script src="../js/galeria-util.js"></script>
   <script src="../js/admin-gate.js"></script>
   <script src="../js/exportar.js"></script>

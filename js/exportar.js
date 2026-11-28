@@ -72,7 +72,7 @@ function poblarFiltrosExportar() {
     }).join('');
 
   document.getElementById('filtro-disponibilidad').innerHTML =
-    '<option value="">Todas</option><option value="true">Disponibles</option><option value="false">No disponibles</option>';
+    '<option value="">Ambos</option><option value="true">Disponible</option><option value="false">Vendido</option>';
 
   poblarSelectTamano(document.getElementById('filtro-tamano'));
 }

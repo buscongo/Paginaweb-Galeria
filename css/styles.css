@@ -2449,6 +2449,9 @@ body.con-barra-exportar { padding-bottom: 84px; }
 
   .filtros-acciones .btn-ver-todo { display: none; }
 
+  /* en exportación «Seleccionar todo» sí hace falta */
+  .filtros-exportar .filtros-acciones .btn-ver-todo { display: inline-flex; }
+
   .filtros-acciones .btn-cancelar {
     flex: 0 0 auto;
     padding-left: 0;
@@ -2576,3 +2579,54 @@ body.con-barra-exportar { padding-bottom: 84px; }
 }
 
 .aviso-admin.visible { opacity: 1; }
+
+/* ===== Edición masiva: bloque por obra ===== */
+.obra-masiva {
+  margin-bottom: 1rem;
+  padding: 0.9rem 1rem;
+  background: #262626;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.obra-masiva.con-cambio {
+  border-color: rgba(255, 255, 255, 0.55);
+}
+
+.obra-masiva-titulo {
+  margin: 0 0 0.7rem;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+}
+
+.obra-masiva .campo {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.obra-masiva .campo select,
+.obra-masiva .campo input,
+.obra-masiva .campo textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.28rem;
+  padding: 0.45rem 0.55rem;
+  background: #1d1d1d;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.obra-masiva-nota {
+  margin: 0;
+  min-height: 0.8rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}

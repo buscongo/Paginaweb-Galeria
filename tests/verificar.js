@@ -170,7 +170,8 @@ check('la tarjeta se acerca en z al pasar el mouse (escala, no desplazamiento)',
 check('en móvil los filtros se abren con un botón «Filtrar»',
   /id="filtros-toggle"/.test(leer('html/index.html')) && /id="filtros-panel"/.test(leer('html/serie.html')) &&
   /\.filtros-selects\.abierto/.test(leer('css/styles.css')) &&
-  /filtros-toggle/.test(leer('js/gallery.js')));
+  /filtros-toggle/.test(leer('js/filtros-movil.js')) &&
+  /filtros-movil\.js/.test(leer('html/index.html')) && /filtros-movil\.js/.test(leer('html/exportar.html')));
 check('el precio no sale en la respuesta pública',
   /delete copia\.precio/.test(leer('server.js')) &&
   /autenticado\(req\) \? obras : obras\.map\(obraPublica\)/.test(leer('server.js')));
