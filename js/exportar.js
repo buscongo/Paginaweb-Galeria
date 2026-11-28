@@ -621,44 +621,181 @@ function abrirDocumento(html) {
   setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
 }
 
-/* ---------- Aviso de posibles typos en el nombre del documento ---------- */
+/* ---------- Aviso de posibles typos en el nombre del documento ----------
+
+   Diccionario propio: palabras del sitio (títulos, series), vocabulario de
+   pintura y palabras corrientes en español. Se compara sin tildes y se avisa
+   cuando una palabra está a una sola letra de distancia de otra conocida. */
+
+var VOCABULARIO_BASE = [
+  /* lo que suele escribir en el nombre */
+  'obra', 'obras', 'serie', 'series', 'coleccion', 'catalogo', 'seleccion',
+  'exposicion', 'exposiciones', 'muestra', 'portafolio', 'documento', 'andres',
+  'ramirez', 'ortiz', 'artista', 'galeria', 'museo', 'feria', 'bienal',
+  /* pintura */
+  'oleo', 'acrilico', 'tecnica', 'tecnica mixta', 'lienzo', 'canvas', 'tela',
+  'madera', 'papel', 'carbon', 'grafito', 'acuarela', 'tinta', 'pigmento',
+  'barniz', 'marco', 'bastidor', 'medidas', 'ancho', 'alto', 'centimetros',
+  'pintura', 'dibujo', 'grabado', 'collage', 'instalacion', 'escultura',
+  'disponible', 'vendido', 'vendida', 'reservado', 'precio', 'solicitud',
+  /* meses y palabras de fecha */
+  'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto',
+  'setiembre', 'septiembre', 'octubre', 'noviembre', 'diciembre', 'ano', 'anos',
+  /* corrientes en español */
+  'sobre', 'entre', 'desde', 'hasta', 'para', 'por', 'con', 'sin', 'los', 'las',
+  'del', 'una', 'uno', 'unos', 'unas', 'que', 'como', 'mas', 'muy', 'todo',
+  'todos', 'todas', 'parte', 'nuevo', 'nueva', 'grande', 'pequeno', 'pequena',
+  'azul', 'rojo', 'verde', 'amarillo', 'negro', 'blanco', 'gris', 'dorado',
+  'plata', 'tierra', 'cielo', 'nube', 'nubes', 'atardecer', 'amanecer', 'noche',
+  'dia', 'mar', 'playa', 'bosque', 'montana', 'ciudad', 'figura', 'retrato',
+  'autorretrato', 'rostro', 'cuerpo', 'memoria', 'tiempo', 'luz', 'sombra',
+  'color', 'textura', 'forma', 'espacio', 'silencio', 'paisaje', 'vestigio',
+  'selfie', 'exploradores', 'reflexion', 'reflexiones', 'proceso', 'tema',
+  'costa', 'rica', 'jose', 'san', 'temporal', 'salita', 'casa', 'estudio',
+  'rambar', 'galeria nacional', 'talentum', 'abra', 'croma', 'vitrina', 'islita',
+  'steinvorth', 'catalinas', 'museo de costa rica', 'ministerio', 'cultura'
+];
 
 var PALABRAS_NOMBRE = {
   'andres': 'Andrés',
   'andes': 'Andrés',
   'ramirez': 'Ramírez',
   'ortiz': 'Ortiz',
-  'serie': 'Serie',
   'coleccion': 'Colección',
+  'seleccion': 'Selección',
   'exposicion': 'Exposición',
-  'vestigio': 'Vestigio',
-  'nubes': 'Nubes',
-  'paisaje': 'Paisaje',
-  'exploradores': 'Exploradores'
+  'exposiciones': 'Exposiciones',
+  'catalogo': 'Catálogo',
+  'galeria': 'Galería',
+  'tecnica': 'Técnica',
+  'oleo': 'Óleo',
+  'acrilico': 'Acrílico',
+  'carbon': 'Carbón',
+  'ano': 'año',
+  'anos': 'años',
+  'mas': 'más',
+  'dia': 'día',
+  'dia': 'día',
+  'reflexion': 'Reflexión',
+  'reflexiones': 'Reflexiones',
+  'pequeno': 'Pequeño',
+  'pequena': 'Pequeña',
+  'montana': 'Montaña',
+  'jose': 'José',
+  'temporal': 'Temporal',
+  'nacional': 'Nacional'
 };
 
+/* Vocabulario vivo: lo que hay en el sitio + la base */
+var VOCAB = {};
+
+function normPalabra(txt) {
+  return String(txt || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9ñ]/g, '');
+}
+
+function cargarVocabulario() {
+  function sumar(frase, formaBuena) {
+    String(frase || '').split(/\s+/).forEach(function (w) {
+      var n = normPalabra(w);
+      if (n.length > 1 && !VOCAB[n]) VOCAB[n] = formaBuena || w;
+    });
+  }
+
+  VOCABULARIO_BASE.forEach(function (w) { sumar(w); });
+
+  /* títulos y series del catálogo */
+  (obrasExp || []).forEach(function (o) {
+    sumar(o.titulo);
+    var s = buscarSerie(o.serieId);
+    if (s && s.tema) sumar(s.tema);
+  });
+  (cacheSeries || []).forEach(function (s) { if (s.tema) sumar(s.tema); });
+}
+
+/* Distancia de edición limitada a 1 (incluye letras intercambiadas) */
+function aUnaLetra(a, b) {
+  if (a === b) return true;
+  if (Math.abs(a.length - b.length) > 1) return false;
+
+  var i = 0, j = 0, fallos = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { i++; j++; continue; }
+    if (++fallos > 1) return false;
+    if (a.length > b.length) { i++; }
+    else if (a.length < b.length) { j++; }
+    else if (a[i + 1] === b[j]) { i++; }          /* letra de más en a */
+    else if (a[i] === b[j + 1]) { j++; }          /* letra de más en b */
+    else { i++; j++; }                            /* letra cambiada */
+  }
+  return true;
+}
+
+function parecidaConVocabulario(palabra) {
+  var n = normPalabra(palabra);
+  if (!n || n.length < 4) return null;
+  if (VOCAB[n]) return null;
+  if (/\d/.test(palabra)) return null;
+
+  var mejor = null;
+  var primera = n.charAt(0);
+  for (var clave in VOCAB) {
+    if (!VOCAB.hasOwnProperty(clave)) continue;
+    if (Math.abs(clave.length - n.length) > 1) continue;
+    if (clave.charAt(0) !== primera) continue;    /* casi siempre empieza igual */
+    if (!aUnaLetra(n, clave)) continue;
+    /* manda la palabra del mismo largo: «Nubse» → «Nubes», no «Nube» */
+    if (!mejor || clave.length === n.length) {
+      mejor = VOCAB[clave];
+      if (clave.length === n.length) break;
+    }
+  }
+  return mejor;
+}
+
+/* Devuelve el nombre corregido, o null si no hay nada que avisar */
 function revisarNombrePDF(valor) {
   var original = String(valor || '');
-  var limpio = original.replace(/\s+/g, ' ').trim();
+  if (!original.trim()) return null;
 
-  /* palabras repetidas seguidas: «Nubes Nubes» → «Nubes» */
+  if (!Object.keys(VOCAB).length) cargarVocabulario();
+
+  /* espacios de más y palabras repetidas seguidas */
+  var limpio = original.replace(/\s+/g, ' ').trim();
   limpio = limpio.replace(/\b(\p{L}+)( \1\b)+/giu, '$1');
 
-  /* palabras conocidas sin tilde */
   limpio = limpio.split(' ').map(function (palabra) {
-    var clave = palabra.toLowerCase().replace(/[.,;:!?¡¿"']/g, '');
-    if (PALABRAS_NOMBRE[clave]) {
-      var bien = PALABRAS_NOMBRE[clave];
-      /* si lo único que cambia es la mayúscula, no vale la pena avisar */
-      if (clave === bien.toLowerCase()) return palabra;
-      if (palabra === palabra.toUpperCase() && palabra.length > 2) return bien.toUpperCase();
-      return bien.charAt(0).toUpperCase() + bien.slice(1);
+    var limpia = palabra.replace(/[.,;:!?¡¿"']/g, '');
+    var clave = normPalabra(limpia);
+    if (!clave) return palabra;
+
+    /* tilde o forma conocida */
+    var buena = PALABRAS_NOMBRE[clave];
+    if (buena && clave === normPalabra(buena) && limpia !== buena) {
+      if (limpia === limpia.toUpperCase() && limpia.length > 2) return buena.toUpperCase();
+      return buena.charAt(0).toUpperCase() === limpia.charAt(0)
+        ? buena.charAt(0).toUpperCase() + buena.slice(1)
+        : buena;
     }
+
+    /* una letra de diferencia con una palabra del sitio: casi seguro un typo */
+    var parecida = parecidaConVocabulario(limpia);
+    if (parecida) {
+      /* recupera la tilde si la conocemos */
+      parecida = PALABRAS_NOMBRE[normPalabra(parecida)] || parecida;
+      if (limpia.charAt(0) === limpia.charAt(0).toUpperCase()) {
+        return parecida.charAt(0).toUpperCase() + parecida.slice(1);
+      }
+      return parecida;
+    }
+
     return palabra;
   }).join(' ');
 
-  if (!limpio || limpio === original) return null;   // solo espacios o nada: no molestar
-
+  if (limpio === original) return null;
   return limpio.charAt(0).toUpperCase() + limpio.slice(1);
 }
 
@@ -667,7 +804,7 @@ function revisarNombre(valor) {
   if (!aviso) return;
 
   var sugerencia = revisarNombrePDF(valor);
-  if (!sugerencia || !String(valor).trim()) {
+  if (!sugerencia) {
     aviso.hidden = true;
     aviso.innerHTML = '';
     return;
