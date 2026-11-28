@@ -128,7 +128,7 @@ function render() {
 
     html += '<div class="serie-fila">';
     html += '<h3 class="serie-titulo">' +
-      '<label class="chk-serie" title="Seleccionar todas las obras de esta serie">' +
+      '<label class="chk-serie-label" title="Seleccionar todas las obras de esta serie">' +
         '<input type="checkbox" class="chk-serie-sel" data-serie="' + escaparHTML(serieId) + '"' +
           (todasMarcadas && lista.length ? ' checked' : '') + '>' +
         '<span class="chk-serie-texto">Serie: ' + escaparHTML(capitalizar(tema)) + '</span>' +

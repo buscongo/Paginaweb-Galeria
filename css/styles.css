@@ -2683,18 +2683,20 @@ body.con-barra-exportar { padding-bottom: 84px; }
 }
 
 /* Admin: casilla en la cabecera de cada serie */
-.chk-serie {
+.chk-serie-label {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   cursor: pointer;
+  max-width: 100%;
 }
 
-.chk-serie input {
+.chk-serie-label input {
   width: 0.95rem;
   height: 0.95rem;
   accent-color: #ffffff;
   cursor: pointer;
+  flex: 0 0 auto;
 }
 
 .chk-serie-texto {
