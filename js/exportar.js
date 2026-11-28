@@ -53,6 +53,9 @@ async function iniciarExportar() {
   document.getElementById('campo-nombre').addEventListener('keydown', function (e) {
     if (e.key === 'Enter') generarDocumento();
   });
+  document.getElementById('campo-nombre').addEventListener('input', function () {
+    revisarNombre(this.value);
+  });
 
   actualizarBarra();
 }
@@ -304,7 +307,9 @@ async function prepararImagenes(obras) {
     salida.grande[o.id] = await embeber(o.imagenMedium || o.imagen);
     salida.chico[o.id] = await embeber(o.imagen || o.imagenMedium);
   }
-  salida.retrato = await embeber('img/retrato_andres_hd.jpg');
+  /* el retrato del hero, el mismo de la portada del sitio */
+  salida.retrato = await embeber('img/retrato_hero_medium.jpg');
+  if (!salida.retrato) salida.retrato = await embeber('img/retrato_hero_thumb.jpg');
   return salida;
 }
 
@@ -396,7 +401,7 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
   var totalPaginas = plan.secciones.length;
 
   var hojas = plan.secciones.map(function (s) {
-    if (s.tipo === 'portada') return portada(nombre, total, fecha);
+    if (s.tipo === 'portada') return portada(nombre, total, fecha, imagenes.retrato);
     if (s.tipo === 'perfil') return hojaPerfil(opciones.perfil, imagenes.retrato);
     if (s.tipo === 'indice') {
       return hojaIndice(plan.ordenObras.slice(s.desde, s.desde + OBRAS_POR_INDICE),
@@ -441,11 +446,16 @@ function hojaPerfil(perfil, retrato) {
   '</section>';
 }
 
-function portada(nombre, total, fecha) {
+function portada(nombre, total, fecha, retrato) {
   return '<section class="hoja portada">' +
-    '<p class="portada-nombre">Andrés Ramírez Ortiz</p>' +
-    '<p class="portada-obra">Obra ' + escaparHTML(nombre) + '</p>' +
-    '<p class="portada-pie">' + total + (total === 1 ? ' obra' : ' obras') + ' · ' + fecha + '</p>' +
+    '<div class="portada-foto">' +
+      (retrato ? '<img src="' + retrato + '" alt="Andrés Ramírez Ortiz">' : '') +
+    '</div>' +
+    '<div class="portada-texto">' +
+      '<h1 class="portada-nombre">Andrés Ramírez Ortiz</h1>' +
+      '<p class="portada-obra">Obra ' + escaparHTML(nombre) + '</p>' +
+      '<p class="portada-pie">' + total + (total === 1 ? ' obra' : ' obras') + ' · ' + fecha + '</p>' +
+    '</div>' +
     '</section>';
 }
 
@@ -518,7 +528,7 @@ function estilosDocumento() {
   return [
     '@page { size: 1920px 1080px; margin: 0; }',
     '* { box-sizing: border-box; }',
-    'html, body { margin: 0; padding: 0; background: #2f2f2f; }',
+    'html, body { margin: 0; padding: 0; background: #bfbfbf; }',   /* gris claro detrás de las hojas */
     'body { font-family: "GFS Didot", Georgia, "Times New Roman", serif; color: #111; padding-top: 56px; }',
     '.barra { position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 10; display: flex;',
     '  align-items: center; gap: 24px; padding: 0 24px; background: #111; color: #fff; font-size: 14px; }',
@@ -528,24 +538,29 @@ function estilosDocumento() {
     '  font-family: inherit; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }',
     '.hoja { width: 1920px; height: 1080px; position: relative; overflow: hidden; background: #fff;',
     '  margin: 0 auto; display: flex; }',
-    '.portada { background: #4a4a4a; color: #fff; flex-direction: column; justify-content: center;',
-    '  padding: 0 160px; gap: 26px; }',
-    '.portada-nombre { margin: 0; font-size: 92px; line-height: 1.04; letter-spacing: .02em; text-transform: uppercase; }',
-    '.portada-obra { margin: 0; font-size: 44px; opacity: .9; }',
-    '.portada-pie { margin: 24px 0 0; font-size: 22px; opacity: .65; letter-spacing: .12em; text-transform: uppercase; }',
-    '.perfil-hoja { display: grid; grid-template-columns: 640px 1280px; }',
-    '.perfil-foto-pdf { width: 640px; height: 1080px; background: #3f3f3f; overflow: hidden; }',
-    '.perfil-foto-pdf img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; }',
-    '.perfil-texto { width: 1280px; padding: 64px 0 54px; display: flex; flex-direction: column; }',
+    /* portada y presentación con el diseño de la página de inicio */
+    '.portada { background: #343434; color: #fff; display: grid; grid-template-columns: 884px 1036px; }',
+    '.portada-foto { grid-column: 1; background: #232323; overflow: hidden; }',
+    '.portada-foto img { width: 100%; height: 100%; object-fit: cover; object-position: 35% 45%; display: block; }',
+    '.portada-texto { grid-column: 2; background: #232323; padding: 0 96px; display: flex;',
+    '  flex-direction: column; justify-content: center; gap: 22px; }',
+    '.portada-nombre { margin: 0; font-size: 66px; font-weight: 400; line-height: 1.1;',
+    '  letter-spacing: .05em; text-transform: uppercase; }',
+    '.portada-obra { margin: 0; font-size: 40px; opacity: .92; }',
+    '.portada-pie { margin: 26px 0 0; font-size: 19px; opacity: .6; letter-spacing: .16em; text-transform: uppercase; }',
+    '.perfil-hoja { display: grid; grid-template-columns: 640px 1280px; background: #343434; color: #fff; }',
+    '.perfil-foto-pdf { width: 640px; height: 1080px; background: #232323; overflow: hidden; }',
+    '.perfil-foto-pdf img { width: 100%; height: 100%; object-fit: cover; object-position: 35% 45%; display: block; }',
+    '.perfil-texto { width: 1280px; padding: 64px 0 54px; display: flex; flex-direction: column; background: #232323; }',
     '.perfil-nombre-pdf { margin: 0; padding: 0 60px 30px; font-size: 52px; font-weight: 400;',
-    '  letter-spacing: .04em; line-height: 1.05; text-transform: uppercase; }',
+    '  letter-spacing: .05em; line-height: 1.05; text-transform: uppercase; }',
     '.perfil-columnas { display: grid; grid-template-columns: 640px 640px; }',
     '.perfil-col { padding: 0 52px; }',
     '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
     '  opacity: .45; font-weight: 400; }',
-    '.perfil-col p { margin: 0; font-size: 17px; line-height: 1.52; }',
+    '.perfil-col p { margin: 0; font-size: 17px; line-height: 1.62; color: #e6e6e6; }',
     '.perfil-col ul { margin: 0; padding: 0; list-style: none; }',
-    '.perfil-col li { font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid #e8e8e8; }',
+    '.perfil-col li { font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, .16); color: #dcdcdc; }',
     '.perfil-col li:first-child { border-top: none; padding-top: 0; }',
     '.obra-imagen { width: 1280px; height: 1080px; display: flex; align-items: center; justify-content: center;',
     '  background: #ececec; padding: 40px; }',
@@ -603,4 +618,71 @@ function abrirDocumento(html) {
     alert('El navegador bloqueó la pestaña. Permití las ventanas emergentes para ver el documento.');
   }
   setTimeout(function () { URL.revokeObjectURL(url); }, 60000);
+}
+
+/* ---------- Aviso de posibles typos en el nombre del documento ---------- */
+
+var PALABRAS_NOMBRE = {
+  'andres': 'Andrés',
+  'andes': 'Andrés',
+  'ramirez': 'Ramírez',
+  'ortiz': 'Ortiz',
+  'serie': 'Serie',
+  'coleccion': 'Colección',
+  'exposicion': 'Exposición',
+  'vestigio': 'Vestigio',
+  'nubes': 'Nubes',
+  'paisaje': 'Paisaje',
+  'exploradores': 'Exploradores'
+};
+
+function revisarNombrePDF(valor) {
+  var original = String(valor || '');
+  var limpio = original.replace(/\s+/g, ' ').trim();
+
+  /* palabras repetidas seguidas: «Nubes Nubes» → «Nubes» */
+  limpio = limpio.replace(/\b(\p{L}+)( \1\b)+/giu, '$1');
+
+  /* palabras conocidas sin tilde */
+  limpio = limpio.split(' ').map(function (palabra) {
+    var clave = palabra.toLowerCase().replace(/[.,;:!?¡¿"']/g, '');
+    if (PALABRAS_NOMBRE[clave]) {
+      var bien = PALABRAS_NOMBRE[clave];
+      /* si lo único que cambia es la mayúscula, no vale la pena avisar */
+      if (clave === bien.toLowerCase()) return palabra;
+      if (palabra === palabra.toUpperCase() && palabra.length > 2) return bien.toUpperCase();
+      return bien.charAt(0).toUpperCase() + bien.slice(1);
+    }
+    return palabra;
+  }).join(' ');
+
+  if (!limpio || limpio === original) return null;   // solo espacios o nada: no molestar
+
+  return limpio.charAt(0).toUpperCase() + limpio.slice(1);
+}
+
+function revisarNombre(valor) {
+  var aviso = document.getElementById('modal-nombre-aviso');
+  if (!aviso) return;
+
+  var sugerencia = revisarNombrePDF(valor);
+  if (!sugerencia || !String(valor).trim()) {
+    aviso.hidden = true;
+    aviso.innerHTML = '';
+    return;
+  }
+
+  aviso.hidden = false;
+  aviso.innerHTML = '¿Quisiste decir «' + escaparHTML(sugerencia) + '»? ' +
+    '<button type="button" class="aviso-usar" id="aviso-usar">Usar esa versión</button>';
+
+  var btn = document.getElementById('aviso-usar');
+  if (btn) {
+    btn.addEventListener('click', function () {
+      var campo = document.getElementById('campo-nombre');
+      campo.value = sugerencia;
+      revisarNombre(sugerencia);
+      campo.focus();
+    });
+  }
 }
