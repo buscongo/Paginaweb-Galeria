@@ -88,8 +88,23 @@ function renderizarDetalle(o) {
           '',
           'Gracias,'
         ];
-        window.location.href = 'mailto:buscongo@gmail.com?subject=' + encodeURIComponent(asunto) +
-          '&body=' + encodeURIComponent(lineas.join('\n'));
+        var cuerpo = encodeURIComponent(lineas.join('\n'));
+        var asuntoCod = encodeURIComponent(asunto);
+
+        /* Gmail en el navegador: funciona aunque la computadora no tenga
+           un programa de correo configurado. */
+        var gmail = 'https://mail.google.com/mail/?view=cm&fs=1' +
+          '&to=buscongo@gmail.com&su=' + asuntoCod + '&body=' + cuerpo;
+        var mailto = 'mailto:buscongo@gmail.com?subject=' + asuntoCod + '&body=' + cuerpo;
+
+        /* deja listo el enlace alternativo dentro de la ventana */
+        var alt = document.getElementById('solicitud-mailto');
+        if (alt) alt.href = mailto;
+
+        var abierta = window.open(gmail, '_blank', 'noopener');
+        if (!abierta) {
+          window.location.href = mailto;   /* si el navegador bloquea la pestaña */
+        }
         cerrarSolicitud();
       });
     }
