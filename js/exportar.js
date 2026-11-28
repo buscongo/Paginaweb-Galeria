@@ -408,7 +408,7 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
 
   var hojas = plan.secciones.map(function (s) {
     if (s.tipo === 'portada') return portada(nombre, total, fecha, imagenes.retrato);
-    if (s.tipo === 'perfil') return hojaPerfil(opciones.perfil, imagenes.retrato);
+    if (s.tipo === 'perfil') return hojaPerfil(opciones.perfil);
     if (s.tipo === 'indice') {
       return hojaIndice(plan.ordenObras.slice(s.desde, s.desde + OBRAS_POR_INDICE),
         imagenes.chico, plan.paginaDeObra, s.numero, totalPaginas);
@@ -431,19 +431,16 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
 }
 
 /* Hoja de perfil: retrato en un tercio, statement y curriculum en los dos tercios */
-function hojaPerfil(perfil, retrato) {
+function hojaPerfil(perfil) {
   var p = perfil || {};
   var nombre = p.nombre || 'Andrés Ramírez Ortiz';
   var statement = p.statement || '';
   var curriculum = p.curriculum || [];
   var lis = curriculum.map(function (x) { return '<li>' + escaparHTML(x) + '</li>'; }).join('');
 
+  /* sin foto ni nombre: solo los dos textos, uno al lado del otro y centrados */
   return '<section class="hoja perfil-hoja">' +
-    '<div class="perfil-foto-pdf">' +
-      (retrato ? '<img src="' + retrato + '" alt="' + escaparHTML(nombre) + '">' : '') +
-    '</div>' +
     '<div class="perfil-texto">' +
-      '<h1 class="perfil-nombre-pdf">' + escaparHTML(nombre) + '</h1>' +
       '<div class="perfil-columnas">' +
         '<div class="perfil-col"><h2>Sobre mi obra.</h2><p>' + escaparHTML(statement) + '</p></div>' +
         '<div class="perfil-col"><h2>Trayectoria, 2021 al presente.</h2><ul>' + lis + '</ul></div>' +
@@ -556,14 +553,10 @@ function estilosDocumento() {
     '  letter-spacing: .05em; text-transform: uppercase; }',
     '.portada-obra { margin: 0; font-size: 40px; opacity: .92; }',
     '.portada-pie { margin: 26px 0 0; font-size: 19px; opacity: .6; letter-spacing: .16em; text-transform: uppercase; }',
-    '.perfil-hoja { display: grid; grid-template-columns: 640px 1280px; background: #343434; color: #fff; }',
-    '.perfil-foto-pdf { width: 640px; height: 1080px; background: #232323; overflow: hidden; }',
-    '.perfil-foto-pdf img { width: 100%; height: 100%; object-fit: cover; object-position: 35% 45%; display: block; }',
-    '.perfil-texto { width: 1280px; padding: 64px 0 54px; display: flex; flex-direction: column; background: #232323; }',
-    '.perfil-nombre-pdf { margin: 0; padding: 0 60px 30px; font-size: 52px; font-weight: 400;',
-    '  letter-spacing: .05em; line-height: 1.05; text-transform: uppercase; }',
-    '.perfil-columnas { display: grid; grid-template-columns: 640px 640px; }',
-    '.perfil-col { padding: 0 52px; }',
+    '.perfil-hoja { background: #343434; color: #fff; display: flex; align-items: center; justify-content: center; }',
+    '.perfil-texto { width: 1920px; padding: 90px 150px; display: flex; align-items: center; justify-content: center; background: #232323; }',
+    '.perfil-columnas { display: grid; grid-template-columns: 700px 700px; gap: 90px; align-content: center; }',
+    '.perfil-col { padding: 0; }',
     '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
     '  opacity: .45; font-weight: 400; }',
     '.perfil-col p { margin: 0; font-size: 17px; line-height: 1.62; color: #e6e6e6; }',
