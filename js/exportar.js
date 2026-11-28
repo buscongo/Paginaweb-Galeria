@@ -569,15 +569,14 @@ function estilosDocumento() {
     /* el corte entre columnas cae a un tercio del ancho de la hoja */
     '.perfil-columnas { display: grid; grid-template-columns: 640px 1280px; width: 100%; align-content: center; }',
     '.perfil-col { padding: 0; }',
-    '.perfil-col-obra { padding: 0 64px 0 40px; }',
-    '.perfil-col-obra p, .perfil-col-obra h2 { max-width: 394px; margin-left: auto; margin-right: 0; }',
+    '.perfil-col-obra { padding: 0 40px 0 60px; text-align: left; }',
+    /* ligeramente más angosto que el tercio que ocupa la columna */
+    '.perfil-col-obra p, .perfil-col-obra h2 { max-width: 560px; margin-left: 0; margin-right: auto; text-align: left; }',
     '.perfil-col-trayectoria { padding: 0 120px 0 64px; }',
     '.perfil-col h2 { margin: 0 0 14px; font-size: 15px; letter-spacing: .2em; text-transform: uppercase;',
     '  opacity: .45; font-weight: 400; }',
     '.perfil-col p { margin: 0 0 10px; font-size: 17px; line-height: 1.62; color: #e6e6e6; }',
     '.perfil-col p:last-child { margin-bottom: 0; }',
-    '.perfil-col-obra { text-align: right; }',
-    '.perfil-col-obra h2 { text-align: right; }',
     '.perfil-col ul { margin: 0; padding: 0; list-style: none; }',
     '.perfil-col li { display: grid; grid-template-columns: 118px 1fr; gap: 14px; align-items: baseline;',
     '  font-size: 14.5px; line-height: 1.4; padding: 6px 0; border-top: 1px solid rgba(255, 255, 255, .16); color: #dcdcdc; }',
