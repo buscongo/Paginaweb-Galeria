@@ -1936,7 +1936,9 @@ footer .footer-email {
 
 .home-cuerpo > #contenido-obras { min-width: 0; padding-bottom: 0; }
 
-/* la última fila no deja aire extra: la columna termina donde termina la galería */
+/* la última sección y su última fila no dejan aire extra:
+   la columna lateral termina al ras de la última hilera de obras */
+.home-cuerpo > #contenido-obras > .serie-section:last-child { margin-bottom: 0; }
 .home-cuerpo > #contenido-obras > .serie-fila:last-child { margin-bottom: 0; }
 
 /* el bloque con el marco queda clavado justo bajo el menú y no se mueve */
