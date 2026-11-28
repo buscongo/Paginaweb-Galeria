@@ -1934,7 +1934,10 @@ footer .footer-email {
   align-items: start;
 }
 
-.home-cuerpo > #contenido-obras { min-width: 0; }
+.home-cuerpo > #contenido-obras { min-width: 0; padding-bottom: 0; }
+
+/* la última fila no deja aire extra: la columna termina donde termina la galería */
+.home-cuerpo > #contenido-obras > .serie-fila:last-child { margin-bottom: 0; }
 
 /* el bloque con el marco es el que se pega; el aside solo ocupa la columna */
 .obra-lateral-pegajoso {
