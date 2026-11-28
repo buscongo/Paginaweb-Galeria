@@ -2299,6 +2299,16 @@ body.con-barra-exportar { padding-bottom: 84px; }
 
 /* ===== En móvil caben tres tarjetas a lo ancho ===== */
 @media (max-width: 899px) {
+  .serie-section { padding: 0.9rem 0.75rem; margin-bottom: 0.9rem; }
+  .serie-section .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+    margin-top: 0.6rem !important;
+  }
+  .series-title { font-size: 0.85rem; }
+}
+
+@media (max-width: 899px) {
   .galeria-serie {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.5rem;

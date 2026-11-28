@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', async function () {
   cacheObras = await obtenerObras();
   cachearNuevas(cacheObras);
 
+  document.body.classList.add('ver-todo-activo');
   renderizarObras(cacheObras);
   renderizarTabsHome(cacheObras);
 
@@ -162,44 +163,7 @@ function renderizarObras(obras) {
   contenedor.innerHTML = '';
 
   var filtradas = aplicarFiltros(obras);
-  var modoVerdadero = document.body.classList.contains('ver-todo-activo');
-
-  if (modoVerdadero) {
-    renderizarSeriesColapsablesConFiltros(filtradas);
-  } else {
-    renderizarGaleriaSeriesConFiltros(filtradas);
-  }
-
-  // Obras sin serie
-  var sinSerie = filtradas.filter(function (x) {
-    return !cacheSeries.some(function (s) { return s.id === x.serieId; });
-  });
-  if (sinSerie.length > 0) {
-    if (modoVerdadero) {
-      var seccionSin = document.createElement('section');
-      seccionSin.className = 'serie-section collapsible';
-      seccionSin.id = 'serie-sin-serie';
-      var headerSin = document.createElement('div');
-      headerSin.className = 'series-header';
-      headerSin.innerHTML = '<h2 class="series-title">' + t('sinSerie') + '</h2><button class="btn-show-more" onclick="toggleSerie(this)">Mostrar más</button>';
-      var gridSin = document.createElement('div');
-      gridSin.className = 'grid';
-      gridSin.style.display = 'grid';
-      gridSin.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
-      gridSin.style.gap = '1rem';
-      gridSin.style.marginTop = '1rem';
-      sinSerie.forEach(function (o) {
-        o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
-        gridSin.appendChild(crearTarjetaObra(o, false, false));
-      });
-      seccionSin.appendChild(headerSin);
-      seccionSin.appendChild(gridSin);
-      contenedor.appendChild(seccionSin);
-    } else {
-      var fila = crearFilaSerie(t('sinSerie'), sinSerie);
-      contenedor.appendChild(fila);
-    }
-  }
+  renderizarSeriesColapsablesConFiltros(filtradas);
 
   if (filtradas.length === 0) {
     contenedor.innerHTML = '<p class="mensaje-vacio">' + t('sinResultadosFiltro') + '</p>';
@@ -219,12 +183,12 @@ function renderizarSeriesColapsablesConFiltros(obras) {
     if (obrasSerie.length === 0) return;
 
     var seccion = document.createElement('section');
-    seccion.className = 'serie-section collapsible';
+    seccion.className = 'serie-section';
     seccion.id = 'serie-' + serie.tema.toLowerCase().replace(/\s+/g, '-');
 
     var header = document.createElement('div');
     header.className = 'series-header';
-    header.innerHTML = '<h2 class="series-title">' + capitalizar(serie.tema) + '</h2><button class="btn-show-more" onclick="toggleSerie(this)">Mostrar más</button>';
+    header.innerHTML = '<h2 class="series-title">' + capitalizar(serie.tema) + '</h2>';
 
     var grid = document.createElement('div');
     grid.className = 'grid';
@@ -247,11 +211,11 @@ function renderizarSeriesColapsablesConFiltros(obras) {
   });
   if (sinSerie.length > 0) {
     var seccionSin = document.createElement('section');
-    seccionSin.className = 'serie-section collapsible';
+    seccionSin.className = 'serie-section';
     seccionSin.id = 'serie-sin-serie';
     var headerSin = document.createElement('div');
     headerSin.className = 'series-header';
-    headerSin.innerHTML = '<h2 class="series-title">' + t('sinSerie') + '</h2><button class="btn-show-more" onclick="toggleSerie(this)">Mostrar más</button>';
+    headerSin.innerHTML = '<h2 class="series-title">' + t('sinSerie') + '</h2>';
     var gridSin = document.createElement('div');
     gridSin.className = 'grid';
     gridSin.style.display = 'grid';
@@ -357,45 +321,6 @@ window.toggleSerie = function(button) {
     }, 300);
   }
 };
-
-// ===== Botón VER TODO =====
-var btnVerTodo = document.getElementById('btn-ver-todo');
-
-if (btnVerTodo) {
-  btnVerTodo.addEventListener('click', function() {
-    var isActivo = document.body.classList.contains('ver-todo-activo');
-
-    if (isActivo) {
-      document.body.classList.remove('ver-todo-activo');
-      this.textContent = 'VER TODO';
-      this.classList.remove('activo');
-      this.setAttribute('aria-pressed', 'false');
-
-      var secciones = document.querySelectorAll('.serie-section');
-      secciones.forEach(function(sec) {
-        sec.classList.remove('expanded');
-        setTimeout(function() {
-          sec.classList.add('collapsed');
-        }, 300);
-      });
-    } else {
-      document.body.classList.add('ver-todo-activo');
-      this.textContent = 'VER menos';
-      this.classList.add('activo');
-      this.setAttribute('aria-pressed', 'true');
-
-      var secciones = document.querySelectorAll('.serie-section');
-      secciones.forEach(function(sec) {
-        sec.classList.remove('collapsed');
-        setTimeout(function() {
-          sec.classList.add('expanded');
-        }, 300);
-      });
-    }
-
-    renderizarObras(cacheObras);
-  });
-}
 
 // ===== Filters: años, disponibilidad, tamaño ===
 

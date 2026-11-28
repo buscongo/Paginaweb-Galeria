@@ -144,6 +144,11 @@ check('la barra lateral muestra solo las obras nuevas',
 check('no queda marca de «Actualizado» en las tarjetas',
   /var selloActualizado = ''/.test(leer('js/gallery.js')) &&
   !/sello-actualizado">Actualizado/.test(leer('js/gallery.js')));
+check('la home muestra siempre la rejilla de todas las series (sin carruseles)',
+  !/btn-ver-todo/.test(leer('html/index.html')) &&
+  /renderizarSeriesColapsablesConFiltros\(filtradas\)/.test(leer('js/home.js')) &&
+  !/renderizarGaleriaSeriesConFiltros\(filtradas\)/.test(leer('js/home.js')) &&
+  !/btn-show-more/.test(leer('js/home.js')));
 check('en móvil no hay VER TODO y «Limpiar filtros» va a la izquierda',
   /\.filtros-acciones \.btn-ver-todo \{ display: none; \}/.test(leer('css/styles.css')) &&
   /\.filtros-acciones \{\s*justify-content: flex-start/.test(leer('css/styles.css')));
