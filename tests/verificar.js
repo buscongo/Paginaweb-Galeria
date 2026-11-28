@@ -132,7 +132,7 @@ check('existe el retrato de la home (3 tamaños)',
 check('el hero deja solo el nombre y el statement; la trayectoria pasa al pie',
   /class="home-perfil"/.test(leer('html/index.html')) &&
   /<h2>Sobre mi obra\.<\/h2>/.test(leer('html/index.html')) &&
-  /pie-trayectoria[\s\S]{0,400}Trayectoria, 2020 al presente\./.test(leer('html/index.html')) &&
+  /pie-trayectoria[\s\S]{0,400}Trayectoria, 2021 al presente\./.test(leer('html/index.html')) &&
   /perfil-bloque p \{[\s\S]{0,120}max-width: 22rem/.test(leer('css/styles.css')));
 check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
