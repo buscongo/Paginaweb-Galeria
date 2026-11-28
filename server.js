@@ -139,6 +139,8 @@ app.use('/js', express.static('js'));
 function obraPublica(obra) {
   var copia = JSON.parse(JSON.stringify(obra));
   delete copia.imagenHD;
+  delete copia.precio;      // el precio solo se pide por correo o se ve en el admin
+  delete copia.factorPrecioSerie;
   if (Array.isArray(copia.detalles)) {
     copia.detalles.forEach(function (d) {
       if (!d) return;

@@ -144,6 +144,9 @@ check('la barra lateral muestra solo las obras nuevas',
 check('no queda marca de «Actualizado» en las tarjetas',
   /var selloActualizado = ''/.test(leer('js/gallery.js')) &&
   !/sello-actualizado">Actualizado/.test(leer('js/gallery.js')));
+check('el precio no sale en la respuesta pública',
+  /delete copia\.precio/.test(leer('server.js')) &&
+  /autenticado\(req\) \? obras : obras\.map\(obraPublica\)/.test(leer('server.js')));
 check('la ficha abre la ventana de solicitud de precio con asunto prellenado',
   /id="solicitud-overlay"/.test(leer('html/pintura.html')) &&
   /Solicito el precio de la obra: /.test(leer('js/pintura.js')) &&
