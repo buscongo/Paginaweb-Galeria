@@ -2687,3 +2687,12 @@ body.con-barra-exportar { padding-bottom: 84px; }
 }
 
 .obra-masiva-fotos:hover { color: #ffffff; }
+
+/* Aviso bajo el botón de solicitud de precio */
+.solicitud-ayuda {
+  margin: 0.7rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.62);
+  text-align: center;
+}
