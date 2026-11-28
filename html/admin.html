@@ -33,6 +33,8 @@
       <a href="exportar.html" class="btn-admin">Exportar PDF</a>
     </div>
 
+    <p id="aviso-admin" class="aviso-admin" hidden></p>
+
     <!-- Panel de obras agrupadas por serie -->
     <section id="panel-editar" class="panel-editar" hidden>
       <div class="filtros-barra">
@@ -45,6 +47,12 @@
           <label class="campo-check"><input type="checkbox" id="chk-archivadas"> Ver archivadas</label>
         </div>
       </div>
+      <div id="barra-seleccion" class="barra-seleccion" hidden>
+        <span id="seleccion-cuenta" class="seleccion-cuenta">0 seleccionadas</span>
+        <button type="button" class="btn btn-primario" id="btn-editar-masivo">Editar seleccionadas</button>
+        <button type="button" class="btn btn-cancelar" id="btn-limpiar-seleccion">Quitar selección</button>
+      </div>
+
       <div id="obras-por-serie"></div>
     </section>
   </main>

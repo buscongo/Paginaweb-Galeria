@@ -57,7 +57,9 @@ function textoTamano(obra) {
 function pintarLateral(lista) {
   /* En móvil la barra se convierte en la primera sección y muestra solo lo último subido */
   var esMovil = window.matchMedia('(max-width: 899px)').matches;
-  if (esMovil && lista && lista.length > 1) lista = lista.slice(0, 1);
+  /* Solo las más nuevas: tres en escritorio, una en móvil */
+  var tope = esMovil ? 1 : 3;
+  if (lista && lista.length > tope) lista = lista.slice(0, tope);
 
   var caja = document.getElementById('obra-lateral');
   var cont = document.getElementById('obra-lateral-lista');
@@ -78,15 +80,18 @@ function pintarLateral(lista) {
 
   cont.innerHTML = lista.map(function (item) {
     var o = item.obra;
-    var enlace = 'pintura.html?id=' + encodeURIComponent(o.id);
-    var img = o.imagenMedium || o.imagen || '';
-    var partes = [textoTamano(o), textoDisponibilidad(o)].filter(Boolean).join(' · ');
+    var serie = buscarSerie(o.serieId);
+    var nombreSerie = serie ? t('prefijoSerie') + capitalizar(serie.tema) : t('sinSerie');
+    var img = o.imagen
+      ? '<img class="tarjeta-imagen" src="' + escaparHTML(o.imagen) + '" alt="' + escaparHTML(o.titulo || 'Obra') + '" loading="lazy" decoding="async">'
+      : '<div class="tarjeta-imagen sin-imagen">' + t('sinImagen') + '</div>';
+    var punto = o.disponible ? '' : '<span class="disponibilidad-indicator Rojo"></span>';
 
-    return '<a class="lateral-item" href="' + enlace + '">' +
-      (img ? '<img class="lateral-img" src="' + escaparHTML(img) + '" alt="' +
-        escaparHTML(o.titulo || 'Obra') + '" loading="lazy" decoding="async">' : '') +
-      '<span class="lateral-nombre">' + escaparHTML(o.titulo || 'Sin título') + '</span>' +
-      (partes ? '<span class="lateral-datos">' + escaparHTML(partes) + '</span>' : '') +
+    return '<a class="tarjeta-obra lateral-tarjeta" href="pintura.html?id=' + encodeURIComponent(o.id) + '">' +
+      img +
+      '<div class="tarjeta-info"><h3>' + escaparHTML(o.titulo || 'Sin título') + '</h3>' +
+      '<div class="tarjeta-meta"><span class="serie-nombre">' + escaparHTML(nombreSerie) + '</span></div></div>' +
+      punto +
     '</a>';
   }).join('');
 

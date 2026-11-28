@@ -137,13 +137,19 @@ check('el hero deja solo el nombre y el statement; la trayectoria pasa al pie',
 check('la home incluye la barra lateral de obra',
   /id="obra-lateral"/.test(leer('html/index.html')) && /js\/obra-lateral\.js/.test(leer('html/index.html')));
 check('la barra lateral muestra solo las obras nuevas',
-  /imagenMedium/.test(leer('js/obra-lateral.js')) &&
+  /tarjeta-imagen/.test(leer('js/obra-lateral.js')) &&
   /var subida = fechaMilisegundos\(o\.fechaRegistro\)/.test(leer('js/obra-lateral.js')) &&
   !/fechaModificacion/.test(leer('js/obra-lateral.js')) &&
   !/etiquetaLateral/.test(leer('js/obra-lateral.js')));
 check('no queda marca de «Actualizado» en las tarjetas',
   /var selloActualizado = ''/.test(leer('js/gallery.js')) &&
   !/sello-actualizado">Actualizado/.test(leer('js/gallery.js')));
+check('el admin permite editar varias obras y vuelve con los filtros',
+  /chk-obra-sel/.test(leer('js/admin.js')) && /btn-editar-masivo/.test(leer('html/admin.html')) &&
+  /function guardarFiltros/.test(leer('js/admin.js')) && /function restaurarFiltros/.test(leer('js/admin.js')) &&
+  /idsParam/.test(leer('js/editar.js')) && /function guardarMasivo/.test(leer('js/editar.js')));
+check('el filtro de años del admin no incluye el cero',
+  /Number\(o\.anio\) > 0/.test(leer('js/admin.js')));
 check('la home muestra siempre la rejilla de todas las series (sin carruseles)',
   !/btn-ver-todo/.test(leer('html/index.html')) &&
   /renderizarSeriesColapsablesConFiltros\(filtradas\)/.test(leer('js/home.js')) &&
@@ -186,7 +192,7 @@ check('el pie de página lleva los datos de contacto en las tres páginas públi
 check('en móvil la barra lateral es la sección Nueva Obra con una sola obra',
   /max-width: 899px\)[\s\S]{0,200}\.obra-lateral \{\s*position: static/.test(leer('css/styles.css')) &&
   /matchMedia\('\(max-width: 899px\)'\)/.test(leer('js/obra-lateral.js')) &&
-  /lista = lista\.slice\(0, 1\)/.test(leer('js/obra-lateral.js')));
+  /var tope = esMovil \? 1 : 3/.test(leer('js/obra-lateral.js')));
 
 check('los filtros llevan título y la disponibilidad ofrece Disponible, Vendido y Ambos',
   /class="filtro-etiqueta">Disponibilidad</.test(leer('html/index.html')) &&
@@ -219,10 +225,11 @@ check('la barra lateral va dentro de la columna central, bajo los filtros',
   /\.home-cuerpo \{/.test(leer('css/styles.css')) &&
   /position: sticky/.test(leer('css/styles.css')) &&
   /home-cuerpo[\s\S]{0,200}obra-lateral/.test(leer('html/index.html').replace(/\r/g, '')));
-check('la barra lateral acumula las obras del último mes',
+check('la barra lateral muestra como máximo las tres obras más nuevas',
   /function obrasRecientes/.test(leer('js/obra-lateral.js')) &&
   /obra-lateral-lista/.test(leer('html/index.html')) &&
-  /lateral-item/.test(leer('js/obra-lateral.js')));
+  /lateral-tarjeta/.test(leer('js/obra-lateral.js')) &&
+  /lista = lista\.slice\(0, tope\)/.test(leer('js/obra-lateral.js')));
 check('el PDF trae una hoja de perfil antes del índice',
   /function hojaPerfil/.test(leer('js/exportar.js')) &&
   /\{ tipo: 'portada' \}, \{ tipo: 'perfil' \}/.test(leer('js/exportar.js')) &&

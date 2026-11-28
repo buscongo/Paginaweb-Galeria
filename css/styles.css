@@ -2459,3 +2459,117 @@ body.con-barra-exportar { padding-bottom: 84px; }
     margin: 0 0 0.05rem;
   }
 }
+
+/* ===== Admin: selección múltiple de obras ===== */
+.chk-seleccion {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+}
+
+.chk-seleccion input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: #ffffff;
+  cursor: pointer;
+}
+
+.barra-seleccion {
+  position: sticky;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 1rem;
+  padding: 0.7rem 1rem;
+  background: #1d1d1d;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.seleccion-cuenta {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+/* ===== Edición masiva ===== */
+.campo-masivo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.campo-masivo select,
+.campo-masivo input[type="number"],
+.campo-masivo textarea {
+  padding: 0.5rem 0.6rem;
+  background: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.campo-masivo select:disabled,
+.campo-masivo input:disabled,
+.campo-masivo textarea:disabled {
+  opacity: 0.4;
+}
+
+/* ===== Barra lateral: tarjetas con el diseño de la portada ===== */
+.obra-lateral-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.lateral-tarjeta {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.lateral-tarjeta .tarjeta-imagen {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.lateral-tarjeta .tarjeta-info {
+  padding: 0.45rem 0.1rem 0.1rem;
+}
+
+.lateral-tarjeta .tarjeta-info h3 {
+  font-size: 0.78rem;
+}
+
+.lateral-tarjeta .tarjeta-meta .serie-nombre {
+  font-size: 0.62rem;
+}
+
+.aviso-admin {
+  margin: 0 0 1rem;
+  padding: 0.6rem 0.9rem;
+  background: #1d1d1d;
+  border-left: 3px solid #ffffff;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.aviso-admin.visible { opacity: 1; }

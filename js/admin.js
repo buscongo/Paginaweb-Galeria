@@ -2,6 +2,8 @@
    Dos acciones: Editar (obras por serie, como la home) y Subir obra (subir.html). */
 
 var editando = false;
+var SELECCION = {};        // id → true
+var CLAVE_FILTROS = 'adminFiltros';
 
 document.addEventListener('DOMContentLoaded', function () {
   MODO = 'admin';
@@ -35,7 +37,14 @@ async function iniciar() {
   });
 
   var p = new URLSearchParams(window.location.search);
-  if (p.get('ok')) alert('Obra guardada.');
+  if (p.get('ok')) {
+    // volver al listado con los mismos filtros que había antes de editar
+    if (!editando) alternarPanel();
+    mostrarAviso('Obra guardada.');
+  }
+
+  cablearSeleccion();
+  restaurarFiltros();
 }
 
 function alternarPanel() {
@@ -62,9 +71,11 @@ function pintarFiltros() {
     }).join('');
 
   var anios = {};
-  cacheObras.forEach(function (o) { anios[o.anio] = true; });
+  cacheObras.forEach(function (o) {
+    if (Number(o.anio) > 0) anios[o.anio] = true;   // sin el año 0
+  });
   selAnio.innerHTML = '<option value="">Todos los años</option>' +
-    Object.keys(anios).sort(function (a, b) { return b - a; }).map(function (a) {
+    Object.keys(anios).map(Number).sort(function (a, b) { return b - a; }).map(function (a) {
       return '<option value="' + a + '">' + a + '</option>';
     }).join('');
 
@@ -122,7 +133,9 @@ function render() {
       var img = o.imagen
         ? '<img class="tarjeta-imagen" src="' + escaparHTML(o.imagen) + '" alt="' + escaparHTML(o.titulo) + '" loading="lazy">'
         : '<div class="tarjeta-imagen sin-imagen">Sin imagen</div>';
+      var marcada = SELECCION[o.id] ? ' checked' : '';
       html += '<article class="tarjeta-obra tarjeta-admin" data-id="' + escaparHTML(o.id) + '" tabindex="0" role="button" aria-label="Editar ' + escaparHTML(o.titulo) + '">' +
+        '<label class="chk-seleccion" title="Seleccionar"><input type="checkbox" class="chk-obra-sel" data-id="' + escaparHTML(o.id) + '"' + marcada + '></label>' +
         img +
         '<div class="tarjeta-info"><h3>' + escaparHTML(o.titulo) + '</h3>' +
         '<div class="tarjeta-meta"><span>' + escaparHTML(o.anio) + '</span><span class="serie-nombre">Editar →</span></div></div>' +
@@ -161,10 +174,23 @@ function render() {
 
   // Clic en la tarjeta → página de edición
   cont.querySelectorAll('.tarjeta-admin').forEach(function (card) {
+    var chk = card.querySelector('.chk-obra-sel');
+    if (chk) {
+      chk.addEventListener('click', function (e) { e.stopPropagation(); });
+      chk.addEventListener('change', function (e) {
+        e.stopPropagation();
+        alternarSeleccion(chk.getAttribute('data-id'), chk.checked);
+      });
+    }
+
     function abrir() {
+      guardarFiltros();
       window.location.href = 'editar.html?id=' + encodeURIComponent(card.getAttribute('data-id'));
     }
-    card.addEventListener('click', abrir);
+    card.addEventListener('click', function (e) {
+      if (e.target.closest && e.target.closest('.chk-seleccion')) return;
+      abrir();
+    });
     card.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); }
     });
@@ -173,4 +199,90 @@ function render() {
 
 function capitalizar(txt) {
   return txt ? txt.charAt(0).toUpperCase() + txt.slice(1) : txt;
+}
+
+/* ===== Selección múltiple y filtros que sobreviven ===== */
+
+function guardarFiltros() {
+  try {
+    sessionStorage.setItem(CLAVE_FILTROS, JSON.stringify({
+      serie: document.getElementById('filtro-serie').value,
+      anio: document.getElementById('filtro-ano').value,
+      disp: document.getElementById('filtro-disponibilidad').value,
+      archivadas: document.getElementById('chk-archivadas').checked
+    }));
+  } catch (e) { /* sin sessionStorage */ }
+}
+
+function restaurarFiltros() {
+  var datos = null;
+  try { datos = JSON.parse(sessionStorage.getItem(CLAVE_FILTROS) || 'null'); } catch (e) { datos = null; }
+  if (!datos) return;
+
+  var chkArch = document.getElementById('chk-archivadas');
+  var recargar = false;
+  if (datos.archivadas && chkArch && !chkArch.checked) {
+    chkArch.checked = true;
+    recargar = true;
+  }
+
+  document.getElementById('filtro-serie').value = datos.serie || '';
+  document.getElementById('filtro-ano').value = datos.anio || '';
+  document.getElementById('filtro-disponibilidad').value = datos.disp || '';
+
+  if (!editando) alternarPanel(); else render();
+
+  if (recargar) {
+    setMostrarArchivadas(true);
+    invalidarCache();
+    obtenerObras(true).then(function () { render(); });
+  }
+}
+
+function cablearSeleccion() {
+  var btnMasivo = document.getElementById('btn-editar-masivo');
+  var btnLimpiar = document.getElementById('btn-limpiar-seleccion');
+
+  if (btnMasivo) {
+    btnMasivo.addEventListener('click', function () {
+      var ids = Object.keys(SELECCION);
+      if (ids.length < 2) return;
+      guardarFiltros();
+      window.location.href = 'editar.html?ids=' + encodeURIComponent(ids.join(','));
+    });
+  }
+
+  if (btnLimpiar) {
+    btnLimpiar.addEventListener('click', function () {
+      SELECCION = {};
+      document.querySelectorAll('.chk-obra-sel').forEach(function (c) { c.checked = false; });
+      actualizarBarraSeleccion();
+    });
+  }
+}
+
+function actualizarBarraSeleccion() {
+  var barra = document.getElementById('barra-seleccion');
+  var cuenta = document.getElementById('seleccion-cuenta');
+  var n = Object.keys(SELECCION).length;
+  if (cuenta) cuenta.textContent = n === 1 ? '1 obra seleccionada' : n + ' obras seleccionadas';
+  if (barra) barra.hidden = n < 2;   // solo con más de una
+}
+
+function alternarSeleccion(id, marcada) {
+  if (marcada) { SELECCION[id] = true; } else { delete SELECCION[id]; }
+  actualizarBarraSeleccion();
+}
+
+/* Aviso breve, sin ventana modal que bloquee */
+function mostrarAviso(texto) {
+  var caja = document.getElementById('aviso-admin');
+  if (!caja) return;
+  caja.textContent = texto;
+  caja.hidden = false;
+  caja.classList.add('visible');
+  setTimeout(function () {
+    caja.classList.remove('visible');
+    setTimeout(function () { caja.hidden = true; }, 300);
+  }, 3200);
 }
