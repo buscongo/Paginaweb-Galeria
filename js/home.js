@@ -87,73 +87,6 @@ function capitalizar(txt) {
   return txt ? txt.charAt(0).toUpperCase() + txt.slice(1) : txt;
 }
 
-// Fila de carrusel horizontal de una serie (vista compacta por defecto)
-function crearFilaSerie(tema, obras) {
-  var fila = document.createElement('div');
-  fila.className = 'serie-fila';
-  var h = document.createElement('h3');
-  h.className = 'serie-titulo';
-  h.textContent = t('prefijoSerie') + capitalizar(tema);
-  fila.appendChild(h);
-
-  var wrap = document.createElement('div');
-  wrap.className = 'fila-wrap';
-
-  var car = document.createElement('div');
-  car.className = 'fila-carousel';
-  obras.forEach(function (o) {
-    o._nuevo = (cacheNuevasIds.indexOf(o.id) !== -1);
-    car.appendChild(crearTarjetaObra(o));
-  });
-  wrap.appendChild(car);
-
-  // Flechas contextuales: solo visibles en PC con hover (CSS las oculta en mobile)
-  var izq = crearFlechaFila(car, -1);
-  var der = crearFlechaFila(car, 1);
-  wrap.appendChild(izq);
-  wrap.appendChild(der);
-
-  function sincronizarFlechas() {
-    var max = car.scrollWidth - car.clientWidth;
-    izq.classList.toggle('oculta', car.scrollLeft <= 2);
-    der.classList.toggle('oculta', car.scrollLeft >= max - 2);
-  }
-  car.addEventListener('scroll', sincronizarFlechas);
-  setTimeout(sincronizarFlechas, 0);
-
-  fila.appendChild(wrap);
-  return fila;
-}
-
-// Botón de desplazamiento lateral para una fila de obras
-function crearFlechaFila(car, dir) {
-  var b = document.createElement('button');
-  b.type = 'button';
-  b.className = 'fila-nav ' + (dir < 0 ? 'fila-nav-izq' : 'fila-nav-der');
-  b.setAttribute('aria-label', dir < 0 ? 'Desplazar a la izquierda' : 'Desplazar a la derecha');
-  b.textContent = dir < 0 ? '‹' : '›';
-  b.addEventListener('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    var paso = Math.max(200, car.clientWidth * 0.8);
-    if (car.scrollBy) {
-      car.scrollBy({ left: dir * paso, behavior: 'smooth' });
-    } else {
-      car.scrollLeft += dir * paso;
-    }
-  });
-  return b;
-}
-
-function obraMasReciente(obras) {
-  if (!obras || obras.length === 0) return null;
-  var r = obras[0];
-  for (var i = 1; i < obras.length; i++) {
-    if (obras[i].fechaRegistro > r.fechaRegistro) r = obras[i];
-  }
-  return r;
-}
-
 // --- Render: vista única (carousels O secciones) ---
 
 function renderizarObras(obras) {
@@ -232,33 +165,6 @@ function renderizarSeriesColapsablesConFiltros(obras) {
   }
 }
 
-function renderizarGaleriaSeriesConFiltros(obras) {
-  var c = document.getElementById('contenido-obras');
-  if (!c) return;
-
-  c.innerHTML = '';
-
-  var series = seriesOrdenadas(cacheSeries, obras);
-  series.forEach(function (serie) {
-    var delSerie = obras.filter(function (x) { return x.serieId === serie.id; });
-    if (delSerie.length > 0) c.appendChild(crearFilaSerie(serie.tema, delSerie));
-  });
-
-  var sinSerie = obras.filter(function (x) {
-    return !cacheSeries.some(function (s) { return s.id === x.serieId; });
-  });
-  if (sinSerie.length > 0) c.appendChild(crearFilaSerie(t('sinSerie'), sinSerie));
-
-  if (obras.length === 0) {
-    c.innerHTML = '<p class="mensaje-vacio">' + t('sinResultadosFiltro') + '</p>';
-  }
-}
-
-// Alias para compatibilidad con código existente
-function renderizarGaleriaSeries(obras) {
-  renderizarGaleriaSeriesConFiltros(obras);
-}
-
 function renderizarSeriesColapsables(obras) {
   renderizarSeriesColapsablesConFiltros(obras);
 }
@@ -297,30 +203,6 @@ function aplicarFiltros(obras) {
     return true;
   });
 }
-
-// ===== Toggle de series por serie con animación =====
-window.toggleSerie = function(button) {
-  var serie = button.closest('.serie-section');
-  if (!serie) return;
-
-  var isExpanded = serie.classList.contains('expanded');
-
-  if (isExpanded) {
-    serie.classList.remove('expanded');
-    button.classList.remove('expanded');
-    button.textContent = 'Mostrar más';
-    setTimeout(function() {
-      serie.classList.add('collapsed');
-    }, 300);
-  } else {
-    serie.classList.remove('collapsed');
-    setTimeout(function() {
-      serie.classList.add('expanded');
-      button.classList.add('expanded');
-      button.textContent = 'Ver menos';
-    }, 300);
-  }
-};
 
 // ===== Filters: años, disponibilidad, tamaño ===
 
