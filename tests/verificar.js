@@ -284,6 +284,11 @@ check('el precio se revela con un botón', /id="btn-ver-precio"/.test(leer('html
   /btnPrecio\.onclick/.test(leer('js/pintura.js')) && /\.btn-ver-precio \{/.test(leer('css/styles.css')));
 check('el admin regenera los medium que faltan', /js\/mantener-mediums\.js/.test(leer('html/admin.html')) &&
   /obtenerObras/.test(leer('js/mantener-mediums.js')) && /archivo: p\.media/.test(leer('js/mantener-mediums.js')));
+check('los materiales solo se muestran si difieren de la técnica',
+  /function materialesDeObra/.test(leer('js/data.js')) &&
+  /materialesDeObra\(o\)/.test(leer('js/pintura.js')) &&
+  /materialesDeObra\(o\)/.test(leer('js/exportar.js')));
+
 check('la ficha no repite los datos bajo el título',
   !/pintura-meta-texto|pintura-descripcion/.test(leer('html/pintura.html')) &&
   /\.ficha-item \{ display: contents/.test(leer('css/styles.css')) &&

@@ -83,3 +83,21 @@ function seriesOrdenadas(series,obras){
     return String(a.tema).localeCompare(String(b.tema));
   });
 }
+
+/* Materiales solo se muestran cuando dicen algo distinto de la técnica:
+   si son el mismo dato repetido, se omite. */
+function materialesDeObra(o) {
+  function normalizar(v) {
+    return String(v || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .trim();
+  }
+  var mat = String(o.materiales || '').trim();
+  var tec = String(o.tecnica || '').trim();
+  if (!mat) return '';
+  if (!tec) return mat;
+  return normalizar(mat) === normalizar(tec) ? '' : mat;
+}

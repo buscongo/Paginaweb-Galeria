@@ -99,7 +99,7 @@ function renderizarDetalle(o) {
   var fichaEl = document.getElementById('ficha-tecnica');
   if (fichaEl) {
     var tamano = (o.ancho && o.alto) ? (o.ancho + ' × ' + o.alto + ' cm') : 'N/A';
-    var materiales = o.materiales || 'N/A';
+    var materiales = materialesDeObra(o) || o.tecnica || 'N/A';   /* solo si difiere de la técnica */
     var anio = o.anio || '.fecha por confirmar';
     var disponible = o.disponible ? t('disponible') : t('noDisponible');
     var disponibleClass = o.disponible ? 'badge-disponible si' : 'badge-disponible no';

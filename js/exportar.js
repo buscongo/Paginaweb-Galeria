@@ -504,7 +504,8 @@ function hojaObra(o, imagen, numero, totalPaginas, mostrarPrecios, omitir) {
   var filas = [];
   if (o.anio && !omit.anio) filas.push(['Año', String(o.anio)]);
   if (o.tecnica) filas.push(['Técnica', o.tecnica]);
-  if (o.materiales) filas.push(['Materiales', o.materiales]);
+  var matExtra = materialesDeObra(o);
+  if (matExtra) filas.push(['Materiales', matExtra]);
   var tam = textoTamanoObra(o);
   if (tam) filas.push(['Medidas', tam]);
   if (!omit.disponible) filas.push(['Disponibilidad', o.disponible ? 'Disponible' : 'No disponible']);
