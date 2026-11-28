@@ -218,9 +218,10 @@ check('todas las páginas comparten el fondo ciruela plano',
   /--bg-primary: #343434/.test(leer('css/styles.css')));
 check('la página de exportación tiene la casilla de precios',
   /id="chk-precios"/.test(leer('html/exportar.html')));
-check('el documento genera hojas de serie e índice',
-  /function hojaSerie/.test(leer('js/exportar.js')) && /function hojaIndice/.test(leer('js/exportar.js')) &&
-  /OBRAS_POR_INDICE = 8/.test(leer('js/exportar.js')));
+check('el documento genera el índice y va directo de una obra a otra (sin hoja de serie)',
+  /function hojaIndice/.test(leer('js/exportar.js')) &&
+  /OBRAS_POR_INDICE = 8/.test(leer('js/exportar.js')) &&
+  !/hojaSerie/.test(leer('js/exportar.js')));
 check('la barra lateral va dentro de la columna central, bajo los filtros',
   /class="home-cuerpo"/.test(leer('html/index.html')) &&
   /\.home-cuerpo \{/.test(leer('css/styles.css')) &&

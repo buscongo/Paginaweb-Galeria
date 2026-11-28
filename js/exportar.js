@@ -369,7 +369,6 @@ function planificarSecciones(obras) {
   }
 
   grupos.forEach(function (g) {
-    secciones.push({ tipo: 'serie', grupo: g });
     g.obras.forEach(function (o) { secciones.push({ tipo: 'obra', obra: o }); });
   });
 
@@ -418,7 +417,6 @@ function construirDocumento(nombre, obras, imagenes, opciones) {
       return hojaIndice(plan.ordenObras.slice(s.desde, s.desde + OBRAS_POR_INDICE),
         imagenes.chico, plan.paginaDeObra, s.numero, totalPaginas);
     }
-    if (s.tipo === 'serie') return hojaSerie(s.grupo);
     return hojaObra(s.obra, imagenes.grande[s.obra.id], s.numero, totalPaginas, precios, omitir);
   }).join('\n');
 
@@ -508,17 +506,6 @@ function hojaIndice(obras, chico, paginaDeObra, numero, totalPaginas) {
 }
 
 /* Hoja que separa las obras de cada serie */
-function hojaSerie(grupo) {
-  var serie = buscarSerie(grupo.id);
-  var tema = serie ? capitalizar(serie.tema) : 'Sin serie';
-  var n = grupo.obras.length;
-  return '<section class="hoja serie-hoja">' +
-    '<p class="serie-etiqueta">Serie</p>' +
-    '<h2 class="serie-nombre-grande">' + escaparHTML(tema) + '</h2>' +
-    '<p class="serie-cuenta-grande">' + n + (n === 1 ? ' obra' : ' obras') + '</p>' +
-    '</section>';
-}
-
 function hojaObra(o, imagen, numero, totalPaginas, mostrarPrecios, omitir) {
   var serie = buscarSerie(o.serieId);
   var omit = omitir || {};
@@ -608,11 +595,6 @@ function estilosDocumento() {
     '.fila dt { margin: 0; opacity: .6; letter-spacing: .1em; text-transform: uppercase; font-size: 17px; padding-top: 6px; }',
     '.fila dd { margin: 0; text-align: right; max-width: 62%; }',
     '.numero { margin: 18px 0 0; font-size: 18px; opacity: .45; letter-spacing: .14em; }',
-    '.serie-hoja { background: #4a4a4a; color: #fff; flex-direction: column; justify-content: center;',
-    '  padding: 0 160px; gap: 16px; }',
-    '.serie-etiqueta { margin: 0; font-size: 22px; letter-spacing: .22em; text-transform: uppercase; opacity: .6; }',
-    '.serie-nombre-grande { margin: 0; font-size: 96px; font-weight: 400; line-height: 1.05; }',
-    '.serie-cuenta-grande { margin: 12px 0 0; font-size: 30px; opacity: .75; }',
     '.indice { flex-direction: column; padding: 84px 140px 70px; }',
     '.indice-cabecera { display: flex; align-items: baseline; justify-content: space-between;',
     '  border-bottom: 2px solid #111; padding-bottom: 16px; }',
