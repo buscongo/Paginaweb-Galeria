@@ -2649,3 +2649,38 @@ body.con-barra-exportar { padding-bottom: 84px; }
   letter-spacing: 0.06em;
   cursor: pointer;
 }
+
+/* Admin: casilla en la cabecera de cada serie */
+.chk-serie {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.chk-serie input {
+  width: 0.95rem;
+  height: 0.95rem;
+  accent-color: #ffffff;
+  cursor: pointer;
+}
+
+.chk-serie-texto {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+/* Enlace a la edición de fotos de cada obra */
+.obra-masiva-fotos {
+  margin-left: 0.6rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #d0d0d0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  white-space: nowrap;
+}
+
+.obra-masiva-fotos:hover { color: #ffffff; }

@@ -78,7 +78,7 @@ async function montarMasivo(cont, ids) {
   html.push('<form class="form-obra" id="form-masivo" novalidate>');
   html.push('  <div class="form-col">');
   html.push('    <h3 class="form-subtitulo">Para todas (' + MASIVO.obras.length + ')</h3>');
-  html.push('    <p class="form-ayuda">Marcá solo lo que quieras cambiar en todas. Si después cambiás un dato en una obra puntual, ese dato manda.</p>');
+  html.push('    <p class="form-ayuda">Marcá solo lo que quieras cambiar en todas. Si después cambiás un dato en una obra puntual, ese dato manda. Las fotos se editan obra por obra, con «Editar fotos →».</p>');
 
   html.push('    <div class="campo-masivo">');
   html.push('      <label class="campo-check"><input type="checkbox" id="chk-serie"> Cambiar serie</label>');
@@ -108,7 +108,9 @@ async function montarMasivo(cont, ids) {
   MASIVO.obras.forEach(function (o, idx) {
     var ini = MASIVO.iniciales[idx];
     html.push('<div class="obra-masiva" id="obra-masiva-' + idx + '">');
-    html.push('  <p class="obra-masiva-titulo">' + escaparHTML(o.titulo) + '</p>');
+    html.push('  <p class="obra-masiva-titulo">' + escaparHTML(o.titulo) +
+      ' <a class="obra-masiva-fotos" href="editar.html?id=' + encodeURIComponent(o.id) + '"' +
+      ' title="Abrir esta obra con sus fotos">Editar fotos →</a></p>');
 
     html.push('  <label class="campo">Serie');
     html.push('    <select id="obra-' + idx + '-serie">' + opcionesSerie + '</select>');

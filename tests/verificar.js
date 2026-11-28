@@ -234,7 +234,8 @@ check('la barra lateral muestra como máximo las tres obras más nuevas',
 check('el PDF trae una hoja de perfil antes del índice',
   /function hojaPerfil/.test(leer('js/exportar.js')) &&
   /\{ tipo: 'portada' \}, \{ tipo: 'perfil' \}/.test(leer('js/exportar.js')) &&
-  /perfil-foto-pdf/.test(leer('js/exportar.js')));
+  /perfil-columnas/.test(leer('js/exportar.js')) &&
+  !/perfil-foto-pdf/.test(leer('js/exportar.js')));   // sin foto ni nombre, solo los dos textos
 check('las series se ordenan con Nubes primero y luego por cantidad',
   /function seriesOrdenadas/.test(leer('js/data.js')) &&
   /Nubes/.test(leer('html/index.html')) &&

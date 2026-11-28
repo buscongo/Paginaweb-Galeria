@@ -124,8 +124,15 @@ function render() {
       return String(b.fechaRegistro).localeCompare(String(a.fechaRegistro));
     });
 
+    var todasMarcadas = lista.every(function (o) { return !!SELECCION[o.id]; });
+
     html += '<div class="serie-fila">';
-    html += '<h3 class="serie-titulo">Serie: ' + escaparHTML(capitalizar(tema)) +
+    html += '<h3 class="serie-titulo">' +
+      '<label class="chk-serie" title="Seleccionar todas las obras de esta serie">' +
+        '<input type="checkbox" class="chk-serie-sel" data-serie="' + escaparHTML(serieId) + '"' +
+          (todasMarcadas && lista.length ? ' checked' : '') + '>' +
+        '<span class="chk-serie-texto">Serie: ' + escaparHTML(capitalizar(tema)) + '</span>' +
+      '</label>' +
       ' <span class="serie-cuenta">(' + lista.length + ')</span></h3>';
     html += '<div class="fila-wrap"><div class="fila-carousel">';
 
@@ -170,6 +177,15 @@ function render() {
     });
     car.addEventListener('scroll', sinc);
     setTimeout(sinc, 0);
+  });
+
+  // Casilla de la cabecera: selecciona o deselecciona toda la serie
+  cont.querySelectorAll('.chk-serie-sel').forEach(function (chkSerie) {
+    chkSerie.addEventListener('click', function (e) { e.stopPropagation(); });
+    chkSerie.addEventListener('change', function (e) {
+      e.stopPropagation();
+      seleccionarSerie(chkSerie.closest('.serie-fila'), chkSerie.checked);
+    });
   });
 
   // Clic en la tarjeta → página de edición
@@ -272,6 +288,7 @@ function actualizarBarraSeleccion() {
 function alternarSeleccion(id, marcada) {
   if (marcada) { SELECCION[id] = true; } else { delete SELECCION[id]; }
   actualizarBarraSeleccion();
+  sincronizarChecksSerie();
 }
 
 /* Aviso breve, sin ventana modal que bloquee */
@@ -285,4 +302,27 @@ function mostrarAviso(texto) {
     caja.classList.remove('visible');
     setTimeout(function () { caja.hidden = true; }, 300);
   }, 3200);
+}
+
+/* Selecciona o quita la selección de todas las obras de una fila de serie */
+function seleccionarSerie(fila, marcada) {
+  if (!fila) return;
+  fila.querySelectorAll('.chk-obra-sel').forEach(function (chk) {
+    chk.checked = !!marcada;
+    alternarSeleccion(chk.getAttribute('data-id'), !!marcada);
+  });
+  sincronizarChecksSerie();
+}
+
+/* La casilla de la serie refleja el estado de sus obras: marcada, vacía o a medias */
+function sincronizarChecksSerie() {
+  document.querySelectorAll('.serie-fila').forEach(function (fila) {
+    var chks = fila.querySelectorAll('.chk-obra-sel');
+    var cabecera = fila.querySelector('.chk-serie-sel');
+    if (!cabecera || !chks.length) return;
+    var marcadas = 0;
+    chks.forEach(function (c) { if (c.checked) marcadas++; });
+    cabecera.checked = marcadas === chks.length;
+    cabecera.indeterminate = marcadas > 0 && marcadas < chks.length;
+  });
 }
