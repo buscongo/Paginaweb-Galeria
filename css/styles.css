@@ -1939,10 +1939,10 @@ footer .footer-email {
 /* la última fila no deja aire extra: la columna termina donde termina la galería */
 .home-cuerpo > #contenido-obras > .serie-fila:last-child { margin-bottom: 0; }
 
-/* el bloque con el marco es el que se pega; el aside solo ocupa la columna */
+/* el bloque con el marco queda clavado justo bajo el menú y no se mueve */
 .obra-lateral-pegajoso {
   position: sticky;
-  top: 0;
+  top: 44px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
